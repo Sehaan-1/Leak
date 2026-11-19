@@ -1,0 +1,151 @@
+openapi: 3.0.3
+info:
+  title: Leak API
+  version: 0.1.0
+  description: |
+    JSON API for the Leak SPA. This file is the source of truth: Rails request
+    specs validate every request and response against it (committee), and the
+    web client's types are generated from it (openapi-typescript).
+
+    Auth is a same-origin, httpOnly session cookie set by `POST /api/v1/session`.
+    Non-GET requests must send Rails' CSRF token in `X-CSRF-Token`.
+
+    Money is always integer paise (`*_paise`). 100 paise = 1 rupee.
+servers:
+  - url: /
+security:
+  - sessionCookie: []
+
+paths:
+  /api/v1/session:
+    post:
+      operationId: createSession
+      summary: Sign in
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [session]
+              properties:
+                session:
+                  type: object
+                  additionalProperties: false
+                  required: [email_address, password]
+                  properties:
+                    email_address: { type: string, format: email }
+                    password: { type: string, minLength: 1 }
+      responses:
+        "201":
+          description: Signed in; session cookie set.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Me" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "422": { $ref: "#/components/responses/Error" }
+        "429": { $ref: "#/components/responses/Error" }
+    delete:
+      operationId: destroySession
+      summary: Sign out
+      responses:
+        "204": { description: Signed out; session cookie cleared. }
+        "401": { $ref: "#/components/responses/Error" }
+        "422": { $ref: "#/components/responses/Error" }
+
+  /api/v1/me:
+    get:
+      operationId: getMe
+      summary: Current user and household
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Me" }
+        "401": { $ref: "#/components/responses/Error" }
+
+  /api/v1/accounts:
+    get:
+      operationId: listAccounts
+      summary: Ledger accounts of the current household, with balances
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [accounts]
+                properties:
+                  accounts:
+                    type: array
+                    items: { $ref: "#/components/schemas/Account" }
+        "401": { $ref: "#/components/responses/Error" }
+
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: session_id
+
+  responses:
+    Error:
+      description: Error
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+
+  schemas:
+    Me:
+      type: object
+      additionalProperties: false
+      required: [user, household]
+      properties:
+        user:
+          type: object
+          additionalProperties: false
+          required: [id, email_address]
+          properties:
+            id: { type: integer }
+            email_address: { type: string }
+        household:
+          type: object
+          additionalProperties: false
+          required: [id, name]
+          properties:
+            id: { type: integer }
+            name: { type: string }
+
+    Account:
+      type: object
+      additionalProperties: false
+      required: [id, name, kind, balance_paise]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        kind:
+          type: string
+          enum: [asset, liability, equity, income, expense, suspense]
+        balance_paise:
+          type: integer
+          format: int64
+          description: Sum of postings, debit-positive, in paise.
+
+    Error:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message]
+          properties:
+            code: { type: string }
+            message: { type: string }

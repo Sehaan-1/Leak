@@ -1,0 +1,35 @@
+# See https://help.github.com/articles/ignoring-files for more about ignoring files.
+
+/.bundle
+/.env*
+
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+/storage/*
+!/storage/.keep
+/tmp/storage/*
+!/tmp/storage/
+!/tmp/storage/.keep
+/public/assets
+/coverage
+/node_modules
+
+# Secrets: never commit keys. Production credentials are supplied at deploy time.
+/config/*.key
+/config/credentials.yml.enc
+/config/credentials/*.key
+
+# Real bank statements and exports must never enter git.
+# Only scrubbed, synthetic fixtures under spec/fixtures/synthetic/ are allowed.
+*.pdf
+*.csv
+*.xls
+*.xlsx
+*.eml
+/statements/
+!/spec/fixtures/synthetic/**
