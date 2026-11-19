@@ -1,0 +1,299 @@
+/* Large, calm type for a reader who may be older or on a small phone.
+   The root font size is left to the browser so OS text scaling
+   (<meta name="text-scale">) and zoom work; everything is in rem/em. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: #1b1b1b;
+  background: #fff;
+}
+
+h1,
+h2 {
+  line-height: 1.2;
+  text-wrap: balance;
+}
+h1 {
+  font-size: 2rem;
+  margin-block: 0 1.5rem;
+}
+h2 {
+  font-size: 1.5rem;
+  margin-block: 2.5rem 1rem;
+}
+
+a {
+  color: #0b57d0;
+}
+
+:focus-visible {
+  outline: 3px solid #0b57d0;
+  outline-offset: 2px;
+}
+h1:focus {
+  outline: none; /* programmatic focus target only, never reached by Tab */
+}
+
+.page {
+  max-inline-size: 60rem;
+  margin-inline: auto;
+  padding: 1.5rem;
+}
+.page.narrow {
+  max-inline-size: 30rem;
+}
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  padding: 0.75rem 1.5rem;
+  border-block-end: 1px solid #d0d0d0;
+}
+.topbar p {
+  margin: 0;
+}
+.topbar .brand {
+  font-weight: 700;
+  margin-inline-end: auto;
+}
+.who {
+  overflow-wrap: anywhere;
+}
+
+/* Forms: one column, label above control, 48px+ targets. */
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.25rem;
+  margin-block-end: 1.5rem;
+}
+.field label {
+  font-weight: 600;
+}
+.hint {
+  margin: 0;
+  color: #4a4a4a;
+}
+
+input,
+button {
+  font: inherit;
+  font-size: max(1rem, 1em);
+}
+input {
+  min-block-size: 3rem;
+  padding: 0.6rem 0.75rem;
+  border: 2px solid #767676;
+  border-radius: 0.375rem;
+  inline-size: 100%;
+}
+input[type="file"] {
+  padding: 0.5rem;
+}
+.with-button {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.with-button input {
+  flex: 1 1 12rem;
+  inline-size: auto;
+}
+
+button {
+  min-block-size: 3rem;
+  padding: 0.6rem 1.25rem;
+  border: 2px solid #0b57d0;
+  border-radius: 0.375rem;
+  background: #0b57d0;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+button.secondary {
+  background: #fff;
+  color: #0b57d0;
+}
+button.secondary[aria-pressed="true"] {
+  background: #e8f0fe;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* Errors appear only after interaction (:user-invalid). [aria-invalid] covers
+   engines without :user-invalid, where lib/fieldErrors.ts sets it. */
+.error-msg {
+  display: none;
+  margin: 0;
+  color: #b3261e;
+  font-weight: 600;
+}
+.field:has(:is(:user-invalid, [aria-invalid="true"])) .error-msg {
+  display: block;
+}
+input:is(:user-invalid, [aria-invalid="true"]) {
+  border-color: #b3261e;
+}
+
+.form-error:not(:empty),
+.result:not(:empty) {
+  margin-block: 1rem;
+  padding: 0.75rem 1rem;
+  border-inline-start: 0.375rem solid;
+  border-radius: 0.25rem;
+}
+.form-error:not(:empty),
+.result-problem {
+  border-color: #b3261e;
+  background: #fce8e6;
+}
+.result-ok {
+  border-color: #146c2e;
+  background: #e6f4ea;
+}
+.result-info {
+  border-color: #0b57d0;
+  background: #e8f0fe;
+}
+.result p {
+  margin: 0;
+}
+
+/* Transactions: a real table with sticky headers that turns into stacked
+   cards when its own container is narrow (and at large text sizes). */
+.table-wrapper {
+  overflow: auto;
+  max-inline-size: 100%;
+  max-block-size: 80vh;
+  container-type: inline-size;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  inline-size: 100%;
+}
+caption {
+  text-align: start;
+  padding-block-end: 0.5rem;
+  color: #4a4a4a;
+}
+th,
+td {
+  padding: 0.6rem 0.75rem;
+  text-align: start;
+  vertical-align: top;
+  border-block-end: 1px solid #e0e0e0;
+}
+thead {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  background: #fff;
+}
+thead th {
+  border-block-end: 2px solid #767676;
+}
+tbody th {
+  position: sticky;
+  inset-inline-start: 0;
+  background: #fff;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.details {
+  overflow-wrap: anywhere;
+  min-inline-size: 12rem;
+}
+.num {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.money-in {
+  color: #146c2e;
+  font-weight: 600;
+}
+
+@container (width < 40rem) {
+  table,
+  thead,
+  tbody,
+  tr,
+  th,
+  td {
+    display: block;
+  }
+  thead {
+    display: none; /* the ::before labels below take over */
+  }
+  tr {
+    margin-block-end: 1rem;
+    border: 1px solid #c0c0c0;
+    border-radius: 0.375rem;
+  }
+  tbody th {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 2;
+    background: #f1f1f1;
+  }
+  td {
+    border: 0;
+  }
+  .num {
+    text-align: start;
+  }
+  table {
+    --label-2: "Details";
+    --label-3: "Amount";
+    --label-4: "Balance";
+  }
+  td:nth-child(2)::before {
+    content: var(--label-2) ": ";
+    font-weight: 600;
+  }
+  td:nth-child(3)::before {
+    content: var(--label-3) ": ";
+    font-weight: 600;
+  }
+  td:nth-child(4)::before {
+    content: var(--label-4) ": ";
+    font-weight: 600;
+  }
+}
+
+.table-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Hidden visually, still read by screen readers. !important so no component
+   style can accidentally reveal it. */
+/* biome-ignore-start lint/complexity/noImportantStyles: utility must win over component styles */
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+/* biome-ignore-end lint/complexity/noImportantStyles: utility must win over component styles */

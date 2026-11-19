@@ -146,6 +146,34 @@ paths:
         "400": { $ref: "#/components/responses/Error" }
         "401": { $ref: "#/components/responses/Error" }
 
+  /api/v1/bank_transactions:
+    get:
+      operationId: listBankTransactions
+      summary: Statement lines in the ledger, newest first (100 per page)
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema: { type: integer, minimum: 1, default: 1 }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [bank_transactions, next_page]
+                properties:
+                  bank_transactions:
+                    type: array
+                    items: { $ref: "#/components/schemas/BankTransaction" }
+                  next_page:
+                    type: integer
+                    nullable: true
+                    description: Page number to request next, or null on the last page.
+        "401": { $ref: "#/components/responses/Error" }
+
 components:
   securitySchemes:
     sessionCookie:
@@ -231,6 +259,32 @@ components:
             id: { type: integer }
             name: { type: string, example: "SBI ••9475" }
         created_at: { type: string, format: date-time }
+
+    BankTransaction:
+      type: object
+      additionalProperties: false
+      required: [id, posted_on, value_on, narration, ref, amount_paise, balance_after_paise, bank_account]
+      properties:
+        id: { type: integer }
+        posted_on: { type: string, format: date }
+        value_on: { type: string, format: date }
+        narration: { type: string }
+        ref: { type: string, nullable: true }
+        amount_paise:
+          type: integer
+          format: int64
+          description: Signed movement on the bank account. Credits positive, debits negative.
+        balance_after_paise:
+          type: integer
+          format: int64
+          description: Running balance printed on the statement after this line.
+        bank_account:
+          type: object
+          additionalProperties: false
+          required: [id, name]
+          properties:
+            id: { type: integer }
+            name: { type: string }
 
     Error:
       type: object
