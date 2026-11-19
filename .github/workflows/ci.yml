@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: RuboCop
+        run: bin/rubocop -f github
+
+  security:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Brakeman
+        run: bin/brakeman --no-pager --exit-on-warn --exit-on-error
+      - name: Gem audit
+        run: bin/bundler-audit
+
+  test:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd="pg_isready -U postgres" --health-interval=5s
+          --health-timeout=5s --health-retries=10
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432
+      CI: "true"
+    steps:
+      - uses: actions/checkout@v5
+
+      # pg_dump/psql must match the server major version for structure.sql.
+      - name: PostgreSQL 18 client
+        run: |
+          sudo apt-get install -y -q postgresql-common
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install -y -q postgresql-client-18
+          echo "/usr/lib/postgresql/18/bin" >> "$GITHUB_PATH"
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: structure.sql matches migrations
+        env:
+          RAILS_ENV: development
+        run: |
+          bin/rails db:create db:migrate
+          git diff --exit-code db/structure.sql
+
+      - name: RSpec
+        env:
+          RAILS_ENV: test
+        run: |
+          bin/rails db:test:prepare
+          bundle exec rspec --format progress
