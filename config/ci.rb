@@ -11,6 +11,7 @@ CI.run do
   step "Schema: structure.sql matches migrations", "bin/rails db:migrate && git diff --exit-code db/structure.sql"
   step "Tests: RSpec", "bin/rails db:test:prepare && bundle exec rspec"
   step "Eval: merchant resolution gate (rules, and rules + LLM replay)", "LLM_EVAL=replay bin/rails 'leak:eval:merchants[golden]'"
+  step "Eval: recurring-charge detection gate", "bin/rails 'leak:eval:detection[golden]'"
 
   step "Web: install", "npm --prefix web ci"
   step "Web: API types match openapi.yaml", "npm --prefix web run api-types:check"

@@ -58,6 +58,23 @@ namespace :leak do
       puts "✓ Wrote #{examples.size} examples to #{args[:path]} (sha256 #{Digest::SHA256.file(path).hexdigest})"
     end
 
+    desc "Write synthetic labelled histories for the detection eval: bin/rails 'leak:eval:generate_histories[path,seed,count]'"
+    task :generate_histories, %i[ path seed count ] => :environment do |_, args|
+      path = Rails.root.join(args.fetch(:path))
+      config = Evaluation::DetectionGate.config
+      abort "✗ #{path} is the frozen golden set; make a new version instead" if path == Rails.root.join(config["golden"]) && path.exist?
+
+      histories = Synthetic::Histories.new(seed: Integer(args.fetch(:seed))).histories(Integer(args.fetch(:count)))
+      Synthetic::Histories.write_jsonl(path, histories)
+      puts "✓ Wrote #{histories.size} histories (#{histories.sum { _1.txns.size }} transactions) to #{args[:path]} " \
+        "(sha256 #{Digest::SHA256.file(path).hexdigest})"
+    end
+
+    desc "Evaluate recurring-charge detection: bin/rails 'leak:eval:detection[golden]' (gated) or 'leak:eval:detection[dev]' (lists errors)"
+    task :detection, %i[ set ] => :environment do |_, args|
+      exit Evaluation::DetectionGate.run(set: args[:set] || "golden")
+    end
+
     desc "Evaluate the merchant resolver: bin/rails 'leak:eval:merchants[golden]' (gated) or 'leak:eval:merchants[dev]' (lists errors)"
     task :merchants, %i[ set ] => :environment do |_, args|
       exit Evaluation::Gate.run(set: args[:set] || "golden")

@@ -16,6 +16,7 @@ module Merchants
       household = Household.find(household_id)
       resolved = LlmResolver.new(household: household).resolve_pending!(household.bank_transactions)
       Rails.logger.info("[llm] resolved #{resolved} rows for household #{household_id}")
+      Detection::RunJob.perform_later(household_id) if resolved.positive?
     end
   end
 end

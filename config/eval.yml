@@ -26,3 +26,31 @@ merchant_resolution:
     # 0). Rules + LLM must score higher than rules only over all rows, and
     # no lower over business rows: one wrong merchant costs three right ones.
     wrong_answer_cost: 3
+
+# Recurring-charge detection (slice 6, ADR 0009). CI runs
+# `bin/rails leak:eval:detection` on the frozen golden set and fails if a
+# gate is missed. See eval/detection/README.md.
+detection:
+  golden: eval/detection/golden-v1.jsonl
+  # Frozen like the merchant set: make a golden-v2 instead of editing it.
+  golden_sha256: 2df025067837b7fdd2590d72f2ed221dd2a3b5ec656a66c48753eac371e6c9ae
+  dev: eval/detection/dev.jsonl
+  # Baseline on golden-v1 (2026-11-21), 100 households, 49,665 debits:
+  #   false flags 0.06 [0.04, 0.08] per 100 charges (29, all ordinary purchases)
+  #   series precision 97.9% [95.8%, 99.0%], recall 95.7% [93.0%, 97.4%] (346 detectable)
+  #   price increases precision 100% (47/47), recall 92.2% (47/51)
+  #   duplicate subscriptions precision 100% (22/22), recall 100% (22/22)
+  #   status (active/ended) 99.1%
+  # The gates sit a little below it. Flagging any commitment (SIP, EMI,
+  # rent, insurance, utilities, card bill) always fails.
+  gate:
+    # Upper 95% Wilson bound, per 100 debits.
+    false_flags_per_100_high: 0.15
+    # Lower 95% Wilson bound.
+    series_precision_low: 0.93
+    series_recall: 0.92
+    price_increase_precision: 0.95
+    price_increase_recall: 0.85
+    duplicate_precision: 0.9
+    duplicate_recall: 0.85
+    status_accuracy: 0.97

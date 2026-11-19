@@ -122,10 +122,19 @@ jobs:
           LLM_EVAL: replay
         run: bin/rails 'leak:eval:merchants[golden]'
 
+      # Recurring-charge detection on the frozen synthetic histories: false
+      # flags per 100 charges, series precision and recall, price increases
+      # and duplicates must clear the gate in config/eval.yml.
+      - name: Detection eval (golden gate)
+        if: success() || failure()
+        env:
+          RAILS_ENV: test
+        run: bin/rails 'leak:eval:detection[golden]'
+
       - name: Upload eval report
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: eval-merchant-resolution
+          name: eval-reports
           path: tmp/eval/
           if-no-files-found: ignore
