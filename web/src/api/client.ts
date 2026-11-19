@@ -4,6 +4,19 @@ import type { components, paths } from "./schema";
 export type Me = components["schemas"]["Me"];
 export type BankTransaction = components["schemas"]["BankTransaction"];
 export type StatementImport = components["schemas"]["StatementImport"];
+export type Merchant = components["schemas"]["Merchant"];
+export type Counterparty = components["schemas"]["Counterparty"];
+export type Finding = components["schemas"]["Finding"];
+export type SeriesSummary = components["schemas"]["SeriesSummary"];
+export type SeriesDetail = components["schemas"]["SeriesDetail"];
+export type SeriesCharge = components["schemas"]["SeriesCharge"];
+export type ReviewItem = components["schemas"]["ReviewItem"];
+export type FindingsList =
+  paths["/api/v1/findings"]["get"]["responses"]["200"]["content"]["application/json"];
+export type ReviewList =
+  paths["/api/v1/review_items"]["get"]["responses"]["200"]["content"]["application/json"];
+export type Resolution =
+  paths["/api/v1/review_items/{review_item_id}/resolution"]["post"]["responses"]["200"]["content"]["application/json"];
 type ErrorBody = components["schemas"]["Error"];
 
 /** A non-2xx response, carrying the API's `{ error: { code, message } }` when present. */
@@ -98,4 +111,59 @@ export async function uploadStatement(file: File): Promise<UploadOutcome> {
     return { kind: "rejected", message: error.error.message, line: error.error.line };
   }
   throw toApiError(error, response);
+}
+
+export async function listStatementImports(): Promise<StatementImport[]> {
+  const { data, error, response } = await api.GET("/api/v1/statement_imports");
+  if (!data) throw toApiError(error, response);
+  return data.statement_imports;
+}
+
+export async function listFindings(): Promise<FindingsList> {
+  const { data, error, response } = await api.GET("/api/v1/findings");
+  if (!data) throw toApiError(error, response);
+  return data;
+}
+
+/** Detection rebuilds series on every run, so an old id answers 404 (an ApiError with status 404). */
+export async function getSeries(id: number): Promise<SeriesDetail> {
+  const { data, error, response } = await api.GET("/api/v1/recurring_series/{id}", {
+    params: { path: { id } },
+  });
+  if (!data) throw toApiError(error, response);
+  return data;
+}
+
+export async function setFindingDismissed(id: number, dismissed: boolean): Promise<Finding> {
+  const params = { params: { path: { finding_id: id } } };
+  const { data, error, response } = dismissed
+    ? await api.POST("/api/v1/findings/{finding_id}/dismissal", params)
+    : await api.DELETE("/api/v1/findings/{finding_id}/dismissal", params);
+  if (!data) throw toApiError(error, response);
+  return data;
+}
+
+export async function listReviewItems(): Promise<ReviewList> {
+  const { data, error, response } = await api.GET("/api/v1/review_items");
+  if (!data) throw toApiError(error, response);
+  return data;
+}
+
+export async function listMerchants(): Promise<Merchant[]> {
+  const { data, error, response } = await api.GET("/api/v1/merchants");
+  if (!data) throw toApiError(error, response);
+  return data.merchants;
+}
+
+export type Answer =
+  | { counterparty: "merchant"; merchant_id: number }
+  | { counterparty: Exclude<Counterparty, "merchant"> };
+
+export async function resolveReviewItem(id: number, answer: Answer): Promise<Resolution> {
+  const { data, error, response } = await api.POST("/api/v1/review_items/{review_item_id}/resolution", {
+    params: { path: { review_item_id: id } },
+    body: answer,
+  });
+  if (!data) throw toApiError(error, response);
+  return data;
 }

@@ -96,6 +96,126 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/findings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * What detection flagged, each linked to its evidence
+         * @description Price increases and duplicate subscriptions first, then every active
+         *     subscription by monthly cost. Detection rebuilds findings and series
+         *     after each import or resolution, so their ids change between runs.
+         */
+        get: operations["listFindings"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/findings/{finding_id}/dismissal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                finding_id: number;
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Mark a finding as fine
+         * @description Kept across detection runs: it is keyed on the finding's evidence (the
+         *     first charge at the new price, or the series' first charge), not on
+         *     the finding's id.
+         */
+        post: operations["dismissFinding"];
+        /** Undo a dismissal */
+        delete: operations["restoreFinding"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/recurring_series/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A recurring series with its charges, oldest first */
+        get: operations["getRecurringSeries"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/review_items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Rows nobody could resolve to a counterparty (newest first, up to 200) */
+        get: operations["listReviewItems"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/review_items/{review_item_id}/resolution": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Say who a row in review was paid to or received from
+         * @description Choosing a merchant also teaches Leak: the row's UPI ID (or payee name)
+         *     becomes this household's alias for that merchant, other rows in review
+         *     that it matches are resolved too, and detection runs again.
+         */
+        post: operations["resolveReviewItem"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/merchants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The merchant catalogue, by name (case-insensitive) */
+        get: operations["listMerchants"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -169,6 +289,130 @@ export interface components {
              * @description Running balance printed on the statement after this line.
              */
             balance_after_paise: number;
+            bank_account: {
+                id: number;
+                name: string;
+            };
+            /** @description Who the money went to or came from; null while unresolved or in review. */
+            counterparty: components["schemas"]["Counterparty"] | null;
+            merchant: components["schemas"]["Merchant"] | null;
+            /** @description Nobody could resolve it; it is in the review queue. */
+            needs_review: boolean;
+        };
+        /** @enum {string} */
+        Counterparty: "merchant" | "person" | "bank" | "cash";
+        Merchant: {
+            id: number;
+            /** @example netflix */
+            slug: string;
+            /** @example Netflix */
+            name: string;
+            /** @enum {string} */
+            category: "streaming" | "music" | "software" | "cloud_storage" | "news" | "fitness" | "education" | "food_delivery" | "groceries" | "shopping" | "transport" | "travel" | "fuel" | "telecom" | "internet" | "dth" | "utilities" | "insurance" | "investment" | "loan" | "credit_card" | "rent" | "healthcare" | "wallet" | "other";
+        };
+        SeriesSummary: {
+            id: number;
+            merchant: components["schemas"]["Merchant"];
+            cadence: components["schemas"]["Cadence"];
+            /** @enum {string} */
+            status: "active" | "ended";
+            /**
+             * Format: int64
+             * @description The latest price per charge.
+             */
+            amount_paise: number;
+            /** Format: int64 */
+            monthly_cost_paise: number;
+            /** Format: date */
+            first_charged_on: string;
+            /** Format: date */
+            last_charged_on: string;
+            /** Format: date */
+            next_expected_on: string;
+            charges_count: number;
+        };
+        /** @enum {string} */
+        Cadence: "weekly" | "monthly" | "quarterly" | "half_yearly" | "annual";
+        Finding: {
+            id: number;
+            /**
+             * @description subscription: an active subscription. price_increase: its price
+             *     stepped up (step_charge is the first charge at the new price).
+             *     duplicate: a second subscription at the same merchant
+             *     (related_series is the first one).
+             * @enum {string}
+             */
+            kind: "subscription" | "price_increase" | "duplicate";
+            /** @description The household marked it as fine. */
+            dismissed: boolean;
+            /** Format: int64 */
+            amount_paise: number;
+            /** Format: int64 */
+            monthly_cost_paise: number;
+            /** Format: int64 */
+            previous_amount_paise: number | null;
+            step_charge: {
+                /** @description The bank transaction. */
+                id: number;
+                /** Format: date */
+                posted_on: string;
+                /** Format: int64 */
+                charged_paise: number;
+            } | null;
+            series: components["schemas"]["SeriesSummary"];
+            related_series: components["schemas"]["SeriesSummary"] | null;
+        };
+        SeriesDetail: {
+            id: number;
+            merchant: components["schemas"]["Merchant"];
+            cadence: components["schemas"]["Cadence"];
+            /** @enum {string} */
+            status: "active" | "ended";
+            /** Format: int64 */
+            amount_paise: number;
+            /** Format: int64 */
+            monthly_cost_paise: number;
+            /** Format: date */
+            first_charged_on: string;
+            /** Format: date */
+            last_charged_on: string;
+            /** Format: date */
+            next_expected_on: string;
+            charges_count: number;
+            /** @description False for commitments (SIPs, EMIs, rent, insurance, utilities, card bills). */
+            flagged: boolean;
+            findings: components["schemas"]["Finding"][];
+            charges: components["schemas"]["SeriesCharge"][];
+        };
+        SeriesCharge: {
+            /** @description The bank transaction. */
+            id: number;
+            /** Format: date */
+            posted_on: string;
+            /**
+             * Format: int64
+             * @description Amount debited
+             */
+            charged_paise: number;
+            /** @description Price level: 0, then 1 after the first price step, and so on. */
+            level: number;
+            /** @description The first charge at a new */
+            price_step: boolean;
+            narration: string;
+        };
+        ReviewItem: {
+            /** @description The bank transaction. */
+            id: number;
+            /** Format: date */
+            posted_on: string;
+            narration: string;
+            /** Format: int64 */
+            amount_paise: number;
+            /** @description Payee name read from the narration. */
+            payee: string | null;
+            upi_id: string | null;
+            /** @description Why it couldn't be resolved. */
+            reason: string | null;
             bank_account: {
                 id: number;
                 name: string;
@@ -390,6 +634,211 @@ export interface operations {
                         bank_transactions: components["schemas"]["BankTransaction"][];
                         /** @description Page number to request next, or null on the last page. */
                         next_page: number | null;
+                    };
+                };
+            };
+            401: components["responses"]["Error"];
+        };
+    };
+    listFindings: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        findings: components["schemas"]["Finding"][];
+                        /**
+                         * Format: int64
+                         * @description What the active subscriptions cost per month, together.
+                         */
+                        monthly_total_paise: number;
+                        subscriptions_count: number;
+                    };
+                };
+            };
+            401: components["responses"]["Error"];
+        };
+    };
+    dismissFinding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                finding_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Dismissed. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Finding"];
+                };
+            };
+            401: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            422: components["responses"]["Error"];
+        };
+    };
+    restoreFinding: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                finding_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No longer dismissed. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Finding"];
+                };
+            };
+            401: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            422: components["responses"]["Error"];
+        };
+    };
+    getRecurringSeries: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SeriesDetail"];
+                };
+            };
+            401: components["responses"]["Error"];
+            /** @description No such series. Detection may have rebuilt it since; list findings again. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    listReviewItems: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        review_items: components["schemas"]["ReviewItem"][];
+                        total_count: number;
+                    };
+                };
+            };
+            401: components["responses"]["Error"];
+        };
+    };
+    resolveReviewItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                review_item_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    counterparty: components["schemas"]["Counterparty"];
+                    /** @description Required when counterparty is "merchant". */
+                    merchant_id?: number;
+                };
+            };
+        };
+        responses: {
+            /** @description Resolved. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        review_item_id: number;
+                        counterparty: components["schemas"]["Counterparty"];
+                        merchant: components["schemas"]["Merchant"] | null;
+                        /** @description The alias Leak learnt, if any. */
+                        learned: {
+                            /** @enum {string} */
+                            kind: "vpa" | "name";
+                            /** @example youtube.premium@okaxis */
+                            pattern: string;
+                        } | null;
+                        /** @description Other rows in review that the new alias resolved. */
+                        also_resolved_count: number;
+                    };
+                };
+            };
+            400: components["responses"]["Error"];
+            401: components["responses"]["Error"];
+            404: components["responses"]["Error"];
+            422: components["responses"]["Error"];
+        };
+    };
+    listMerchants: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        merchants: components["schemas"]["Merchant"][];
                     };
                 };
             };

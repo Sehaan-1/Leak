@@ -21,7 +21,7 @@ module Synthetic
       def to_json(*) = to_h.to_json(*)
     end
 
-    WRAP = 37 # statement detail column width (see spec/support/synthetic_sbi.rb)
+    WRAP = 37 # statement detail column width (see lib/synthetic/sbi_statement.rb)
 
     # slug => surface forms. upi: [payee as printed, UPI ID].
     MERCHANTS = {

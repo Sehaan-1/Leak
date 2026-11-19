@@ -5,7 +5,7 @@ import { formatPlainDate } from "../lib/dates";
 import { useFieldErrors } from "../lib/fieldErrors";
 import { formatRupees } from "../lib/money";
 
-function describe(outcome: UploadOutcome): { tone: "ok" | "info" | "problem"; text: string } {
+function describeOutcome(outcome: UploadOutcome): { tone: "ok" | "info" | "problem"; text: string } {
   switch (outcome.kind) {
     case "imported": {
       const s = outcome.statement;
@@ -39,7 +39,13 @@ export function UploadStatement() {
     onSuccess: (outcome) => {
       if (outcome.kind === "rejected") return;
       formRef.current?.reset();
-      return queryClient.invalidateQueries({ queryKey: ["bank_transactions"] });
+      // Merchants are resolved during the import; detection follows in the
+      // background, so findings may take a moment to catch up.
+      return Promise.all(
+        ["bank_transactions", "statement_imports", "review_items", "findings"].map((key) =>
+          queryClient.invalidateQueries({ queryKey: [key] }),
+        ),
+      );
     },
   });
 
@@ -50,7 +56,7 @@ export function UploadStatement() {
   }
 
   const result = mutation.isSuccess
-    ? describe(mutation.data)
+    ? describeOutcome(mutation.data)
     : mutation.isError
       ? { tone: "problem" as const, text: `Upload failed. ${mutation.error.message}` }
       : null;

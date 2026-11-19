@@ -33,6 +33,7 @@ export default defineConfig(({ command }) => ({
   test: {
     environment: "jsdom",
     environmentOptions: { jsdom: { url: "http://localhost:5173/" } },
+    include: ["src/**/*.test.{ts,tsx}"], // e2e/ is Playwright's
     setupFiles: ["src/test/setup.ts"],
     restoreMocks: true,
   },

@@ -11,6 +11,14 @@ Rails.application.routes.draw do
       resources :accounts, only: :index
       resources :statement_imports, only: %i[ index create ]
       resources :bank_transactions, only: :index
+      resources :findings, only: :index do
+        resource :dismissal, only: %i[ create destroy ], controller: :finding_dismissals
+      end
+      resources :recurring_series, only: :show
+      resources :review_items, only: :index do
+        resource :resolution, only: :create, controller: :review_resolutions
+      end
+      resources :merchants, only: :index
     end
   end
 
