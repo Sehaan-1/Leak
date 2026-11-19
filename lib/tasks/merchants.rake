@@ -10,7 +10,8 @@ namespace :leak do
     task :resolve, %i[ email ] => :environment do |_, args|
       household = User.find_by!(email_address: args.fetch(:email)).household
       scope = household.bank_transactions
-      scope = scope.where(resolution: nil) unless ENV["ALL"] == "1"
+      # Answers the household gave in the review queue are kept either way.
+      scope = ENV["ALL"] == "1" ? scope.where.not(resolution: "manual").or(scope.where(resolution: nil)) : scope.where(resolution: nil)
       count = 0
       resolver = Merchants::Resolver.new(household: household)
       scope.find_in_batches(batch_size: 500) do |batch|

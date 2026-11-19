@@ -66,6 +66,54 @@ h1:focus {
   font-weight: 700;
   margin-inline-end: auto;
 }
+.brand > a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Primary navigation: four links that wrap onto their own row when the
+   bar is narrow or the text is large. The current screen is marked with
+   aria-current, and styled from it. */
+.primary-nav {
+  flex-basis: 100%;
+}
+.primary-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.primary-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-block-size: 3rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.primary-nav a:hover {
+  background: #e8f0fe;
+}
+/* Not colour alone: the current link is also underlined. */
+.primary-nav a[aria-current="page"] {
+  background: #0b57d0;
+  color: #fff;
+  text-decoration: underline 0.15em;
+  text-underline-offset: 0.3em;
+}
+.count {
+  min-inline-size: 1.75em;
+  padding: 0 0.4em;
+  border-radius: 1em;
+  background: #b3261e;
+  color: #fff;
+  font-size: 0.85em;
+  text-align: center;
+}
 .who {
   overflow-wrap: anywhere;
 }
@@ -87,9 +135,19 @@ h1:focus {
 }
 
 input,
+select,
 button {
   font: inherit;
   font-size: max(1rem, 1em);
+}
+select {
+  min-block-size: 3rem;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #767676;
+  border-radius: 0.375rem;
+  background: #fff;
+  color: inherit;
+  inline-size: 100%;
 }
 input {
   min-block-size: 3rem;
@@ -131,6 +189,17 @@ button.secondary[aria-pressed="true"] {
 button:disabled {
   opacity: 0.6;
   cursor: progress;
+}
+
+/* A button that reads as a link inside a sentence. */
+button.link-button {
+  min-block-size: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #0b57d0;
+  font-weight: inherit;
+  text-decoration: underline;
 }
 
 /* Errors appear only after interaction (:user-invalid). [aria-invalid] covers
@@ -256,10 +325,27 @@ tbody th {
   .num {
     text-align: start;
   }
+  /* Each column's header, repeated before its value. */
   table {
     --label-2: "Details";
-    --label-3: "Amount";
-    --label-4: "Balance";
+    --label-3: "Paid to / from";
+    --label-4: "Amount";
+    --label-5: "Balance";
+  }
+  table.subscriptions {
+    --label-2: "How often";
+    --label-3: "Price";
+    --label-4: "Per month";
+    --label-5: "Next charge";
+  }
+  table.charges {
+    --label-2: "Charged";
+    --label-3: "Details";
+  }
+  table.imports {
+    --label-2: "Account";
+    --label-3: "Period";
+    --label-4: "Result";
   }
   td:nth-child(2)::before {
     content: var(--label-2) ": ";
@@ -271,6 +357,10 @@ tbody th {
   }
   td:nth-child(4)::before {
     content: var(--label-4) ": ";
+    font-weight: 600;
+  }
+  td:nth-child(5)::before {
+    content: var(--label-5) ": ";
     font-weight: 600;
   }
 }
@@ -297,3 +387,117 @@ tbody th {
   white-space: nowrap !important;
 }
 /* biome-ignore-end lint/complexity/noImportantStyles: utility must win over component styles */
+
+/* Findings, series and review */
+.summary {
+  font-size: 1.4rem;
+}
+.back {
+  margin-block: 0 1rem;
+}
+.cards {
+  display: grid;
+  gap: 1rem;
+}
+/* Card regions are direct children: heading, content, footer. */
+.card {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid #c0c0c0;
+  border-inline-start-width: 0.375rem;
+  border-radius: 0.375rem;
+}
+.card > :is(h2, h3) {
+  margin: 0;
+  font-size: 1.35rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+}
+.card p {
+  margin: 0;
+}
+.card > div {
+  display: grid;
+  gap: 0.25rem;
+}
+.card > footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.finding-price_increase {
+  border-inline-start-color: #b3261e;
+}
+.finding-duplicate {
+  border-inline-start-color: #b06000;
+}
+.card.review {
+  border-inline-start-color: #0b57d0;
+}
+.card.review form {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: start;
+}
+.card.review .field {
+  margin: 0;
+  inline-size: 100%;
+}
+.tag {
+  display: inline-block;
+  padding: 0.05em 0.5em;
+  border-radius: 0.25rem;
+  background: #f1f1f1;
+  color: #3c3c3c;
+  font-size: 0.8em;
+  font-weight: 600;
+}
+.tag-step {
+  margin-inline-start: 0.5rem;
+  background: #fce8e6;
+  color: #8c1d18;
+}
+tr.price-step > * {
+  background: #fce8e6;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: 0.75rem 1.5rem;
+  margin: 0 0 1.5rem;
+}
+.facts.compact {
+  grid-template-columns: 1fr;
+  gap: 0.25rem;
+  margin: 0;
+}
+.facts dt {
+  color: #4a4a4a;
+}
+.facts dd {
+  margin: 0;
+  font-weight: 600;
+}
+.facts.compact div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.5rem;
+}
+.facts.compact dt::after {
+  content: ":";
+}
+.facts.compact dd {
+  font-weight: 400;
+}
+
+.chart-figure {
+  margin: 0;
+}
+.chart {
+  block-size: 18rem;
+  inline-size: 100%;
+}

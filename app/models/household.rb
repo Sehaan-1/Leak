@@ -8,6 +8,7 @@ class Household < ApplicationRecord
   # Rebuilt by Detection::Run; deleting the household cascades in the database.
   has_many :recurring_series, class_name: "RecurringSeries", dependent: :delete_all
   has_many :findings, dependent: :delete_all
+  has_many :finding_dismissals, dependent: :delete_all
 
   validates :name, presence: true
 

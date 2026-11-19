@@ -19,6 +19,7 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
 
   config.include LedgerHelpers
+  config.include DemoHelpers
   config.include Committee::Rails::Test::Methods, type: :request
   config.include RequestHelpers, type: :request
 

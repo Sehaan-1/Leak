@@ -123,6 +123,7 @@ CREATE TYPE public.resolution_method AS ENUM (
     'trigram',
     'rule',
     'llm',
+    'manual',
     'abstained'
 );
 
@@ -369,6 +370,39 @@ CREATE SEQUENCE public.bank_transactions_id_seq
 --
 
 ALTER SEQUENCE public.bank_transactions_id_seq OWNED BY public.bank_transactions.id;
+
+
+--
+-- Name: finding_dismissals; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.finding_dismissals (
+    id bigint NOT NULL,
+    household_id bigint NOT NULL,
+    kind public.finding_kind NOT NULL,
+    bank_transaction_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: finding_dismissals_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.finding_dismissals_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: finding_dismissals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.finding_dismissals_id_seq OWNED BY public.finding_dismissals.id;
 
 
 --
@@ -795,6 +829,13 @@ ALTER TABLE ONLY public.bank_transactions ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
+-- Name: finding_dismissals id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.finding_dismissals ALTER COLUMN id SET DEFAULT nextval('public.finding_dismissals_id_seq'::regclass);
+
+
+--
 -- Name: findings id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -901,6 +942,14 @@ ALTER TABLE ONLY public.bank_accounts
 
 ALTER TABLE ONLY public.bank_transactions
     ADD CONSTRAINT bank_transactions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: finding_dismissals finding_dismissals_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.finding_dismissals
+    ADD CONSTRAINT finding_dismissals_pkey PRIMARY KEY (id);
 
 
 --
@@ -1105,6 +1154,20 @@ CREATE INDEX index_bank_transactions_on_statement_import_id ON public.bank_trans
 
 
 --
+-- Name: index_finding_dismissals_on_bank_transaction_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_finding_dismissals_on_bank_transaction_id ON public.finding_dismissals USING btree (bank_transaction_id);
+
+
+--
+-- Name: index_finding_dismissals_unique; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_finding_dismissals_unique ON public.finding_dismissals USING btree (household_id, kind, bank_transaction_id);
+
+
+--
 -- Name: index_findings_on_household_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1303,6 +1366,14 @@ ALTER TABLE ONLY public.bank_transactions
 
 
 --
+-- Name: finding_dismissals fk_finding_dismissals_transaction_same_household; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.finding_dismissals
+    ADD CONSTRAINT fk_finding_dismissals_transaction_same_household FOREIGN KEY (bank_transaction_id, household_id) REFERENCES public.bank_transactions(id, household_id) ON DELETE CASCADE;
+
+
+--
 -- Name: findings fk_findings_related_series_same_household; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1431,6 +1502,14 @@ ALTER TABLE ONLY public.recurring_series
 
 
 --
+-- Name: finding_dismissals fk_rails_98fe2ce3d4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.finding_dismissals
+    ADD CONSTRAINT fk_rails_98fe2ce3d4 FOREIGN KEY (household_id) REFERENCES public.households(id) ON DELETE CASCADE;
+
+
+--
 -- Name: bank_transactions fk_rails_bda56f7d4b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1509,6 +1588,7 @@ ALTER TABLE ONLY public.statement_imports
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261120160000'),
 ('20261120150000'),
 ('20261120120000'),
 ('20261120090000'),
