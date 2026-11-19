@@ -1,0 +1,287 @@
+# The global merchant catalogue: how each merchant shows up on Indian bank
+# statements. Synced into merchants/merchant_aliases by
+# `bin/rails leak:merchants:sync` (also run by db:seed and the eval).
+#
+#   names: payee names as printed. Normalised to A-Z0-9 ("Netflix.com" =>
+#          NETFLIXCOM). Names of 5+ characters also match as a prefix of a
+#          longer payee ("NETFLIX" matches "NETFLIX ENTERTAINMENT SERVICES").
+#   vpas:  exact UPI IDs.
+#
+# Categories feed detection later: investment, loan, insurance, rent and
+# utilities are recurring by nature and must not be flagged as leaks.
+
+netflix:
+  name: Netflix
+  category: streaming
+  names: [NETFLIX, NETFLIX COM, NETFLIX ENTERTAINMENT SERVICES]
+  vpas: [netflixupi.payu@hdfcbank, netflix@icici]
+amazon_prime:
+  name: Amazon Prime
+  category: streaming
+  names: [AMAZON PRIME, PRIME VIDEO, AMAZONPRIME]
+  vpas: [amazonprime@apl]
+amazon:
+  name: Amazon
+  category: shopping
+  names: [AMAZON, AMAZON PAY, AMAZON SELLER SERVICES, AMAZON INDIA]
+  vpas: [amazon@apl, amazonpay@apl]
+jiohotstar:
+  name: JioHotstar
+  category: streaming
+  names: [JIOHOTSTAR, HOTSTAR, DISNEY HOTSTAR, NOVI DIGITAL ENTERTAINMENT, STAR INDIA]
+  vpas: [hotstar@icici, jiohotstar@axisbank]
+sonyliv:
+  name: Sony LIV
+  category: streaming
+  names: [SONYLIV, SONY LIV, CULVER MAX ENTERTAINMENT]
+  vpas: [sonyliv@hdfcbank]
+zee5:
+  name: ZEE5
+  category: streaming
+  names: [ZEE5, ZEE ENTERTAINMENT]
+  vpas: [zee5@icici]
+spotify:
+  name: Spotify
+  category: music
+  names: [SPOTIFY, SPOTIFY INDIA]
+  vpas: [spotify@axisbank]
+youtube_premium:
+  name: YouTube Premium
+  category: streaming
+  names: [YOUTUBE PREMIUM, YOUTUBE, GOOGLE YOUTUBE]
+  vpas: [youtube@axisbank]
+google_play:
+  name: Google Play
+  category: software
+  names: [GOOGLE PLAY, GOOGLE PLAY STORE, GOOGLE INDIA DIGITAL SERVICES]
+  vpas: [playstore@axisbank, googleplay@axisbank]
+google_one:
+  name: Google One
+  category: cloud_storage
+  names: [GOOGLE ONE, GOOGLE STORAGE]
+  vpas: [googleone@axisbank]
+apple:
+  name: Apple Services
+  category: software
+  names: [APPLE MEDIA SERVICES, APPLE SERVICES, APPLE COM BILL, ITUNES]
+  vpas: [appleservices.bdsk@hdfcbank]
+microsoft:
+  name: Microsoft
+  category: software
+  names: [MICROSOFT, MICROSOFT 365, MSFT]
+  vpas: [microsoft@icici]
+adobe:
+  name: Adobe
+  category: software
+  names: [ADOBE, ADOBE SYSTEMS]
+  vpas: [adobe@hdfcbank]
+openai:
+  name: OpenAI (ChatGPT)
+  category: software
+  names: [OPENAI, CHATGPT]
+  vpas: []
+times_prime:
+  name: Times Prime
+  category: news
+  names: [TIMES PRIME, TIMES INTERNET]
+  vpas: [timesprime@icici]
+swiggy:
+  name: Swiggy
+  category: food_delivery
+  names: [SWIGGY, BUNDL TECHNOLOGIES, SWIGGY INSTAMART]
+  vpas: [swiggy@icici, swiggyupi@axb]
+zomato:
+  name: Zomato
+  category: food_delivery
+  names: [ZOMATO, ETERNAL LIMITED]
+  vpas: [zomato@hdfcbank, zomatoorder@icici]
+blinkit:
+  name: Blinkit
+  category: groceries
+  names: [BLINKIT, GROFERS, BLINK COMMERCE]
+  vpas: [blinkit@hdfcbank]
+zepto:
+  name: Zepto
+  category: groceries
+  names: [ZEPTO, KIRANAKART TECHNOLOGIES]
+  vpas: [zeptonow@axisbank]
+bigbasket:
+  name: BigBasket
+  category: groceries
+  names: [BIGBASKET, SUPERMARKET GROCERY SUPPLIES, INNOVATIVE RETAIL CONCEPTS]
+  vpas: [bigbasket@icici]
+dmart:
+  name: DMart
+  category: groceries
+  names: [DMART, D MART, AVENUE SUPERMARTS]
+  vpas: [dmart@hdfcbank]
+flipkart:
+  name: Flipkart
+  category: shopping
+  names: [FLIPKART, FLIPKART INTERNET, FLIPKART PAYMENTS]
+  vpas: [flipkart@axisbank]
+myntra:
+  name: Myntra
+  category: shopping
+  names: [MYNTRA, MYNTRA DESIGNS]
+  vpas: [myntra@icici]
+uber:
+  name: Uber
+  category: transport
+  names: [UBER, UBER INDIA, UBER INDIA SYSTEMS]
+  vpas: [uberindia@hdfcbank]
+ola:
+  name: Ola
+  category: transport
+  names: [OLA, OLACABS, OLA CABS, ANI TECHNOLOGIES]
+  vpas: [olacabs@icici]
+rapido:
+  name: Rapido
+  category: transport
+  names: [RAPIDO, ROPPEN TRANSPORTATION]
+  vpas: [rapido@axisbank]
+irctc:
+  name: IRCTC
+  category: travel
+  names: [IRCTC, INDIAN RAILWAY CATERING]
+  vpas: [irctc@sbi]
+makemytrip:
+  name: MakeMyTrip
+  category: travel
+  names: [MAKEMYTRIP, MAKE MY TRIP]
+  vpas: [makemytrip@icici]
+indian_oil:
+  name: Indian Oil
+  category: fuel
+  names: [INDIAN OIL, INDIANOIL, IOCL]
+  vpas: [iocl@sbi]
+jio:
+  name: Jio
+  category: telecom
+  names: [JIO, RELIANCE JIO, JIO PLATFORMS]
+  vpas: [jiomobility@hdfcbank, myjio@sbi]
+airtel:
+  name: Airtel
+  category: telecom
+  names: [AIRTEL, BHARTI AIRTEL]
+  vpas: [airtel.payu@axisbank]
+vi:
+  name: Vi (Vodafone Idea)
+  category: telecom
+  names: [VODAFONE IDEA, VI POSTPAID, VODAFONE]
+  vpas: [vodafoneidea@icici]
+act_fibernet:
+  name: ACT Fibernet
+  category: internet
+  names: [ACT FIBERNET, ATRIA CONVERGENCE]
+  vpas: [actfibernet@icici]
+tata_play:
+  name: Tata Play
+  category: dth
+  names: [TATA PLAY, TATA SKY]
+  vpas: [tataplay@hdfcbank]
+msedcl:
+  name: MSEDCL (Mahavitaran)
+  category: utilities
+  names: [MSEDCL, MAHAVITARAN, MAHARASHTRA STATE ELECTRICITY]
+  vpas: [msedcl@sbi]
+tata_power:
+  name: Tata Power
+  category: utilities
+  names: [TATA POWER, TATA POWER DDL]
+  vpas: [tatapower@hdfcbank]
+adani_electricity:
+  name: Adani Electricity
+  category: utilities
+  names: [ADANI ELECTRICITY, AEML]
+  vpas: [adanielectricity@icici]
+cesc:
+  name: CESC
+  category: utilities
+  names: [CESC, CESC LIMITED, CALCUTTA ELECTRIC SUPPLY]
+  vpas: [cesc@hdfcbank]
+mahanagar_gas:
+  name: Mahanagar Gas
+  category: utilities
+  names: [MAHANAGAR GAS, MGL]
+  vpas: [mgl@icici]
+lic:
+  name: LIC
+  category: insurance
+  names: [LIC, LICI, LIFE INSURANCE CORPORATION, LIC OF INDIA]
+  vpas: [licpremium@sbi]
+hdfc_life:
+  name: HDFC Life
+  category: insurance
+  names: [HDFC LIFE, HDFC LIFE INSURANCE]
+  vpas: [hdfclife@hdfcbank]
+icici_prulife:
+  name: ICICI Prudential Life
+  category: insurance
+  names: [ICICI PRUDENTIAL LIFE, ICICIPRULIFE, ICICI PRU LIFE]
+  vpas: [icicipru@icici]
+star_health:
+  name: Star Health
+  category: insurance
+  names: [STAR HEALTH, STAR HEALTH AND ALLIED]
+  vpas: [starhealth@icici]
+iccl:
+  name: Indian Clearing Corp (mutual fund SIP)
+  category: investment
+  names: [INDIAN CLEARING CORP, ICCL, BSE STAR MF]
+  vpas: []
+groww:
+  name: Groww
+  category: investment
+  names: [GROWW, NEXTBILLION TECHNOLOGY]
+  vpas: [groww@axisbank]
+zerodha:
+  name: Zerodha
+  category: investment
+  names: [ZERODHA, ZERODHA BROKING]
+  vpas: [zerodha@hdfcbank]
+hdfc_mf:
+  name: HDFC Mutual Fund
+  category: investment
+  names: [HDFC MUTUAL FUND, HDFC MF]
+  vpas: []
+sbi_mf:
+  name: SBI Mutual Fund
+  category: investment
+  names: [SBI MUTUAL FUND, SBI MF, SBI FUNDS MANAGEMENT]
+  vpas: []
+bajaj_finance:
+  name: Bajaj Finance
+  category: loan
+  names: [BAJAJ FINANCE, BAJAJ FINSERV]
+  vpas: [bajajfinserv@axisbank]
+cred:
+  name: CRED
+  category: credit_card
+  names: [CRED, CRED CLUB, DREAMPLUG TECHNOLOGIES]
+  vpas: [cred.club@axisbank]
+nobroker:
+  name: NoBroker
+  category: rent
+  names: [NOBROKER, NOBROKER TECHNOLOGIES]
+  vpas: [nobroker@icici]
+cultfit:
+  name: cult.fit
+  category: fitness
+  names: [CULTFIT, CULT FIT, CUREFIT]
+  vpas: [cultfit@icici]
+byjus:
+  name: BYJU'S
+  category: education
+  names: [BYJUS, THINK AND LEARN]
+  vpas: [byjus@icici]
+apollo_pharmacy:
+  name: Apollo Pharmacy
+  category: healthcare
+  names: [APOLLO PHARMACY, APOLLO HEALTHCO]
+  vpas: [apollopharmacy@hdfcbank]
+paytm:
+  name: Paytm Wallet
+  category: wallet
+  names: [PAYTM WALLET, ONE97 COMMUNICATIONS]
+  vpas: [add-money@paytm]

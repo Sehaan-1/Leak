@@ -78,13 +78,20 @@ module Statements
           memo: "#{amount.positive? ? "Credit" : "Debit"} · #{bank_account.display_name}",
           lines: [ [ bank_account.account, amount ], [ household.suspense_account, -amount ] ]
         )
-        household.bank_transactions.create!(
+        txn = household.bank_transactions.new(
           bank_account: bank_account, statement_import: import, journal_entry: entry,
           posted_on: row.posted_on, value_on: row.value_on, narration: row.narration, ref: row.ref,
           amount_paise: amount, balance_after_paise: row.balance_paise,
           fingerprint: fingerprint, position: position
         )
+        txn.apply_resolution(resolver.resolve(row.narration, amount_paise: amount))
+        txn.save!
         true
+      end
+
+      # Rules-only merchant resolution; rows it can't decide go to review.
+      def resolver
+        @resolver ||= Merchants::Resolver.new(household: household)
       end
 
       # Two statements starting on the same day begin with the same
