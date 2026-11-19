@@ -7,10 +7,11 @@ Built for one real user (an SBI account holder) and evaluated like a product:
 every number on the dashboard traces back to ledger rows, and the merchant
 resolver is gated in CI against a hand-labelled golden set.
 
-> **Status: slice 2 of the build.** A double-entry ledger whose invariants
-> are enforced by PostgreSQL, and SBI PDF statement import that only accepts
-> statements that reconcile to the paisa. Merchant resolution, detection and
-> the dashboard come in later slices (see [Roadmap](#roadmap)).
+> **Status: slice 3 of the build.** A double-entry ledger whose invariants
+> are enforced by PostgreSQL, SBI PDF statement import that only accepts
+> statements that reconcile to the paisa, and a bare React app to sign in,
+> upload a statement and list its transactions. Merchant resolution,
+> detection and the real dashboard come in later slices (see [Roadmap](#roadmap)).
 
 ## Ledger invariants
 
@@ -57,16 +58,19 @@ bin/rails 'leak:import[path/to/statement.pdf,demo@leak.test]'   # PDF_PASSWORD=.
 bin/rails 'leak:redact[path/to/statement.pdf]'                  # shape-only copy, safe to share in a bug report
 ```
 
-Or `POST /api/v1/statement_imports` with a `file` (multipart).
+Or upload it in the web app, or `POST /api/v1/statement_imports` with a `file` (multipart).
 
 ## Stack
 
 Ruby 4.0 · Rails 8.1 · PostgreSQL 18 · poppler (`pdftotext`) · RSpec · RuboCop (omakase) · Brakeman ·
-bundler-audit · GitHub Actions. React + TypeScript arrives in a later slice.
+bundler-audit · React 19 · TypeScript (strict) · Vite · TanStack Query · openapi-fetch · Vitest +
+Testing Library + MSW · Biome · GitHub Actions.
 
 The JSON API contract is [`openapi/openapi.yaml`](openapi/openapi.yaml).
 Request specs validate every request and response against it (committee), and
-a spec fails if a route under `/api` is added without documenting it.
+a spec fails if a route under `/api` is added without documenting it. The web
+client's types are generated from the same file (`npm --prefix web run api-types`),
+and CI fails if the committed types are stale.
 
 ## Running it locally (WSL2 / Linux / macOS)
 
@@ -76,13 +80,20 @@ Keep the repo on the Linux filesystem, not `/mnt/c`.
 # Ruby 4.0.10 (see .ruby-version), PostgreSQL 18, and poppler-utils (pdftotext)
 bin/setup              # installs gems, prepares the database, starts the server
 bin/rails db:seed      # synthetic demo household: demo@leak.test / demo-password-change-me
-bin/ci                 # everything CI runs: rubocop, brakeman, audit, schema drift, rspec
+bin/ci                 # everything CI runs: rubocop, brakeman, audit, schema drift, rspec, web checks
+
+# Node 22.12+ for the React app in web/
+npm --prefix web ci
+npm --prefix web run dev   # Vite on :5173, proxying everything else to Rails on :3000
 ```
 
-Then open <http://localhost:3000> and sign in with the demo account. The
-JSON API (`/api/v1/session`, `/me`, `/accounts`, `/statement_imports`) is for
-the SPA that arrives in slice 3. Writes need the CSRF token from the page, so the
-request specs in [`spec/requests/`](spec/requests) are the best usage examples.
+Open <http://localhost:5173> and sign in with the demo account, then import
+`spec/fixtures/synthetic/sbi/sample_statement.pdf`. Rails renders the HTML
+shell (so the CSRF token is in the page) and Vite serves the scripts with hot
+reload. To try the production build instead, run `npm --prefix web run build`
+and open <http://localhost:3000> with `VITE_DEV_SERVER=0 bin/rails server`.
+
+Frontend checks: `npm --prefix web run lint`, `typecheck`, `test`.
 
 ## Privacy rules
 
@@ -106,16 +117,18 @@ Short ADRs live in [`docs/adr/`](docs/adr):
 3. [Same-origin cookie sessions, not JWT](docs/adr/0003-cookie-session-auth.md)
 4. [OpenAPI file as the API contract](docs/adr/0004-openapi-contract.md)
 5. [Statement import: exact parsing, reconciliation, fingerprints](docs/adr/0005-statement-import.md)
+6. [The SPA is served by Rails, built by Vite](docs/adr/0006-spa-served-by-rails.md)
 
 ## Roadmap
 
 One slice per PR, each leaving something demoable.
 
 1. **Foundation**: app, auth, ledger + invariants, CI.
-2. **SBI PDF statement import** ← you are here: `pdftotext -layout` parser,
+2. **SBI PDF statement import**: `pdftotext -layout` parser,
    reconciliation, idempotent fingerprints, import-twice and
    overlapping-import property tests.
-3. **Bare React list**: Vite + TS SPA served by Rails, types generated from OpenAPI.
+3. **Bare React list** ← you are here: Vite + TS SPA served by Rails, types
+   generated from OpenAPI; sign in, upload a statement, list transactions.
 4. **Alias table + rules resolver, synthetic generator, eval harness, baseline in CI.**
 5. **LLM resolver behind the router**, validators, replay fixtures, the eval gate.
 6. **Detection engine**: cadence fitting, price steps, decoys.

@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "files": { "includes": ["**", "!src/api/schema.d.ts", "!node_modules"] },
+  "formatter": { "indentStyle": "space", "lineWidth": 110 },
+  "linter": {
+    "rules": {
+      "preset": "recommended",
+      "a11y": { "preset": "recommended" }
+    }
+  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } }
+}
