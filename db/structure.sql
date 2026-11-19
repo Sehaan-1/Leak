@@ -111,6 +111,7 @@ CREATE TYPE public.resolution_method AS ENUM (
     'name_alias',
     'trigram',
     'rule',
+    'llm',
     'abstained'
 );
 
@@ -308,6 +309,9 @@ CREATE TABLE public.bank_transactions (
     counterparty public.counterparty_kind,
     resolution public.resolution_method,
     resolved_at timestamp(6) without time zone,
+    resolution_evidence text,
+    resolution_model character varying,
+    llm_checked_at timestamp(6) without time zone,
     CONSTRAINT bank_transactions_amount_nonzero CHECK ((amount_paise <> 0)),
     CONSTRAINT bank_transactions_merchant_matches_counterparty CHECK (((merchant_id IS NOT NULL) = (NOT (counterparty IS DISTINCT FROM 'merchant'::public.counterparty_kind)))),
     CONSTRAINT bank_transactions_resolution_consistent CHECK ((((resolution IS NULL) AND (counterparty IS NULL) AND (resolved_at IS NULL)) OR ((resolution = 'abstained'::public.resolution_method) AND (counterparty IS NULL) AND (resolved_at IS NOT NULL)) OR ((resolution <> 'abstained'::public.resolution_method) AND (counterparty IS NOT NULL) AND (resolved_at IS NOT NULL))))
@@ -1132,7 +1136,7 @@ ALTER TABLE ONLY public.sessions
 --
 
 ALTER TABLE ONLY public.bank_transactions
-    ADD CONSTRAINT fk_rails_bda56f7d4b FOREIGN KEY (merchant_id) REFERENCES public.merchants(id) ON DELETE SET NULL;
+    ADD CONSTRAINT fk_rails_bda56f7d4b FOREIGN KEY (merchant_id) REFERENCES public.merchants(id) ON DELETE RESTRICT;
 
 
 --
@@ -1190,6 +1194,7 @@ ALTER TABLE ONLY public.statement_imports
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261120120000'),
 ('20261120090000'),
 ('20261119130000'),
 ('20261119120000'),

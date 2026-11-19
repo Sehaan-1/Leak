@@ -7,12 +7,13 @@ Built for one real user (an SBI account holder) and evaluated like a product:
 every number on the dashboard traces back to ledger rows, and the merchant
 resolver is gated in CI against a frozen, hand-reviewed (synthetic) golden set.
 
-> **Status: slice 4 of the build.** A double-entry ledger whose invariants
+> **Status: slice 5 of the build.** A double-entry ledger whose invariants
 > are enforced by PostgreSQL, SBI PDF statement import that only accepts
 > statements that reconcile to the paisa, a bare React app to sign in,
-> upload a statement and list its transactions, and a rules-only merchant
-> resolver with an eval gate in CI. The LLM resolver, detection and the real
-> dashboard come in later slices (see [Roadmap](#roadmap)).
+> upload a statement and list its transactions, a rules merchant resolver
+> with an eval gate in CI, and an LLM resolver (any provider) for what the
+> rules can't decide, behind validators. Detection and the real dashboard
+> come in later slices (see [Roadmap](#roadmap)).
 
 ## Ledger invariants
 
@@ -65,7 +66,8 @@ Or upload it in the web app, or `POST /api/v1/statement_imports` with a `file` (
 
 ```text
 narration ──parse (UPI / NEFT / IMPS / card / NACH / bill)──▶ rules ──▶ merchant | person | bank | cash
-                                                                 └──▶ abstain ──▶ review (LLM from slice 5)
+                                                                 └──▶ abstain ──▶ LLM ──▶ validators ──▶ merchant | person
+                                                                                                    └──▶ review
 ```
 
 - The catalogue is [`config/merchants.yml`](config/merchants.yml): about 55 Indian merchants with names, UPI IDs and categories. SIPs, EMIs, insurance, rent and utilities are categorised, so detection can treat them as decoys.
@@ -76,11 +78,37 @@ narration ──parse (UPI / NEFT / IMPS / card / NACH / bill)──▶ rules �
 
 Details: [ADR 7](docs/adr/0007-rules-merchant-resolution.md).
 
+### The LLM step
+
+Rows the rules abstain on go to an LLM, after each import (a background job) or on demand. The LLM picks a catalogue merchant, `person` or `unknown`, and quotes its evidence. Validators then:
+- check that the evidence is really in the narration;
+- check that it matches the merchant's names better than any other merchant's;
+- apply the rules' test for a personal name.
+
+Anything else, including every `unknown`, stays in review with the reason. Details: [ADR 8](docs/adr/0008-llm-merchant-resolution.md).
+
+**Choose any provider** ([`config/llm.yml`](config/llm.yml)). Keys go in the environment or `bin/rails credentials:edit` (`llm: { provider:, api_key:, model:, base_url: }`), never in git.
+
+| You have | Set |
+|---|---|
+| Any OpenAI-compatible API | `LLM_BASE_URL`, `LLM_MODEL`, `LLM_API_KEY` |
+| A preset | `LLM_PROVIDER=gemini\|nvidia\|openai\|openrouter\|groq\|ollama` + its key (`LLM_MODEL` optional) |
+| Antigravity or opencode installed and logged in | nothing: they are used automatically (`agy -p`, `opencode run`) |
+| Only a free key | `GEMINI_API_KEY` (aistudio.google.com) or `NVIDIA_API_KEY` (build.nvidia.com) |
+| Nothing | the LLM step is skipped and abstentions go to review |
+
+The order when you set nothing explicit is: an installed agent, then Gemini, then NVIDIA. Digit runs (references, account and phone numbers) are masked before anything is sent, and prompts and replies are never logged. Payee names are still sent, and free tiers may train on what they receive. **For real statements, use a paid tier, a local model (`ollama`) or your own agent.**
+
 ```sh
 bin/rails leak:merchants:sync                          # load the catalogue (db:seed does this too)
-bin/rails 'leak:merchants:resolve[demo@leak.test]'     # resolve unresolved rows (ALL=1 to redo)
+bin/rails 'leak:merchants:resolve[demo@leak.test]'     # rules on unresolved rows (ALL=1 to redo)
+bin/rails leak:llm:check                               # which provider is used; one synthetic test call
+bin/rails 'leak:merchants:llm[demo@leak.test]'         # send rows in review to the LLM now
 bin/rails 'leak:eval:merchants[golden]'                # gated eval; [dev] lists every miss
+LLM_EVAL=record LLM_PROVIDER=gemini bin/rails 'leak:eval:merchants[golden]'   # live eval, saves replay recordings
 ```
+
+**LLM eval.** PR CI replays recorded replies (`LLM_EVAL=replay`, offline). On golden, rules + LLM must keep the 95% accuracy floor and beat rules only on net score (correct − 3 × wrong). [`llm-eval.yml`](.github/workflows/llm-eval.yml) runs the live model on PRs that touch the prompt, resolver or catalogue, nightly, and on demand (`record=true` commits fresh recordings). **Not yet enforced:** no provider secret is set, so the live eval is skipped and no recordings exist yet. To turn it on, add a `GEMINI_API_KEY` repository secret, then run `gh workflow run llm-eval.yml -f record=true`.
 
 ## Stack
 
@@ -119,7 +147,9 @@ Frontend checks: `npm --prefix web run lint`, `typecheck`, `test`.
 
 ## Privacy rules
 
-- Real statements never enter git, fixtures, screenshots or LLM logs.
+- Real statements never enter git, fixtures, screenshots or LLM logs. The
+  LLM resolver masks digit runs before sending, and never logs prompts or
+  replies. Replay recordings are made from the synthetic eval sets only.
   `.gitignore` blocks `*.pdf`, `*.csv`, `*.xls*` and `*.eml` outside
   `spec/fixtures/synthetic/`.
 - Seeds and the public demo use synthetic data only. The SBI fixture is a
@@ -141,6 +171,7 @@ Short ADRs live in [`docs/adr/`](docs/adr):
 5. [Statement import: exact parsing, reconciliation, fingerprints](docs/adr/0005-statement-import.md)
 6. [The SPA is served by Rails, built by Vite](docs/adr/0006-spa-served-by-rails.md)
 7. [Rules-first merchant resolution, measured on a frozen synthetic set](docs/adr/0007-rules-merchant-resolution.md)
+8. [LLM merchant resolution: any provider, grounded answers, replayed in CI](docs/adr/0008-llm-merchant-resolution.md)
 
 ## Roadmap
 
@@ -153,8 +184,9 @@ One slice per PR, each leaving something demoable.
 3. **Bare React list**: Vite + TS SPA served by Rails, types generated from
    OpenAPI; sign in, upload a statement, list transactions.
 4. **Alias table + rules resolver, synthetic generator, eval harness,
-   baseline in CI** ← you are here.
-5. **LLM resolver behind the router**, validators, replay fixtures, the eval gate.
+   baseline in CI**.
+5. **LLM resolver behind the router**, validators, replay fixtures, the eval
+   gate ← you are here.
 6. **Detection engine**: cadence fitting, price steps, decoys.
 7. **The four screens** and the Playwright test.
 8. **Deploy** (Kamal 2): public synthetic demo + private instance.

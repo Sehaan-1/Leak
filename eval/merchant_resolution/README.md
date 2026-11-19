@@ -63,7 +63,24 @@ Both come with 95% Wilson score intervals. With 300 rows, ±2 points is noise. T
 - overall accuracy and coverage including person, bank and cash rows;
 - per-channel counts.
 
-The gate (`config/eval.yml`) requires the Wilson **lower bound** of merchant accuracy, and the coverage, to stay at or above the stated values. It is a regression guard for the rules-only baseline. Slice 5's LLM resolver must beat it on the same set.
+The gate (`config/eval.yml`) requires the Wilson **lower bound** of merchant accuracy, and the coverage, to stay at or above the stated values. It is a regression guard for the rules-only baseline.
+
+## Rules + LLM
+
+With `LLM_EVAL` set, the same rows also go through rules + LLM (`Merchants::LlmResolver`). On golden, `llm_gate` in `config/eval.yml` requires rules + LLM to:
+- keep the same accuracy floor;
+- answer at least as many business rows;
+- score a higher **net score** than rules only, where net score = correct − 3 × wrong over all rows, with no loss on business rows. Abstaining scores 0, so the LLM only pays off when it is right at least three times for every wrong answer.
+
+| `LLM_EVAL` | Model | Used by |
+|---|---|---|
+| `replay` | recorded replies in `replay/<set>.json`, keyed by a hash of each request | PR CI. A stale recording fails; a missing one skips the LLM gate with a notice |
+| `live` | the configured provider (`config/llm.yml`) | `.github/workflows/llm-eval.yml`: PRs touching the resolver, prompt or catalogue; nightly |
+| `record` | live, then saves `replay/<set>.json` | after changing the prompt, catalogue or rows; `llm-eval.yml` with `record=true` |
+
+Recordings contain synthetic narrations and model replies only. Never record from real data.
+
+The LLM's headroom on golden-v1 is small: 45 of the 53 business rows the rules abstain on are `unknown` (businesses outside the catalogue, where abstaining is correct), and 6 are gateway payments that don't name the merchant.
 
 ## Changing the golden set
 

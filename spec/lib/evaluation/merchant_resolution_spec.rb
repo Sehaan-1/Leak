@@ -34,4 +34,34 @@ RSpec.describe Evaluation::MerchantResolution do
     expect(report.gate_failures("merchant_accuracy_low" => 0.0, "merchant_coverage" => 0.8))
       .to contain_exactly("merchant coverage 75.0% < 80.0%")
   end
+
+  describe "rules + LLM against rules only" do
+    let(:rows) do
+      [ example("a", "netflix"), example("b", "lic", channel: "nach"), example("c", "unknown"), example("d", "person"),
+        example("e", "person") ]
+    end
+    let(:gate) { { "merchant_accuracy_low" => 0.0, "wrong_answer_cost" => 3 } }
+
+    def report_for(mapping)
+      answers.replace(mapping)
+      described_class.new(rows, resolver: resolver).report
+    end
+
+    it "passes when it answers more without new wrong answers" do
+      baseline = report_for("a" => "netflix", "b" => "abstain", "c" => "abstain", "d" => "abstain", "e" => "abstain")
+      better = report_for("a" => "netflix", "b" => "lic", "c" => "abstain", "d" => "person", "e" => "abstain")
+      expect(better.net_score(cost: 3)).to eq(3)
+      expect(better.beat_failures(baseline, gate)).to be_empty
+      expect(better.comparison_line(baseline, cost: 3)).to start_with("vs rules only: 2 more answered (2 correct, 0 wrong)")
+    end
+
+    it "fails when it adds nothing, or buys answers with a wrong merchant" do
+      baseline = report_for("a" => "netflix", "b" => "abstain", "c" => "abstain", "d" => "abstain", "e" => "abstain")
+      expect(baseline.beat_failures(baseline, gate)).to contain_exactly(a_string_including("doesn't beat rules only"))
+
+      worse = report_for("a" => "netflix", "b" => "lic", "c" => "person", "d" => "person", "e" => "person")
+      expect(worse.beat_failures(baseline, gate)).to contain_exactly(a_string_including("business-row net score -1 < rules only 1"),
+        a_string_including("net score 1 doesn't beat rules only (1;"))
+    end
+  end
 end

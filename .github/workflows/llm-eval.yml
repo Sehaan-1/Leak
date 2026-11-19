@@ -1,0 +1,147 @@
+name: LLM eval
+
+# The merchant-resolution eval against a live model (ADR 0008). PR CI
+# replays recorded replies; this checks the model itself:
+# - on PRs that change the prompt, the resolver, the catalogue or the eval;
+# - nightly, to catch a provider changing its model under us;
+# - on demand. With record=true it commits fresh recordings to the branch
+#   (push again, or re-run CI, to replay them: pushes made with
+#   GITHUB_TOKEN don't trigger workflows).
+#
+# The provider is gemini unless chosen on dispatch or by the
+# LLM_EVAL_PROVIDER repository variable. It needs a GEMINI_API_KEY (or
+# NVIDIA_API_KEY, ...) repository secret; without one the job is skipped
+# with a notice, and PR CI's replay gate stays off until recordings exist.
+# (GitHub Models answered every request with a bare "OK" from this repo's
+# runners in Nov 2026, so it isn't a preset.) Eval sets are synthetic: no
+# real narration is ever sent from CI.
+
+on:
+  pull_request:
+    paths:
+      - app/services/merchants/**
+      - config/llm.yml
+      - config/merchants.yml
+      - config/eval.yml
+      - eval/merchant_resolution/**
+      - lib/evaluation/**
+  schedule:
+    - cron: "30 21 * * *" # 03:00 IST
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: "Provider from config/llm.yml (gemini, nvidia, openai, ...)"
+        default: gemini
+      model:
+        description: "Model (blank: the provider's default in config/llm.yml)"
+        default: ""
+      record:
+        description: "Save the replies as the new replay recordings and commit them"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: llm-eval-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  live:
+    runs-on: ubuntu-24.04
+    outputs:
+      ready: ${{ steps.key.outputs.ready }}
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd="pg_isready -U postgres" --health-interval=5s
+          --health-timeout=5s --health-retries=10
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432
+      RAILS_ENV: test
+      CI: "true"
+      LLM_EVAL: ${{ inputs.record && 'record' || 'live' }}
+      LLM_PROVIDER: ${{ inputs.provider || vars.LLM_EVAL_PROVIDER || 'gemini' }}
+      LLM_MODEL: ${{ inputs.model }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Provider key present?
+        id: key
+        run: |
+          var=$(ruby -ryaml -e 'puts YAML.safe_load_file("config/llm.yml").dig("providers", ENV["LLM_PROVIDER"], "api_key_env").to_s')
+          if [ -n "$var" ] && [ -z "${!var}" ]; then
+            echo "::notice title=LLM eval skipped::No $var secret, so there is no live model to evaluate. Add one under Settings → Secrets and variables → Actions."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: PostgreSQL 18 client
+        if: steps.key.outputs.ready == 'true'
+        run: |
+          for i in 1 2 3; do sudo apt-get install -y -q postgresql-common && break || sleep 10; done
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          for i in 1 2 3; do sudo apt-get install -y -q postgresql-client-18 && break || sleep 10; done
+          echo "/usr/lib/postgresql/18/bin" >> "$GITHUB_PATH"
+
+      - uses: ruby/setup-ruby@v1
+        if: steps.key.outputs.ready == 'true'
+        with:
+          bundler-cache: true
+
+      - run: bin/rails db:test:prepare
+        if: steps.key.outputs.ready == 'true'
+
+      - name: Golden set (gated)
+        if: steps.key.outputs.ready == 'true'
+        run: bin/rails 'leak:eval:merchants[golden]'
+
+      - name: Dev set (report only)
+        if: ${{ !cancelled() && steps.key.outputs.ready == 'true' }}
+        run: bin/rails 'leak:eval:merchants[dev]'
+
+      - name: Upload reports and recordings
+        if: ${{ !cancelled() && steps.key.outputs.ready == 'true' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: llm-eval
+          path: |
+            tmp/eval/
+            eval/merchant_resolution/replay/
+          if-no-files-found: ignore
+
+  commit-recordings:
+    needs: live
+    if: ${{ inputs.record && needs.live.result == 'success' && needs.live.outputs.ready == 'true' }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v7
+        with:
+          name: llm-eval
+          path: /tmp/llm-eval
+      - name: Commit recordings
+        run: |
+          mkdir -p eval/merchant_resolution/replay
+          cp /tmp/llm-eval/eval/merchant_resolution/replay/*.json eval/merchant_resolution/replay/
+          git add eval/merchant_resolution/replay
+          if git diff --cached --quiet; then echo "Recordings unchanged"; exit 0; fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -m "Record LLM eval replies (${LLM_PROVIDER:-github})"
+          git push
+        env:
+          LLM_PROVIDER: ${{ inputs.provider }}
