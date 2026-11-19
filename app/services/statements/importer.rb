@@ -38,7 +38,10 @@ module Statements
       text = yield
       statement = Statements.parser_for(text).parse(text)
       opening = Reconciler.check!(statement)
-      post(statement, opening).tap { Merchants::LlmResolutionJob.enqueue_for(household) }
+      post(statement, opening).tap do
+        Detection::RunJob.perform_later(household.id)
+        Merchants::LlmResolutionJob.enqueue_for(household)
+      end
     rescue Statements::Error => error
       reject(error)
     end

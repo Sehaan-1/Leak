@@ -60,6 +60,17 @@ CREATE TYPE public.counterparty_kind AS ENUM (
 
 
 --
+-- Name: finding_kind; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.finding_kind AS ENUM (
+    'subscription',
+    'price_increase',
+    'duplicate'
+);
+
+
+--
 -- Name: merchant_alias_kind; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -113,6 +124,29 @@ CREATE TYPE public.resolution_method AS ENUM (
     'rule',
     'llm',
     'abstained'
+);
+
+
+--
+-- Name: series_cadence; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.series_cadence AS ENUM (
+    'weekly',
+    'monthly',
+    'quarterly',
+    'half_yearly',
+    'annual'
+);
+
+
+--
+-- Name: series_status; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.series_status AS ENUM (
+    'active',
+    'ended'
 );
 
 
@@ -338,6 +372,45 @@ ALTER SEQUENCE public.bank_transactions_id_seq OWNED BY public.bank_transactions
 
 
 --
+-- Name: findings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.findings (
+    id bigint NOT NULL,
+    household_id bigint NOT NULL,
+    recurring_series_id bigint NOT NULL,
+    kind public.finding_kind NOT NULL,
+    amount_paise bigint NOT NULL,
+    monthly_cost_paise bigint NOT NULL,
+    previous_amount_paise bigint,
+    step_transaction_id bigint,
+    related_series_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    CONSTRAINT findings_kind_details CHECK ((((kind = 'subscription'::public.finding_kind) AND (previous_amount_paise IS NULL) AND (step_transaction_id IS NULL) AND (related_series_id IS NULL)) OR ((kind = 'price_increase'::public.finding_kind) AND (previous_amount_paise IS NOT NULL) AND (step_transaction_id IS NOT NULL) AND (amount_paise > previous_amount_paise) AND (related_series_id IS NULL)) OR ((kind = 'duplicate'::public.finding_kind) AND (related_series_id IS NOT NULL) AND (related_series_id <> recurring_series_id) AND (previous_amount_paise IS NULL) AND (step_transaction_id IS NULL))))
+);
+
+
+--
+-- Name: findings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.findings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: findings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.findings_id_seq OWNED BY public.findings.id;
+
+
+--
 -- Name: households; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -504,6 +577,83 @@ ALTER SEQUENCE public.postings_id_seq OWNED BY public.postings.id;
 
 
 --
+-- Name: recurring_series; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.recurring_series (
+    id bigint NOT NULL,
+    household_id bigint NOT NULL,
+    merchant_id bigint NOT NULL,
+    cadence public.series_cadence NOT NULL,
+    status public.series_status NOT NULL,
+    flagged boolean NOT NULL,
+    amount_paise bigint NOT NULL,
+    monthly_cost_paise bigint NOT NULL,
+    first_charged_on date NOT NULL,
+    last_charged_on date NOT NULL,
+    next_expected_on date NOT NULL,
+    charges_count integer NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    CONSTRAINT recurring_series_amounts_positive CHECK (((amount_paise > 0) AND (monthly_cost_paise > 0))),
+    CONSTRAINT recurring_series_dates_ordered CHECK (((first_charged_on <= last_charged_on) AND (last_charged_on < next_expected_on))),
+    CONSTRAINT recurring_series_repeats CHECK ((charges_count >= 2))
+);
+
+
+--
+-- Name: recurring_series_charges; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.recurring_series_charges (
+    id bigint NOT NULL,
+    household_id bigint NOT NULL,
+    recurring_series_id bigint NOT NULL,
+    bank_transaction_id bigint NOT NULL,
+    level integer DEFAULT 0 NOT NULL,
+    CONSTRAINT recurring_series_charges_level_nonnegative CHECK ((level >= 0))
+);
+
+
+--
+-- Name: recurring_series_charges_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.recurring_series_charges_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: recurring_series_charges_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.recurring_series_charges_id_seq OWNED BY public.recurring_series_charges.id;
+
+
+--
+-- Name: recurring_series_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.recurring_series_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: recurring_series_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.recurring_series_id_seq OWNED BY public.recurring_series.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -645,6 +795,13 @@ ALTER TABLE ONLY public.bank_transactions ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
+-- Name: findings id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.findings ALTER COLUMN id SET DEFAULT nextval('public.findings_id_seq'::regclass);
+
+
+--
 -- Name: households id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -677,6 +834,20 @@ ALTER TABLE ONLY public.merchants ALTER COLUMN id SET DEFAULT nextval('public.me
 --
 
 ALTER TABLE ONLY public.postings ALTER COLUMN id SET DEFAULT nextval('public.postings_id_seq'::regclass);
+
+
+--
+-- Name: recurring_series id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recurring_series ALTER COLUMN id SET DEFAULT nextval('public.recurring_series_id_seq'::regclass);
+
+
+--
+-- Name: recurring_series_charges id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recurring_series_charges ALTER COLUMN id SET DEFAULT nextval('public.recurring_series_charges_id_seq'::regclass);
 
 
 --
@@ -733,6 +904,14 @@ ALTER TABLE ONLY public.bank_transactions
 
 
 --
+-- Name: findings findings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.findings
+    ADD CONSTRAINT findings_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: households households_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -770,6 +949,22 @@ ALTER TABLE ONLY public.merchants
 
 ALTER TABLE ONLY public.postings
     ADD CONSTRAINT postings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: recurring_series_charges recurring_series_charges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recurring_series_charges
+    ADD CONSTRAINT recurring_series_charges_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: recurring_series recurring_series_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recurring_series
+    ADD CONSTRAINT recurring_series_pkey PRIMARY KEY (id);
 
 
 --
@@ -882,6 +1077,13 @@ CREATE UNIQUE INDEX index_bank_transactions_on_household_id_and_fingerprint ON p
 
 
 --
+-- Name: index_bank_transactions_on_id_and_household_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_bank_transactions_on_id_and_household_id ON public.bank_transactions USING btree (id, household_id);
+
+
+--
 -- Name: index_bank_transactions_on_journal_entry_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -900,6 +1102,20 @@ CREATE INDEX index_bank_transactions_on_merchant_id ON public.bank_transactions 
 --
 
 CREATE INDEX index_bank_transactions_on_statement_import_id ON public.bank_transactions USING btree (statement_import_id);
+
+
+--
+-- Name: index_findings_on_household_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_findings_on_household_id ON public.findings USING btree (household_id);
+
+
+--
+-- Name: index_findings_on_recurring_series_id_and_kind; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_findings_on_recurring_series_id_and_kind ON public.findings USING btree (recurring_series_id, kind);
 
 
 --
@@ -970,6 +1186,41 @@ CREATE INDEX index_postings_on_account_id ON public.postings USING btree (accoun
 --
 
 CREATE INDEX index_postings_on_journal_entry_id ON public.postings USING btree (journal_entry_id);
+
+
+--
+-- Name: index_recurring_series_charges_on_bank_transaction_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_recurring_series_charges_on_bank_transaction_id ON public.recurring_series_charges USING btree (bank_transaction_id);
+
+
+--
+-- Name: index_recurring_series_charges_on_recurring_series_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_recurring_series_charges_on_recurring_series_id ON public.recurring_series_charges USING btree (recurring_series_id);
+
+
+--
+-- Name: index_recurring_series_on_household_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_recurring_series_on_household_id ON public.recurring_series USING btree (household_id);
+
+
+--
+-- Name: index_recurring_series_on_id_and_household_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_recurring_series_on_id_and_household_id ON public.recurring_series USING btree (id, household_id);
+
+
+--
+-- Name: index_recurring_series_on_merchant_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_recurring_series_on_merchant_id ON public.recurring_series USING btree (merchant_id);
 
 
 --
@@ -1052,6 +1303,30 @@ ALTER TABLE ONLY public.bank_transactions
 
 
 --
+-- Name: findings fk_findings_related_series_same_household; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.findings
+    ADD CONSTRAINT fk_findings_related_series_same_household FOREIGN KEY (related_series_id, household_id) REFERENCES public.recurring_series(id, household_id) ON DELETE CASCADE;
+
+
+--
+-- Name: findings fk_findings_series_same_household; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.findings
+    ADD CONSTRAINT fk_findings_series_same_household FOREIGN KEY (recurring_series_id, household_id) REFERENCES public.recurring_series(id, household_id) ON DELETE CASCADE;
+
+
+--
+-- Name: findings fk_findings_step_transaction_same_household; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.findings
+    ADD CONSTRAINT fk_findings_step_transaction_same_household FOREIGN KEY (step_transaction_id, household_id) REFERENCES public.bank_transactions(id, household_id) ON DELETE CASCADE;
+
+
+--
 -- Name: postings fk_postings_account_same_household; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1076,11 +1351,27 @@ ALTER TABLE ONLY public.postings
 
 
 --
+-- Name: recurring_series fk_rails_1540eae25e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recurring_series
+    ADD CONSTRAINT fk_rails_1540eae25e FOREIGN KEY (merchant_id) REFERENCES public.merchants(id) ON DELETE RESTRICT;
+
+
+--
 -- Name: accounts fk_rails_232fbe7131; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.accounts
     ADD CONSTRAINT fk_rails_232fbe7131 FOREIGN KEY (household_id) REFERENCES public.households(id) ON DELETE CASCADE;
+
+
+--
+-- Name: findings fk_rails_3acfc753b1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.findings
+    ADD CONSTRAINT fk_rails_3acfc753b1 FOREIGN KEY (household_id) REFERENCES public.households(id) ON DELETE CASCADE;
 
 
 --
@@ -1132,6 +1423,14 @@ ALTER TABLE ONLY public.sessions
 
 
 --
+-- Name: recurring_series fk_rails_789df6a35c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recurring_series
+    ADD CONSTRAINT fk_rails_789df6a35c FOREIGN KEY (household_id) REFERENCES public.households(id) ON DELETE CASCADE;
+
+
+--
 -- Name: bank_transactions fk_rails_bda56f7d4b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1180,6 +1479,22 @@ ALTER TABLE ONLY public.bank_accounts
 
 
 --
+-- Name: recurring_series_charges fk_series_charges_series_same_household; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recurring_series_charges
+    ADD CONSTRAINT fk_series_charges_series_same_household FOREIGN KEY (recurring_series_id, household_id) REFERENCES public.recurring_series(id, household_id) ON DELETE CASCADE;
+
+
+--
+-- Name: recurring_series_charges fk_series_charges_transaction_same_household; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recurring_series_charges
+    ADD CONSTRAINT fk_series_charges_transaction_same_household FOREIGN KEY (bank_transaction_id, household_id) REFERENCES public.bank_transactions(id, household_id) ON DELETE CASCADE;
+
+
+--
 -- Name: statement_imports fk_statement_imports_bank_account_same_household; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1194,6 +1509,7 @@ ALTER TABLE ONLY public.statement_imports
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261120150000'),
 ('20261120120000'),
 ('20261120090000'),
 ('20261119130000'),
