@@ -15,3 +15,14 @@ merchant_resolution:
     merchant_accuracy_low: 0.95
     # Share of business rows the resolver answers instead of abstaining.
     merchant_coverage: 0.75
+  # Rules + LLM (slice 5, ADR 0008) on the same set must beat rules only.
+  # CI checks it with recorded replies (LLM_EVAL=replay); the LLM eval
+  # workflow checks it live when the prompt, model or catalogue changes,
+  # and nightly.
+  llm_gate:
+    # The same accuracy floor as the rules-only gate.
+    merchant_accuracy_low: 0.95
+    # Net score = correct answers - cost × wrong answers (abstaining scores
+    # 0). Rules + LLM must score higher than rules only over all rows, and
+    # no lower over business rows: one wrong merchant costs three right ones.
+    wrong_answer_cost: 3

@@ -2,7 +2,8 @@
 # (config/merchants.yml, synced by Merchants::Catalogue).
 class Merchant < ApplicationRecord
   has_many :aliases, class_name: "MerchantAlias", dependent: :delete_all
-  has_many :bank_transactions, dependent: :nullify
+  # Transactions keep their merchant: deleting one that has any fails.
+  has_many :bank_transactions, dependent: :restrict_with_error
 
   enum :category, %w[
     streaming music software cloud_storage news fitness education food_delivery groceries shopping

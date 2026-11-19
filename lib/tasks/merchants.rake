@@ -19,6 +19,31 @@ namespace :leak do
       end
       puts "✓ Resolved #{count} transactions; #{household.bank_transactions.needs_review.count} need review"
     end
+
+    desc "Send a household's rows in review to the LLM resolver now: bin/rails 'leak:merchants:llm[user@example.com]'"
+    task :llm, %i[ email ] => :environment do |_, args|
+      household = User.find_by!(email_address: args.fetch(:email)).household
+      resolver = Merchants::LlmResolver.new(household: household)
+      abort "✗ No LLM provider configured (see config/llm.yml)" unless resolver.enabled?
+
+      resolved = resolver.resolve_pending!(household.bank_transactions)
+      puts "✓ #{resolver.client.name} (#{resolver.client.model || "default model"}) resolved #{resolved} rows; " \
+        "#{household.bank_transactions.needs_review.count} still need review"
+    end
+  end
+
+  namespace :llm do
+    desc "Show which LLM provider the merchant resolver would use, and try it on a synthetic narration"
+    task check: :environment do
+      Merchants::Catalogue.sync!
+      resolver = Merchants::LlmResolver.new
+      abort "✗ No LLM provider configured: abstentions go straight to review (see config/llm.yml)" unless resolver.enabled?
+
+      puts "Provider: #{resolver.client.name}, model: #{resolver.client.model || "the agent's default"}"
+      sample = "ACH DR INW HDFC STANDARD LIFE 6617976069"
+      result = resolver.resolve_many([ sample ]).first
+      puts "#{sample.inspect} -> #{result.label} via #{result.via}: #{result.evidence}"
+    end
   end
 
   namespace :eval do

@@ -22,5 +22,21 @@ module Merchants
     def compact(text)
       text.to_s.gsub(/\s+/, "")
     end
+
+    # pg_trgm's similarity(), for checks done in Ruby (the LLM validator):
+    #   Text.similarity("HDFCSTANDARDLIFE", "HDFCLIFE") # => 0.368
+    def similarity(left, right)
+      a = trigrams(left)
+      b = trigrams(right)
+      return 0.0 if a.empty? || b.empty?
+
+      (a & b).size.fdiv((a | b).size)
+    end
+
+    def trigrams(text)
+      text.to_s.downcase.split(/[^a-z0-9]+/).reject(&:empty?).each_with_object(Set.new) do |word, set|
+        "  #{word} ".chars.each_cons(3) { |chars| set << chars.join }
+      end
+    end
   end
 end
