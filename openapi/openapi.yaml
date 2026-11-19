@@ -87,6 +87,65 @@ paths:
                     items: { $ref: "#/components/schemas/Account" }
         "401": { $ref: "#/components/responses/Error" }
 
+  /api/v1/statement_imports:
+    get:
+      operationId: listStatementImports
+      summary: Recent statement imports (latest first, up to 50)
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [statement_imports]
+                properties:
+                  statement_imports:
+                    type: array
+                    items: { $ref: "#/components/schemas/StatementImport" }
+        "401": { $ref: "#/components/responses/Error" }
+    post:
+      operationId: createStatementImport
+      summary: Upload a bank statement PDF
+      description: |
+        Parses, reconciles and posts the statement to the ledger in one step.
+        Nothing is written unless the statement ties. Re-uploading the same
+        file returns the earlier import with 200. The PDF is not stored.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file: { type: string, format: binary }
+                password:
+                  type: string
+                  description: PDF password, used once and never stored.
+      responses:
+        "201":
+          description: Imported (statement ties).
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/StatementImport" }
+        "200":
+          description: This exact file was already imported; nothing changed.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/StatementImport" }
+        "422":
+          description: Rejected; `error` says why and on which text line.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - { $ref: "#/components/schemas/StatementImport" }
+                  - { $ref: "#/components/schemas/Error" }
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+
 components:
   securitySchemes:
     sessionCookie:
@@ -136,6 +195,42 @@ components:
           type: integer
           format: int64
           description: Sum of postings, debit-positive, in paise.
+
+    StatementImport:
+      type: object
+      additionalProperties: false
+      required: [id, status, filename, period_from, period_to, opening_balance_paise,
+        closing_balance_paise, rows_count, new_rows_count, error, bank_account, created_at]
+      properties:
+        id: { type: integer }
+        status: { type: string, enum: [imported, rejected] }
+        filename: { type: string }
+        period_from: { type: string, format: date, nullable: true }
+        period_to: { type: string, format: date, nullable: true }
+        opening_balance_paise: { type: integer, format: int64, nullable: true }
+        closing_balance_paise: { type: integer, format: int64, nullable: true }
+        rows_count: { type: integer, description: Transaction rows on the statement. }
+        new_rows_count: { type: integer, description: Rows added to the ledger (others were already there). }
+        error:
+          type: object
+          nullable: true
+          additionalProperties: false
+          required: [message, line]
+          properties:
+            message: { type: string }
+            line:
+              type: integer
+              nullable: true
+              description: Line of the extracted statement text that failed.
+        bank_account:
+          type: object
+          nullable: true
+          additionalProperties: false
+          required: [id, name]
+          properties:
+            id: { type: integer }
+            name: { type: string, example: "SBI ••9475" }
+        created_at: { type: string, format: date-time }
 
     Error:
       type: object

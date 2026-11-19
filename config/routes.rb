@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resource :session, only: %i[ create destroy ]
       resource :me, only: :show, controller: :me
       resources :accounts, only: :index
+      resources :statement_imports, only: %i[ index create ]
     end
   end
 

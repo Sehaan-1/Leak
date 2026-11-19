@@ -50,4 +50,9 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Active Record Encryption (bank narrations). Test-only keys: not secret.
+  config.active_record.encryption.primary_key = "test-only-primary-key-not-secret"
+  config.active_record.encryption.deterministic_key = "test-only-deterministic-key-not-secret"
+  config.active_record.encryption.key_derivation_salt = "test-only-key-derivation-salt"
 end
