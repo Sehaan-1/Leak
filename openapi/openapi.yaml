@@ -174,6 +174,188 @@ paths:
                     description: Page number to request next, or null on the last page.
         "401": { $ref: "#/components/responses/Error" }
 
+  /api/v1/findings:
+    get:
+      operationId: listFindings
+      summary: What detection flagged, each linked to its evidence
+      description: |
+        Price increases and duplicate subscriptions first, then every active
+        subscription by monthly cost. Detection rebuilds findings and series
+        after each import or resolution, so their ids change between runs.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [findings, monthly_total_paise, subscriptions_count]
+                properties:
+                  findings:
+                    type: array
+                    items: { $ref: "#/components/schemas/Finding" }
+                  monthly_total_paise:
+                    type: integer
+                    format: int64
+                    description: What the active subscriptions cost per month, together.
+                  subscriptions_count: { type: integer }
+        "401": { $ref: "#/components/responses/Error" }
+
+  /api/v1/findings/{finding_id}/dismissal:
+    parameters:
+      - name: finding_id
+        in: path
+        required: true
+        schema: { type: integer }
+    post:
+      operationId: dismissFinding
+      summary: Mark a finding as fine
+      description: |
+        Kept across detection runs: it is keyed on the finding's evidence (the
+        first charge at the new price, or the series' first charge), not on
+        the finding's id.
+      responses:
+        "201":
+          description: Dismissed.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Finding" }
+        "401": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "422": { $ref: "#/components/responses/Error" }
+    delete:
+      operationId: restoreFinding
+      summary: Undo a dismissal
+      responses:
+        "200":
+          description: No longer dismissed.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Finding" }
+        "401": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "422": { $ref: "#/components/responses/Error" }
+
+  /api/v1/recurring_series/{id}:
+    get:
+      operationId: getRecurringSeries
+      summary: A recurring series with its charges, oldest first
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SeriesDetail" }
+        "401": { $ref: "#/components/responses/Error" }
+        "404":
+          description: No such series. Detection may have rebuilt it since; list findings again.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+
+  /api/v1/review_items:
+    get:
+      operationId: listReviewItems
+      summary: Rows nobody could resolve to a counterparty (newest first, up to 200)
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [review_items, total_count]
+                properties:
+                  review_items:
+                    type: array
+                    items: { $ref: "#/components/schemas/ReviewItem" }
+                  total_count: { type: integer }
+        "401": { $ref: "#/components/responses/Error" }
+
+  /api/v1/review_items/{review_item_id}/resolution:
+    post:
+      operationId: resolveReviewItem
+      summary: Say who a row in review was paid to or received from
+      description: |
+        Choosing a merchant also teaches Leak: the row's UPI ID (or payee name)
+        becomes this household's alias for that merchant, other rows in review
+        that it matches are resolved too, and detection runs again.
+      parameters:
+        - name: review_item_id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [counterparty]
+              properties:
+                counterparty: { $ref: "#/components/schemas/Counterparty" }
+                merchant_id:
+                  type: integer
+                  description: Required when counterparty is "merchant".
+      responses:
+        "200":
+          description: Resolved.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [review_item_id, counterparty, merchant, learned, also_resolved_count]
+                properties:
+                  review_item_id: { type: integer }
+                  counterparty: { $ref: "#/components/schemas/Counterparty" }
+                  merchant:
+                    allOf: [{ $ref: "#/components/schemas/Merchant" }]
+                    nullable: true
+                  learned:
+                    type: object
+                    nullable: true
+                    additionalProperties: false
+                    required: [kind, pattern]
+                    description: The alias Leak learnt, if any.
+                    properties:
+                      kind: { type: string, enum: [vpa, name] }
+                      pattern: { type: string, example: "youtube.premium@okaxis" }
+                  also_resolved_count:
+                    type: integer
+                    description: Other rows in review that the new alias resolved.
+        "400": { $ref: "#/components/responses/Error" }
+        "401": { $ref: "#/components/responses/Error" }
+        "404": { $ref: "#/components/responses/Error" }
+        "422": { $ref: "#/components/responses/Error" }
+
+  /api/v1/merchants:
+    get:
+      operationId: listMerchants
+      summary: The merchant catalogue, by name (case-insensitive)
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [merchants]
+                properties:
+                  merchants:
+                    type: array
+                    items: { $ref: "#/components/schemas/Merchant" }
+        "401": { $ref: "#/components/responses/Error" }
+
 components:
   securitySchemes:
     sessionCookie:
@@ -263,7 +445,8 @@ components:
     BankTransaction:
       type: object
       additionalProperties: false
-      required: [id, posted_on, value_on, narration, ref, amount_paise, balance_after_paise, bank_account]
+      required: [id, posted_on, value_on, narration, ref, amount_paise, balance_after_paise, bank_account,
+        counterparty, merchant, needs_review]
       properties:
         id: { type: integer }
         posted_on: { type: string, format: date }
@@ -278,6 +461,146 @@ components:
           type: integer
           format: int64
           description: Running balance printed on the statement after this line.
+        bank_account:
+          type: object
+          additionalProperties: false
+          required: [id, name]
+          properties:
+            id: { type: integer }
+            name: { type: string }
+        counterparty:
+          allOf: [{ $ref: "#/components/schemas/Counterparty" }]
+          nullable: true
+          description: Who the money went to or came from; null while unresolved or in review.
+        merchant:
+          allOf: [{ $ref: "#/components/schemas/Merchant" }]
+          nullable: true
+        needs_review:
+          type: boolean
+          description: Nobody could resolve it; it is in the review queue.
+
+    Counterparty:
+      type: string
+      enum: [merchant, person, bank, cash]
+
+    Merchant:
+      type: object
+      additionalProperties: false
+      required: [id, slug, name, category]
+      properties:
+        id: { type: integer }
+        slug: { type: string, example: netflix }
+        name: { type: string, example: Netflix }
+        category:
+          type: string
+          enum: [streaming, music, software, cloud_storage, news, fitness, education, food_delivery, groceries,
+            shopping, transport, travel, fuel, telecom, internet, dth, utilities, insurance, investment, loan,
+            credit_card, rent, healthcare, wallet, other]
+
+    SeriesSummary:
+      type: object
+      additionalProperties: false
+      required: [id, merchant, cadence, status, amount_paise, monthly_cost_paise, first_charged_on,
+        last_charged_on, next_expected_on, charges_count]
+      properties:
+        id: { type: integer }
+        merchant: { $ref: "#/components/schemas/Merchant" }
+        cadence: { $ref: "#/components/schemas/Cadence" }
+        status: { type: string, enum: [active, ended] }
+        amount_paise: { type: integer, format: int64, description: The latest price per charge. }
+        monthly_cost_paise: { type: integer, format: int64 }
+        first_charged_on: { type: string, format: date }
+        last_charged_on: { type: string, format: date }
+        next_expected_on: { type: string, format: date }
+        charges_count: { type: integer }
+
+    Cadence:
+      type: string
+      enum: [weekly, monthly, quarterly, half_yearly, annual]
+
+    Finding:
+      type: object
+      additionalProperties: false
+      required: [id, kind, dismissed, amount_paise, monthly_cost_paise, previous_amount_paise, step_charge,
+        series, related_series]
+      properties:
+        id: { type: integer }
+        kind:
+          type: string
+          enum: [subscription, price_increase, duplicate]
+          description: |
+            subscription: an active subscription. price_increase: its price
+            stepped up (step_charge is the first charge at the new price).
+            duplicate: a second subscription at the same merchant
+            (related_series is the first one).
+        dismissed: { type: boolean, description: The household marked it as fine. }
+        amount_paise: { type: integer, format: int64 }
+        monthly_cost_paise: { type: integer, format: int64 }
+        previous_amount_paise: { type: integer, format: int64, nullable: true }
+        step_charge:
+          type: object
+          nullable: true
+          additionalProperties: false
+          required: [id, posted_on, charged_paise]
+          properties:
+            id: { type: integer, description: The bank transaction. }
+            posted_on: { type: string, format: date }
+            charged_paise: { type: integer, format: int64 }
+        series: { $ref: "#/components/schemas/SeriesSummary" }
+        related_series:
+          allOf: [{ $ref: "#/components/schemas/SeriesSummary" }]
+          nullable: true
+
+    SeriesDetail:
+      type: object
+      additionalProperties: false
+      required: [id, merchant, cadence, status, amount_paise, monthly_cost_paise, first_charged_on,
+        last_charged_on, next_expected_on, charges_count, flagged, findings, charges]
+      properties:
+        id: { type: integer }
+        merchant: { $ref: "#/components/schemas/Merchant" }
+        cadence: { $ref: "#/components/schemas/Cadence" }
+        status: { type: string, enum: [active, ended] }
+        amount_paise: { type: integer, format: int64 }
+        monthly_cost_paise: { type: integer, format: int64 }
+        first_charged_on: { type: string, format: date }
+        last_charged_on: { type: string, format: date }
+        next_expected_on: { type: string, format: date }
+        charges_count: { type: integer }
+        flagged:
+          type: boolean
+          description: False for commitments (SIPs, EMIs, rent, insurance, utilities, card bills).
+        findings:
+          type: array
+          items: { $ref: "#/components/schemas/Finding" }
+        charges:
+          type: array
+          items: { $ref: "#/components/schemas/SeriesCharge" }
+
+    SeriesCharge:
+      type: object
+      additionalProperties: false
+      required: [id, posted_on, charged_paise, level, price_step, narration]
+      properties:
+        id: { type: integer, description: The bank transaction. }
+        posted_on: { type: string, format: date }
+        charged_paise: { type: integer, format: int64, description: Amount debited, positive. }
+        level: { type: integer, description: "Price level: 0, then 1 after the first price step, and so on." }
+        price_step: { type: boolean, description: The first charge at a new, higher price. }
+        narration: { type: string }
+
+    ReviewItem:
+      type: object
+      additionalProperties: false
+      required: [id, posted_on, narration, amount_paise, payee, upi_id, reason, bank_account]
+      properties:
+        id: { type: integer, description: The bank transaction. }
+        posted_on: { type: string, format: date }
+        narration: { type: string }
+        amount_paise: { type: integer, format: int64 }
+        payee: { type: string, nullable: true, description: Payee name read from the narration. }
+        upi_id: { type: string, nullable: true }
+        reason: { type: string, nullable: true, description: Why it couldn't be resolved. }
         bank_account:
           type: object
           additionalProperties: false

@@ -1,7 +1,23 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { listTransactions } from "../api/client";
+import { type BankTransaction, listTransactions } from "../api/client";
 import { formatPlainDate } from "../lib/dates";
 import { formatRupees, formatSignedRupees } from "../lib/money";
+import { href } from "../lib/router";
+
+function Who({ transaction }: { transaction: BankTransaction }) {
+  if (transaction.merchant) return <>{transaction.merchant.name}</>;
+  if (transaction.needs_review) return <a href={href({ name: "review" })}>Needs review</a>;
+  switch (transaction.counterparty) {
+    case "person":
+      return <>A person</>;
+    case "bank":
+      return <>Bank</>;
+    case "cash":
+      return <>Cash</>;
+    default:
+      return <span className="hint">Not known yet</span>;
+  }
+}
 
 export function TransactionsTable() {
   const query = useInfiniteQuery({
@@ -14,8 +30,7 @@ export function TransactionsTable() {
   const rows = query.data?.pages.flatMap((page) => page.bank_transactions) ?? [];
 
   return (
-    <section aria-labelledby="transactions-heading">
-      <h2 id="transactions-heading">Transactions</h2>
+    <>
       {query.isPending ? (
         <p role="status">Loading transactions…</p>
       ) : query.isError ? (
@@ -38,6 +53,7 @@ export function TransactionsTable() {
                 <tr>
                   <th scope="col">Date</th>
                   <th scope="col">Details</th>
+                  <th scope="col">Paid to / from</th>
                   <th scope="col" className="num">
                     Amount
                   </th>
@@ -51,6 +67,9 @@ export function TransactionsTable() {
                   <tr key={t.id}>
                     <th scope="row">{formatPlainDate(t.posted_on)}</th>
                     <td className="details">{t.narration}</td>
+                    <td>
+                      <Who transaction={t} />
+                    </td>
                     <td className={`num ${t.amount_paise > 0 ? "money-in" : "money-out"}`}>
                       <span className="visually-hidden">
                         {t.amount_paise > 0 ? "Money in: " : "Money out: "}
@@ -81,6 +100,6 @@ export function TransactionsTable() {
           </p>
         </>
       )}
-    </section>
+    </>
   );
 }

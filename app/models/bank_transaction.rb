@@ -10,9 +10,11 @@ class BankTransaction < ApplicationRecord
 
   enum :counterparty, { merchant: "merchant", person: "person", bank: "bank", cash: "cash" },
     prefix: :counterparty, validate: { allow_nil: true }
-  enum :resolution, %w[ vpa_alias name_alias trigram rule llm abstained ].index_with(&:itself),
+  enum :resolution, %w[ vpa_alias name_alias trigram rule llm manual abstained ].index_with(&:itself),
     prefix: :resolved_by, validate: { allow_nil: true }
 
+  # Rows nobody could resolve: the review queue. "manual" rows were
+  # resolved there by the household.
   scope :needs_review, -> { where(resolution: "abstained") }
 
   encrypts :narration

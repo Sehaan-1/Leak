@@ -4,7 +4,9 @@ import userEvent from "@testing-library/user-event";
 import { App } from "../App";
 import { createQueryClient } from "../queryClient";
 
-export function renderApp() {
+/** Renders the whole app at a hash route ("#/review"); the default is the findings screen. */
+export function renderApp(route = "") {
+  window.location.hash = route;
   const user = userEvent.setup();
   const client = createQueryClient();
   client.setDefaultOptions({ queries: { ...client.getDefaultOptions().queries, retry: false } });

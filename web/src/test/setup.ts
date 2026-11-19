@@ -30,9 +30,17 @@ CSS.supports = ((...args: [string] | [string, string]) =>
 const NodeFormData = (await new Response(new URLSearchParams()).formData()).constructor as typeof FormData;
 Object.assign(globalThis, { File: NodeFile, FormData: NodeFormData });
 
+// jsdom has no layout, so no ResizeObserver; charts only need it to exist.
+globalThis.ResizeObserver ??= class {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};
+
 beforeAll(() => server.listen({ onUnhandledFrame: "error" }));
 afterEach(() => {
   cleanup();
   server.resetHandlers();
+  window.location.hash = "";
 });
 afterAll(() => server.close());

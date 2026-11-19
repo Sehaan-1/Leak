@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { type FormEvent, useRef, useState } from "react";
 import { signIn } from "../api/client";
 import { useFieldErrors } from "../lib/fieldErrors";
+import { useTitle } from "../lib/title";
 import { PageHeading } from "./Heading";
 
 export function SignIn({ focusHeading }: { focusHeading: boolean }) {
@@ -9,6 +10,7 @@ export function SignIn({ focusHeading }: { focusHeading: boolean }) {
   const formRef = useRef<HTMLFormElement>(null);
   useFieldErrors(formRef);
   const [showPassword, setShowPassword] = useState(false);
+  useTitle("Sign in");
 
   const mutation = useMutation({
     mutationFn: (credentials: { email: string; password: string }) =>

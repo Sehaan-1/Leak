@@ -37,4 +37,6 @@
 
 # Frontend (web/): dependencies and the Vite build Rails serves in production.
 /web/node_modules/
+/web/test-results/
+/web/playwright-report/
 /public/spa/

@@ -18,7 +18,7 @@ async function chooseAndSubmit(user: UserEvent) {
 }
 
 describe("sign-in", () => {
-  it("signs in with the CSRF token, then shows the household's transactions", async () => {
+  it("signs in with the CSRF token, then shows the household's subscriptions", async () => {
     let signedIn = false;
     let sent: { body: unknown; csrf: string | null } | undefined;
     server.use(
@@ -46,13 +46,14 @@ describe("sign-in", () => {
     await user.type(password, "correct horse battery");
     await user.click(screen.getByRole("button", { name: "Sign in" }));
 
-    const heading = await screen.findByRole("heading", { level: 1, name: "Sharma household" });
+    const heading = await screen.findByRole("heading", { level: 1, name: "Your subscriptions" });
     await waitFor(() => expect(heading).toHaveFocus());
+    expect(screen.getByText(/Sharma household/)).toBeInTheDocument();
     expect(sent).toEqual({
       body: { session: { email_address: "asha@example.com", password: "correct horse battery" } },
       csrf: "test-csrf-token",
     });
-    expect(await screen.findByRole("table")).toBeInTheDocument();
+    expect(await screen.findByRole("table", { name: /Active subscriptions/ })).toBeInTheDocument();
   });
 
   it("announces wrong credentials", async () => {
@@ -105,8 +106,8 @@ describe("sign-in", () => {
 });
 
 describe("transactions", () => {
-  it("lists statement lines with dates, signed amounts and balances in rupees", async () => {
-    renderApp();
+  it("lists statement lines with dates, who they were with, signed amounts and balances", async () => {
+    renderApp("#/transactions");
 
     const table = await screen.findByRole("table", { name: "Bank transactions, newest first" });
     const [header, newest, oldest] = within(table).getAllByRole("row");
@@ -114,12 +115,17 @@ describe("transactions", () => {
       within(header as HTMLElement)
         .getAllByRole("columnheader")
         .map((th) => th.textContent),
-    ).toEqual(["Date", "Details", "Amount", "Balance"]);
+    ).toEqual(["Date", "Details", "Paid to / from", "Amount", "Balance"]);
     expect(within(newest as HTMLElement).getByRole("rowheader")).toHaveTextContent("15 Nov 2026");
     expect(newest).toHaveTextContent("FRESH HARVEST");
     expect(newest).toHaveTextContent("Money out: -₹1,825.00");
     expect(newest).toHaveTextContent("₹24,850.75");
+    expect(within(newest as HTMLElement).getByRole("link", { name: "Needs review" })).toHaveAttribute(
+      "href",
+      "#/review",
+    );
     expect(oldest).toHaveTextContent("Money in: +₹15,000.00");
+    expect(oldest).toHaveTextContent("A person");
     expect(screen.getByText(/Showing 2 transactions \(all of them\)/)).toBeInTheDocument();
     // The scroll container is keyboard-reachable and named.
     expect(screen.getByRole("region", { name: "Bank transactions, newest first" })).toHaveAttribute(
@@ -140,7 +146,7 @@ describe("transactions", () => {
           : HttpResponse.json({ bank_transactions: transactions, next_page: 2 });
       }),
     );
-    const { user } = renderApp();
+    const { user } = renderApp("#/transactions");
 
     await user.click(await screen.findByRole("button", { name: "Show older transactions" }));
 
@@ -155,19 +161,19 @@ describe("transactions", () => {
         HttpResponse.json({ bank_transactions: [], next_page: null }),
       ),
     );
-    renderApp();
+    renderApp("#/transactions");
     expect(await screen.findByText(/No transactions yet/)).toBeInTheDocument();
   });
 });
 
 describe("statement upload", () => {
-  it("uploads the PDF as multipart with the CSRF token and refreshes the list", async () => {
+  it("uploads the PDF as multipart with the CSRF token and refreshes the lists", async () => {
     let upload: { file: FormDataEntryValue | null; csrf: string | null } | undefined;
     let listed = 0;
     server.use(
-      http.get("/api/v1/bank_transactions", () => {
+      http.get("/api/v1/statement_imports", () => {
         listed += 1;
-        return HttpResponse.json({ bank_transactions: transactions, next_page: null });
+        return HttpResponse.json({ statement_imports: listed > 1 ? [importedStatement] : [] });
       }),
       http.post("/api/v1/statement_imports", async ({ request }) => {
         const form = await request.formData();
@@ -175,7 +181,7 @@ describe("statement upload", () => {
         return HttpResponse.json(importedStatement, { status: 201 });
       }),
     );
-    const { user } = renderApp();
+    const { user } = renderApp("#/import");
 
     await chooseAndSubmit(user);
 
@@ -185,13 +191,16 @@ describe("statement upload", () => {
     expect(upload?.csrf).toBe("test-csrf-token");
     expect(upload?.file).toMatchObject({ name: "statement.pdf", type: "application/pdf", size: 15 });
     await waitFor(() => expect(listed).toBe(2));
+    expect(await screen.findByRole("table", { name: /Statements you've imported/ })).toHaveTextContent(
+      "Imported 7 new of 7 transactions",
+    );
   });
 
   it("says so when the statement was already imported", async () => {
     server.use(
       http.post("/api/v1/statement_imports", () => HttpResponse.json(importedStatement, { status: 200 })),
     );
-    const { user } = renderApp();
+    const { user } = renderApp("#/import");
 
     await chooseAndSubmit(user);
 
@@ -213,7 +222,7 @@ describe("statement upload", () => {
         ),
       ),
     );
-    const { user } = renderApp();
+    const { user } = renderApp("#/import");
 
     await chooseAndSubmit(user);
 
@@ -230,7 +239,7 @@ describe("statement upload", () => {
         return HttpResponse.json(importedStatement, { status: 201 });
       }),
     );
-    const { user } = renderApp();
+    const { user } = renderApp("#/import");
 
     const input = await screen.findByLabelText("SBI account statement (PDF)");
     await user.click(screen.getByRole("button", { name: "Import statement" }));
