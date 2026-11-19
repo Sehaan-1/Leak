@@ -10,10 +10,12 @@ module Merchants
   # catalogue name that starts the payee, or a payee truncated from a
   # catalogue name); the local part of a UPI ID; a pg_trgm similarity match
   # that clearly beats every other merchant. Two signals that disagree mean
-  # the resolver abstains rather than guesses: abstentions go to review (and,
-  # from slice 5, to the LLM resolver).
+  # the resolver abstains rather than guesses: abstentions go to the LLM
+  # resolver (Merchants::LlmResolver) and, if it can't decide, to review.
   class Resolver
-    Result = Data.define(:merchant, :counterparty, :via, :evidence) do
+    # model: which LLM gave the verdict (nil for rules).
+    Result = Data.define(:merchant, :counterparty, :via, :evidence, :model) do
+      def initialize(merchant:, counterparty:, via:, evidence:, model: nil) = super
       def abstained? = via == "abstained"
       def label = merchant&.slug || counterparty || "abstain"
     end
@@ -42,6 +44,12 @@ module Merchants
       SALES|RECHARGE|PARKING|SPORTS|CLOUD|STORAGE|POWER|SYSTEMS|MEDIA|NETWORK|STUDIO|LEARNING|HEALTH|CARE|GROUP/x
     # Card, NACH and bill-pay boilerplate before the merchant descriptor.
     DESCRIPTOR_START = /\A.*(?:\d{4,6}X{4,}\d{4}|ACH\s*DR\s*INW|ACHDR|NACH-?DR-?|NACH|ECS\s*DR|BILLPAY|BILL\s*PAY|BBPS|OTHPG|POS)[\s*\/\-]*/i
+
+    # A payee that reads like an individual's name: letters only, no business words.
+    def self.personal_name?(payee)
+      key = Text.key(payee)
+      key.match?(/\A[A-Z]{4,26}\z/) && !key.match?(BUSINESS)
+    end
 
     def initialize(household: nil)
       @household = household
@@ -183,10 +191,7 @@ module Merchants
         Hit.new(best_id, "trigram", format("%s resembles a catalogue name (similarity %.2f)", key, best), 0)
       end
 
-      def personal_name?(payee)
-        key = Text.key(payee)
-        key.match?(/\A[A-Z]{4,26}\z/) && !key.match?(BUSINESS)
-      end
+      def personal_name?(payee) = self.class.personal_name?(payee)
 
       # Small shops also have plain names, so a person needs a personal UPI
       # ID too: a phone number, or a consumer-app ID that shares four letters

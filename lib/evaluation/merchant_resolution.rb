@@ -48,11 +48,19 @@ module Evaluation
       @resolver = resolver
     end
 
+    # A resolver with resolve_many (Merchants::LlmResolver) gets every
+    # narration at once, so it can batch its LLM requests.
     def rows
-      @rows ||= @examples.map do |example|
-        result = @resolver.resolve(example.fetch(:narration), amount_paise: example[:amount_paise])
-        Row.new(**example.slice(:id, :narration, :amount_paise, :label, :channel).merge(noise: Array(example[:noise])),
-          predicted: result.label, via: result.via, evidence: result.evidence)
+      @rows ||= begin
+        results = if @resolver.respond_to?(:resolve_many)
+          @resolver.resolve_many(@examples.map { |example| example.fetch(:narration) })
+        else
+          @examples.map { |example| @resolver.resolve(example.fetch(:narration), amount_paise: example[:amount_paise]) }
+        end
+        @examples.zip(results).map do |example, result|
+          Row.new(**example.slice(:id, :narration, :amount_paise, :label, :channel).merge(noise: Array(example[:noise])),
+            predicted: result.label, via: result.via, evidence: result.evidence)
+        end
       end
     end
 
@@ -102,6 +110,41 @@ module Evaluation
         failures
       end
 
+      # Correct answers minus `cost` per wrong answer: abstaining scores 0,
+      # so answering only pays when the answers are right often enough.
+      def net_score(group = rows, cost:)
+        answered = group.select(&:answered?)
+        answered.count(&:correct?) - cost * answered.count { |row| !row.correct? }
+      end
+
+      # Rules + LLM must beat rules only on the same rows (config/eval.yml llm_gate).
+      def beat_failures(baseline, gate)
+        cost = gate.fetch("wrong_answer_cost")
+        failures = []
+        accuracy = merchant[:accuracy]
+        if accuracy[:low].nil? || accuracy[:low] < gate.fetch("merchant_accuracy_low")
+          failures << "merchant accuracy 95% lower bound #{pct(accuracy[:low])} < #{pct(gate["merchant_accuracy_low"])}"
+        end
+        if merchant[:answered] < baseline.merchant[:answered]
+          failures << "answers fewer business rows (#{merchant[:answered]}) than rules only (#{baseline.merchant[:answered]})"
+        end
+        business = net_score(rows.select(&:business?), cost: cost)
+        base_business = baseline.net_score(baseline.rows.select(&:business?), cost: cost)
+        if business < base_business
+          failures << "business-row net score #{business} < rules only #{base_business} (a wrong answer costs #{cost})"
+        end
+        overall = net_score(cost: cost)
+        base_overall = baseline.net_score(cost: cost)
+        failures << "net score #{overall} doesn't beat rules only (#{base_overall}; a wrong answer costs #{cost})" if overall <= base_overall
+        failures
+      end
+
+      def comparison_line(baseline, cost:)
+        gained = rows.zip(baseline.rows).select { |row, base| row.answered? && !base.answered? }.map(&:first)
+        "vs rules only: #{gained.size} more answered (#{gained.count(&:correct?)} correct, #{gained.count { |row| !row.correct? }} wrong); " \
+          "net score #{net_score(cost: cost)} vs #{baseline.net_score(cost: cost)} (a wrong answer costs #{cost})"
+      end
+
       def to_h
         { rows: rows.size, merchant: merchant, overall: overall, catalogue_recall: catalogue_recall,
           by_channel: by_channel, by_method: by_method, errors: errors.size, abstentions: abstentions.size }
@@ -135,6 +178,8 @@ module Evaluation
         list.map { |row| "#{row.id} [#{row.channel}] #{row.label}: #{row.evidence} | #{row.narration}" }
       end
 
+      def pct(value) = value.nil? ? "n/a" : format("%.1f%%", value * 100)
+
       private
         def scores(group)
           answered = group.select(&:answered?)
@@ -147,8 +192,6 @@ module Evaluation
           return "n/a" if score[:value].nil?
           "#{pct(score[:value])} [#{pct(score[:low])}, #{pct(score[:high])}]"
         end
-
-        def pct(value) = value.nil? ? "n/a" : format("%.1f%%", value * 100)
     end
   end
 end

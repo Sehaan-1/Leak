@@ -38,7 +38,7 @@ module Statements
       text = yield
       statement = Statements.parser_for(text).parse(text)
       opening = Reconciler.check!(statement)
-      post(statement, opening)
+      post(statement, opening).tap { Merchants::LlmResolutionJob.enqueue_for(household) }
     rescue Statements::Error => error
       reject(error)
     end
@@ -89,7 +89,8 @@ module Statements
         true
       end
 
-      # Rules-only merchant resolution; rows it can't decide go to review.
+      # Rules resolve rows as they're posted; rows they can't decide go to
+      # review, and to the LLM resolver once the import commits.
       def resolver
         @resolver ||= Merchants::Resolver.new(household: household)
       end

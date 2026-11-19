@@ -112,11 +112,14 @@ jobs:
             exit 1
           }
 
-      # Rules-only merchant resolution on the frozen golden set; fails below
-      # the gate in config/eval.yml. Scores go to the job summary.
-      - name: Merchant resolution eval (golden gate)
+      # Merchant resolution on the frozen golden set: rules only must clear
+      # the gate in config/eval.yml, and rules + LLM (recorded replies, no
+      # network) must beat rules only. Scores go to the job summary. The
+      # live LLM eval is .github/workflows/llm-eval.yml.
+      - name: Merchant resolution eval (golden gate, rules + LLM replay)
         env:
           RAILS_ENV: test
+          LLM_EVAL: replay
         run: bin/rails 'leak:eval:merchants[golden]'
 
       - name: Upload eval report

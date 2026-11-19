@@ -1,0 +1,85 @@
+# The LLM merchant resolver (Merchants::LlmResolver, ADR 0008). It sees
+# only rows the rules abstained on, and only the narration (digit runs and
+# phone numbers masked). Its answers count only if the validators accept
+# them; everything else goes to the review queue.
+#
+# Choosing a provider (first match wins; see Merchants::Llm.client):
+#   1. LLM_PROVIDER (or credentials llm.provider): any key below, or "none".
+#      LLM_BASE_URL alone means "custom": any OpenAI-compatible endpoint.
+#   2. A coding agent installed on this machine: agy (Antigravity), then
+#      opencode. They use whatever model and login you set up in them.
+#   3. GEMINI_API_KEY (free tier at aistudio.google.com), then
+#      NVIDIA_API_KEY (build.nvidia.com).
+#   4. Nothing: the LLM step is skipped and abstentions go to review.
+# The test environment only uses step 1, so specs never call out.
+#
+# Overrides for any HTTP provider: LLM_API_KEY, LLM_MODEL, LLM_BASE_URL,
+# LLM_RESPONSE_FORMAT (json_schema | json_object | none). Keys belong in the
+# environment or `bin/rails credentials:edit` (llm: { provider:, api_key:,
+# model:, base_url: }), never in this file.
+#
+# Privacy: free tiers (Gemini's especially) may use what you send to train
+# models. Real narrations name people you pay; use a paid tier, a local
+# model (ollama) or your own agent for real statements.
+
+resolver:
+  prompt_version: merchant-v1
+  batch_size: 20
+  # Answers below this self-reported confidence go to review.
+  min_confidence: 0.7
+  # A merchant answer must be the best trigram match for its evidence among
+  # all merchants, and at least this similar (rules alone need 0.5 and a
+  # 0.15 margin; see Merchants::Llm::Validator).
+  min_evidence_similarity: 0.3
+  timeout_seconds: 90
+  max_attempts: 4
+
+auto_order: [custom, agy, opencode, gemini, nvidia]
+
+providers:
+  custom:
+    # Any OpenAI-compatible endpoint: LLM_BASE_URL, LLM_MODEL, and
+    # LLM_API_KEY if it needs one.
+    kind: http
+    response_format: json_object
+  gemini:
+    kind: http
+    base_url: https://generativelanguage.googleapis.com/v1beta/openai
+    api_key_env: GEMINI_API_KEY
+    model: gemini-3.5-flash-lite
+    response_format: json_schema
+  nvidia:
+    kind: http
+    base_url: https://integrate.api.nvidia.com/v1
+    api_key_env: NVIDIA_API_KEY
+    model: google/gemma-4-31b-it
+    response_format: json_object
+  openai:
+    kind: http
+    base_url: https://api.openai.com/v1
+    api_key_env: OPENAI_API_KEY
+    model: gpt-4.1-mini
+    response_format: json_schema
+  openrouter:
+    kind: http
+    base_url: https://openrouter.ai/api/v1
+    api_key_env: OPENROUTER_API_KEY
+    model: openai/gpt-4.1-mini
+    response_format: json_schema
+  groq:
+    kind: http
+    base_url: https://api.groq.com/openai/v1
+    api_key_env: GROQ_API_KEY
+    model: llama-3.3-70b-versatile
+    response_format: json_object
+  ollama:
+    # Local models: nothing leaves the machine. Set LLM_MODEL.
+    kind: http
+    base_url: http://localhost:11434/v1
+    response_format: json_schema
+  agy:
+    kind: cli
+    command: agy
+  opencode:
+    kind: cli
+    command: opencode

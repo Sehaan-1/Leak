@@ -37,4 +37,17 @@ RSpec.describe "bank_transactions resolution constraints" do
     expect { set!(merchant_id: nil, counterparty: "bank", resolution: "rule", resolved_at: nil) }
       .to raise_error(ActiveRecord::StatementInvalid, /resolution_consistent/)
   end
+
+  it "accepts an LLM verdict" do
+    expect { set!(merchant_id: merchant.id, counterparty: "merchant", resolution: "llm", resolved_at: Time.current, resolution_model: "m") }
+      .not_to raise_error
+  end
+
+  it "keeps a merchant that transactions point at" do
+    set!(merchant_id: merchant.id, counterparty: "merchant", resolution: "name_alias", resolved_at: Time.current)
+    expect(merchant.destroy).to be(false)
+    expect(merchant.errors.full_messages.join).to match(/bank transactions/i)
+    expect { BankTransaction.transaction(requires_new: true) { Merchant.where(id: merchant.id).delete_all } }
+      .to raise_error(ActiveRecord::StatementInvalid, /RestrictViolation/)
+  end
 end
