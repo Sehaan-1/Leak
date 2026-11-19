@@ -21,7 +21,7 @@ RSpec.describe Merchants::LlmResolutionJob do
     fake = FakeLlm.new { |row| { "id" => row["id"], "label" => "hdfc_life", "confidence" => 0.9, "evidence" => "HDFC STANDARD LIFE" } }
     allow(Merchants::Llm).to receive(:client).and_return(fake)
 
-    described_class.perform_now(household.id)
+    expect { described_class.perform_now(household.id) }.to have_enqueued_job(Detection::RunJob).with(household.id)
     expect(household.bank_transactions.where(resolution: "llm").sole.merchant.slug).to eq("hdfc_life")
   end
 end

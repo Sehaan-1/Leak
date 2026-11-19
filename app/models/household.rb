@@ -5,6 +5,9 @@ class Household < ApplicationRecord
   has_many :bank_accounts, dependent: :delete_all
   has_many :statement_imports, dependent: :delete_all
   has_many :bank_transactions, dependent: :delete_all
+  # Rebuilt by Detection::Run; deleting the household cascades in the database.
+  has_many :recurring_series, class_name: "RecurringSeries", dependent: :delete_all
+  has_many :findings, dependent: :delete_all
 
   validates :name, presence: true
 

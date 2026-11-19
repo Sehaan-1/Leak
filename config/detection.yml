@@ -1,0 +1,67 @@
+# Recurring-charge detection (Detection::Engine, ADR 0009).
+#
+# A series is a merchant's charges repeating on one cadence, at one price
+# (following small drift, e.g. a USD price converted to rupees), possibly
+# with price steps. Days are calendar days.
+
+# Tried in this order, so a charge is claimed by the most common cadence
+# first and a weekly chain can't zigzag between two monthly subscriptions.
+cadences:
+  # period: average days between charges; tolerance: how far a charge may
+  # land from its expected date; min_charges: how many make a series.
+  monthly:     { period: 30.44,  tolerance: 5,  min_charges: 3 }
+  quarterly:   { period: 91.31,  tolerance: 10, min_charges: 3 }
+  half_yearly: { period: 182.62, tolerance: 15, min_charges: 3 }
+  annual:      { period: 365.25, tolerance: 20, min_charges: 2 }
+  weekly:      { period: 7,      tolerance: 2,  min_charges: 4 }
+
+# The next charge may differ from the last by this much and stay at the
+# same price level (USD subscriptions drift with the exchange rate).
+amount_drift: 0.06
+
+# A price that has repeated exactly must stay exact; one that has been
+# moving may drift by amount_drift. A price step: the first charge at a
+# new price, where expected, at
+# min_step_ratio..max_step_ratio of the old price, confirmed by at least one
+# more charge at the new price on cadence.
+min_step_ratio: 0.5
+max_step_ratio: 4.0
+
+# Charges at or below this are mandate set-ups and card verifications
+# (UPI AutoPay debits ₹1 to register a mandate), never subscription charges.
+mandate_max_paise: 200
+
+# A credit at the same merchant for exactly a charge's amount, within this
+# many days after it, refunds that charge: neither counts.
+refund_window_days: 45
+
+# A chain is coincidence when the merchant's other charges at the same
+# price (a commute fare, the usual meal, an in-app purchase) would form one
+# like it by chance this often: the expected number of such chains, from
+# their daily rate and each step's tolerance window (Engine#coincidence?).
+coincidence_alpha: 0.001
+
+# Merchants where people mostly buy things (orders, rides, fuel): purchases
+# at a repeated price can line up by chance, so a series there needs more
+# charges at exactly one price (exact_drift, no price steps), each within
+# `tolerance` days of the expected date with no missed periods, monthly
+# only (two purchases a year apart prove nothing), and passing the
+# coincidence test.
+noisy:
+  categories: [ shopping, groceries, transport, travel, fuel, food_delivery, healthcare, wallet, other ]
+  min_charges: 4
+  exact_drift: 0.01
+  tolerance: 3
+  cadences: [ monthly ]
+
+# App stores bill subscriptions next to one-off in-app purchases at the same
+# price points: exact prices and monthly only, but the usual tolerances,
+# missed periods and price steps.
+app_stores:
+  merchants: [ google_play, apple ]
+  min_charges: 4
+  exact_drift: 0.01
+  cadences: [ monthly ]
+
+# Recurring by nature and not a leak: shown as commitments, never flagged.
+commitment_categories: [ investment, loan, insurance, rent, utilities, credit_card ]

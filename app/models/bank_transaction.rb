@@ -6,6 +6,7 @@ class BankTransaction < ApplicationRecord
   belongs_to :statement_import
   belongs_to :journal_entry
   belongs_to :merchant, optional: true
+  has_one :series_charge, class_name: "RecurringSeriesCharge"
 
   enum :counterparty, { merchant: "merchant", person: "person", bank: "bank", cash: "cash" },
     prefix: :counterparty, validate: { allow_nil: true }

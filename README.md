@@ -5,15 +5,17 @@ bank account, from the statements the household already has.
 
 Built for one real user (an SBI account holder) and evaluated like a product:
 every number on the dashboard traces back to ledger rows, and the merchant
-resolver is gated in CI against a frozen, hand-reviewed (synthetic) golden set.
+resolver and the detection engine are gated in CI against frozen synthetic
+golden sets.
 
-> **Status: slice 5 of the build.** A double-entry ledger whose invariants
+> **Status: slice 6 of the build.** A double-entry ledger whose invariants
 > are enforced by PostgreSQL, SBI PDF statement import that only accepts
 > statements that reconcile to the paisa, a bare React app to sign in,
 > upload a statement and list its transactions, a rules merchant resolver
-> with an eval gate in CI, and an LLM resolver (any provider) for what the
-> rules can't decide, behind validators. Detection and the real dashboard
-> come in later slices (see [Roadmap](#roadmap)).
+> with an eval gate in CI, an LLM resolver (any provider) for what the
+> rules can't decide, behind validators, and a detection engine that finds
+> subscriptions, price increases and second subscriptions, gated in CI on
+> false flags. The real screens come next (see [Roadmap](#roadmap)).
 
 ## Ledger invariants
 
@@ -110,6 +112,29 @@ LLM_EVAL=record LLM_PROVIDER=gemini bin/rails 'leak:eval:merchants[golden]'   # 
 
 **LLM eval.** PR CI replays recorded replies (`LLM_EVAL=replay`, offline). On golden, rules + LLM must keep the 95% accuracy floor and beat rules only on net score (correct − 3 × wrong). [`llm-eval.yml`](.github/workflows/llm-eval.yml) runs the live model on PRs that touch the prompt, resolver or catalogue, nightly, and on demand (`record=true` commits fresh recordings). **Not yet enforced:** no provider secret is set, so the live eval is skipped and no recordings exist yet. To turn it on, add a `GEMINI_API_KEY` repository secret, then run `gh workflow run llm-eval.yml -f record=true`.
 
+## Detection
+
+```text
+merchant rows ──drop ₹1 mandates and refunded charges──▶ chains per merchant + cadence ──▶ series (price levels)
+                                                                                         ├──▶ commitments: SIP, EMI, rent, insurance, utilities, card bills (never flagged)
+                                                                                         └──▶ findings: subscription | price_increase | duplicate
+```
+
+- A chain repeatedly takes the charge closest to where the next one is due (±5 days monthly, one missed period allowed), at the same price. Rupee prices must repeat exactly; USD prices may drift 6% per charge.
+- A new price where the next charge was due, confirmed by a second charge, is a **price step**. A new price that was already being charged alongside is a **second subscription**.
+- Chains that the merchant's other same-price purchases could form by chance are rejected (the commute fare, the usual meal). Merchants where people mostly buy things need four exact, on-time monthly charges.
+- Every series is a list of ledger rows, and every price increase points at the first charge at the new price.
+- It runs after every import, and again after the LLM resolves rows. All thresholds are in [`config/detection.yml`](config/detection.yml).
+
+**Eval** ([details](eval/detection/README.md)): synthetic household histories with ground truth, full of decoys. The golden set is 100 households (50k transactions) and frozen; the dev set is 60 households. Baseline on golden: **0.06 false flags per 100 charges [0.04–0.08]**, series precision 97.9%, recall 95.7%, price increases 100% precision / 92% recall, duplicates 100% / 100%. CI gates every one of these, and flagging any commitment fails.
+
+```sh
+bin/rails 'leak:detect[demo@leak.test]'      # rebuild a household's series and findings
+bin/rails 'leak:eval:detection[golden]'      # gated eval; [dev] lists every miss
+```
+
+Details: [ADR 9](docs/adr/0009-recurring-charge-detection.md).
+
 ## Stack
 
 Ruby 4.0 · Rails 8.1 · PostgreSQL 18 · poppler (`pdftotext`) · RSpec · RuboCop (omakase) · Brakeman ·
@@ -172,6 +197,7 @@ Short ADRs live in [`docs/adr/`](docs/adr):
 6. [The SPA is served by Rails, built by Vite](docs/adr/0006-spa-served-by-rails.md)
 7. [Rules-first merchant resolution, measured on a frozen synthetic set](docs/adr/0007-rules-merchant-resolution.md)
 8. [LLM merchant resolution: any provider, grounded answers, replayed in CI](docs/adr/0008-llm-merchant-resolution.md)
+9. [Recurring-charge detection: explainable chains, decoys rejected by rule, measured by false flags](docs/adr/0009-recurring-charge-detection.md)
 
 ## Roadmap
 
@@ -186,7 +212,8 @@ One slice per PR, each leaving something demoable.
 4. **Alias table + rules resolver, synthetic generator, eval harness,
    baseline in CI**.
 5. **LLM resolver behind the router**, validators, replay fixtures, the eval
+   gate.
+6. **Detection engine**: cadence fitting, price steps, decoys, false-flag
    gate ← you are here.
-6. **Detection engine**: cadence fitting, price steps, decoys.
 7. **The four screens** and the Playwright test.
 8. **Deploy** (Kamal 2): public synthetic demo + private instance.
