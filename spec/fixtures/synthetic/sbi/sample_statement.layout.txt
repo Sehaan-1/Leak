@@ -1,0 +1,80 @@
+          STATE        BANK
+          Account Summary
+                                                   As on 19-11-2026                                   Welcome:
+                                                                                 Mr. AARAV VIKRAM SHARMA
+
+                                        STATEMENT OF ACCOUNT
+Mr. AARAV VIKRAM SHARMA                                    State Bank of India (Sample)
+Email: aarav.sharma.sample@example.com                     BIDHANNAGAR SECTOR V BRANCH
+FLAT 402, SILVER OAK RESIDENCY, SECTOR 14,                 PLOT EN-24, ELECTRONICS COMPLEX,
+SALT LAKE CITY, KOLKATA - 700064,                          SALT LAKE, KOLKATA - 700091
+WEST BENGAL, INDIA
+                                                             Branch Code          : 09482
+  Date of Statement      : 19-11-2026
+                                                             Branch Name          : BIDHANNAGAR SECTOR V
+  Clear Balance          : 24,850.75 CR
+                                                             Branch Email ID      : sbi.09482@example.bank
+  Uncleared Amount       : 0.00
+                                                             Branch Phone         : 033-23570000
+  +MOD Bal               : 0.00
+                                                             CIF Number           : 88492017463
+  Lien                   : 0.00
+                                                             Account Number       : 39481029475
+  Limit                  : 0.00
+                                                             Product              : SBCHQ-GEN-PUB-IND-INR
+  Monthly Avg Balance : 18,420.50
+                                                             IFSC Code            : SBIN0009482
+  Interest Rate          : 2.70 % p.a.
+                                                             Currency             : INR
+  Drawing Power          : 0.00
+                                                             Account Status       : OPEN
+  Account Open Date      : 14/06/2021
+                                                             CKYCR Number         : XXXXXXXXXX4821
+                                                             MICR Code            : 700002419
+                                                             Nominee Name         : MRS. KAVITA SHARMA
+                                     Statement From : 01-11-2026 to 19-11-2026
+
+ Value                                                                Ref No/
+ Date          Post Date Details                                      Cheque       Debit     Credit    Balance
+                                                                        No
+ 01/11/2026 01/11/2026 DEP TFR UPI/CR/630519482710/ANANYA                 -             - 15,000.00 27,450.25
+                       ROY/UTIB/ananya.roy@okaxis/Transfer
+                       0097738162095 AT 09482 BIDHANNAGAR
+ 01/11/2026 01/11/2026 WDL TFR UPI/DR/630528391044/METRO                  -      1,245.50         - 26,204.75
+                       MART/HDFC/metromart@hdfcbank/Grocerie
+                       s 0097696162090 AT 09482 BIDHANNAGAR
+ 02/11/2026 02/11/2026 WDL TFR UPI/DR/630645353602/ROHAN                  -       680.00          - 25,524.75
+                       DAS/ICIC/rohandas@icici/Dinner Split
+                       0097690162095 AT 09482 BIDHANNAGAR
+ 04/11/2026 04/11/2026 WDL TFR UPI/DR/630843833086/CLOUD                  -       199.00          - 25,325.75
+                       STORAGE/YESB/cloudpay@yesbank/Mand
+                       ate 0097692162094 AT 09482
+                       BIDHANNAGAR
+ 05/11/2026 05/11/2026 DEP TFR NEFT/UTR226309152102/TECH                  -             -   4,200.00 29,525.75
+                       SOLUTIONS PVT LTD/Reimbursement
+                       0020196526631 AT 09482 BIDHANNAGAR
+
+
+
+
+Statement of Account (Sample Data)                                                                    Page 1 of 2
+ Value                                                                             Ref No/
+ Date           Post Date Details                                                  Cheque          Debit       Credit     Balance
+                                                                                     No
+ 10/11/2026 10/11/2026 WDL TFR UPI/DR/631490281745/CITY                                -        2,850.00              - 26,675.75
+                       POWER
+                       CORP/SBIN/citypower@sbi/Electricity Bill
+                       0097699162088 AT 09482 BIDHANNAGAR
+ 15/11/2026 15/11/2026 WDL TFR UPI/DR/631954012938/FRESH                               -        1,825.00              - 24,850.75
+                       HARVEST/PUNB/freshharvest@pnb/Weekly
+                       Order 0097694162091 AT 09482
+                       BIDHANNAGAR
+
+* Sample/Fabricated Document for Illustrative Purposes Only. All account numbers, branch codes, balances, and transaction references
+shown above are fictitious.
+
+
+
+
+Statement of Account (Sample Data)                                                                                        Page 2 of 2
+

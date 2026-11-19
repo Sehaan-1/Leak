@@ -54,11 +54,12 @@ jobs:
       - uses: actions/checkout@v5
 
       # pg_dump/psql must match the server major version for structure.sql.
-      - name: PostgreSQL 18 client
+      # poppler-utils provides pdftotext for statement import.
+      - name: PostgreSQL 18 client and poppler
         run: |
-          sudo apt-get install -y -q postgresql-common
+          for i in 1 2 3; do sudo apt-get install -y -q postgresql-common && break || sleep 10; done
           sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
-          sudo apt-get install -y -q postgresql-client-18
+          for i in 1 2 3; do sudo apt-get install -y -q postgresql-client-18 poppler-utils && break || sleep 10; done
           echo "/usr/lib/postgresql/18/bin" >> "$GITHUB_PATH"
 
       - uses: ruby/setup-ruby@v1
@@ -75,6 +76,7 @@ jobs:
       - name: RSpec
         env:
           RAILS_ENV: test
+          REQUIRE_PDFTOTEXT: "1"
         run: |
           bin/rails db:test:prepare
           bundle exec rspec --format progress

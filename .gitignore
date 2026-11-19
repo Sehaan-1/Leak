@@ -18,6 +18,7 @@
 /public/assets
 /coverage
 /node_modules
+/vendor/bundle
 
 # Secrets: never commit keys. Production credentials are supplied at deploy time.
 /config/*.key

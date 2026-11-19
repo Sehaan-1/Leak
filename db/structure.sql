@@ -25,6 +25,25 @@ CREATE TYPE public.account_kind AS ENUM (
 
 
 --
+-- Name: bank_code; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.bank_code AS ENUM (
+    'sbi'
+);
+
+
+--
+-- Name: statement_import_status; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.statement_import_status AS ENUM (
+    'imported',
+    'rejected'
+);
+
+
+--
 -- Name: ledger_assert_entry_balanced(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -145,6 +164,85 @@ CREATE TABLE public.ar_internal_metadata (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
+
+
+--
+-- Name: bank_accounts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.bank_accounts (
+    id bigint NOT NULL,
+    household_id bigint NOT NULL,
+    account_id bigint NOT NULL,
+    bank public.bank_code NOT NULL,
+    number_last4 character varying(4) NOT NULL,
+    number_digest character varying NOT NULL,
+    opening_entry_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: bank_accounts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.bank_accounts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: bank_accounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.bank_accounts_id_seq OWNED BY public.bank_accounts.id;
+
+
+--
+-- Name: bank_transactions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.bank_transactions (
+    id bigint NOT NULL,
+    household_id bigint NOT NULL,
+    bank_account_id bigint NOT NULL,
+    statement_import_id bigint NOT NULL,
+    journal_entry_id bigint NOT NULL,
+    posted_on date NOT NULL,
+    value_on date NOT NULL,
+    narration text NOT NULL,
+    ref text,
+    amount_paise bigint NOT NULL,
+    balance_after_paise bigint NOT NULL,
+    fingerprint character varying(64) NOT NULL,
+    "position" integer NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    CONSTRAINT bank_transactions_amount_nonzero CHECK ((amount_paise <> 0))
+);
+
+
+--
+-- Name: bank_transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.bank_transactions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: bank_transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.bank_transactions_id_seq OWNED BY public.bank_transactions.id;
 
 
 --
@@ -288,6 +386,51 @@ ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
 
 
 --
+-- Name: statement_imports; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.statement_imports (
+    id bigint NOT NULL,
+    household_id bigint NOT NULL,
+    bank_account_id bigint,
+    status public.statement_import_status NOT NULL,
+    filename character varying NOT NULL,
+    file_sha256 character varying(64) NOT NULL,
+    period_from date,
+    period_to date,
+    opening_balance_paise bigint,
+    closing_balance_paise bigint,
+    rows_count integer DEFAULT 0 NOT NULL,
+    new_rows_count integer DEFAULT 0 NOT NULL,
+    error_message text,
+    error_line integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    CONSTRAINT statement_imports_imported_complete CHECK (((status <> 'imported'::public.statement_import_status) OR ((bank_account_id IS NOT NULL) AND (period_from IS NOT NULL) AND (period_to IS NOT NULL) AND (opening_balance_paise IS NOT NULL) AND (closing_balance_paise IS NOT NULL) AND (period_from <= period_to) AND (rows_count > 0)))),
+    CONSTRAINT statement_imports_rejected_has_reason CHECK (((status <> 'rejected'::public.statement_import_status) OR (error_message IS NOT NULL)))
+);
+
+
+--
+-- Name: statement_imports_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.statement_imports_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: statement_imports_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.statement_imports_id_seq OWNED BY public.statement_imports.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -328,6 +471,20 @@ ALTER TABLE ONLY public.accounts ALTER COLUMN id SET DEFAULT nextval('public.acc
 
 
 --
+-- Name: bank_accounts id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bank_accounts ALTER COLUMN id SET DEFAULT nextval('public.bank_accounts_id_seq'::regclass);
+
+
+--
+-- Name: bank_transactions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bank_transactions ALTER COLUMN id SET DEFAULT nextval('public.bank_transactions_id_seq'::regclass);
+
+
+--
 -- Name: households id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -356,6 +513,13 @@ ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.ses
 
 
 --
+-- Name: statement_imports id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.statement_imports ALTER COLUMN id SET DEFAULT nextval('public.statement_imports_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -376,6 +540,22 @@ ALTER TABLE ONLY public.accounts
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: bank_accounts bank_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bank_accounts
+    ADD CONSTRAINT bank_accounts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bank_transactions bank_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bank_transactions
+    ADD CONSTRAINT bank_transactions_pkey PRIMARY KEY (id);
 
 
 --
@@ -419,6 +599,14 @@ ALTER TABLE ONLY public.sessions
 
 
 --
+-- Name: statement_imports statement_imports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.statement_imports
+    ADD CONSTRAINT statement_imports_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -452,6 +640,69 @@ CREATE UNIQUE INDEX index_accounts_on_id_and_household_id ON public.accounts USI
 --
 
 CREATE UNIQUE INDEX index_accounts_one_suspense_per_household ON public.accounts USING btree (household_id) WHERE (kind = 'suspense'::public.account_kind);
+
+
+--
+-- Name: index_bank_accounts_on_account_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_bank_accounts_on_account_id ON public.bank_accounts USING btree (account_id);
+
+
+--
+-- Name: index_bank_accounts_on_household_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_bank_accounts_on_household_id ON public.bank_accounts USING btree (household_id);
+
+
+--
+-- Name: index_bank_accounts_on_household_id_and_number_digest; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_bank_accounts_on_household_id_and_number_digest ON public.bank_accounts USING btree (household_id, number_digest);
+
+
+--
+-- Name: index_bank_accounts_on_id_and_household_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_bank_accounts_on_id_and_household_id ON public.bank_accounts USING btree (id, household_id);
+
+
+--
+-- Name: index_bank_transactions_on_bank_account_id_and_posted_on; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_bank_transactions_on_bank_account_id_and_posted_on ON public.bank_transactions USING btree (bank_account_id, posted_on);
+
+
+--
+-- Name: index_bank_transactions_on_household_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_bank_transactions_on_household_id ON public.bank_transactions USING btree (household_id);
+
+
+--
+-- Name: index_bank_transactions_on_household_id_and_fingerprint; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_bank_transactions_on_household_id_and_fingerprint ON public.bank_transactions USING btree (household_id, fingerprint);
+
+
+--
+-- Name: index_bank_transactions_on_journal_entry_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_bank_transactions_on_journal_entry_id ON public.bank_transactions USING btree (journal_entry_id);
+
+
+--
+-- Name: index_bank_transactions_on_statement_import_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_bank_transactions_on_statement_import_id ON public.bank_transactions USING btree (statement_import_id);
 
 
 --
@@ -497,6 +748,27 @@ CREATE INDEX index_sessions_on_user_id ON public.sessions USING btree (user_id);
 
 
 --
+-- Name: index_statement_imports_on_bank_account_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_statement_imports_on_bank_account_id ON public.statement_imports USING btree (bank_account_id);
+
+
+--
+-- Name: index_statement_imports_on_household_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_statement_imports_on_household_id ON public.statement_imports USING btree (household_id);
+
+
+--
+-- Name: index_statement_imports_one_import_per_file; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_statement_imports_one_import_per_file ON public.statement_imports USING btree (household_id, file_sha256) WHERE (status = 'imported'::public.statement_import_status);
+
+
+--
 -- Name: index_users_on_email_address; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -529,6 +801,22 @@ CREATE TRIGGER postings_append_only BEFORE UPDATE ON public.postings FOR EACH RO
 --
 
 CREATE CONSTRAINT TRIGGER postings_balanced AFTER INSERT OR DELETE OR UPDATE ON public.postings DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION public.ledger_assert_entry_balanced();
+
+
+--
+-- Name: bank_accounts fk_bank_accounts_ledger_account_same_household; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bank_accounts
+    ADD CONSTRAINT fk_bank_accounts_ledger_account_same_household FOREIGN KEY (account_id, household_id) REFERENCES public.accounts(id, household_id);
+
+
+--
+-- Name: bank_transactions fk_bank_transactions_bank_account_same_household; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bank_transactions
+    ADD CONSTRAINT fk_bank_transactions_bank_account_same_household FOREIGN KEY (bank_account_id, household_id) REFERENCES public.bank_accounts(id, household_id) ON DELETE CASCADE;
 
 
 --
@@ -580,11 +868,67 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: bank_transactions fk_rails_5ba320f84d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bank_transactions
+    ADD CONSTRAINT fk_rails_5ba320f84d FOREIGN KEY (journal_entry_id) REFERENCES public.journal_entries(id) ON DELETE CASCADE;
+
+
+--
 -- Name: sessions fk_rails_758836b4f0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT fk_rails_758836b4f0 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: bank_transactions fk_rails_c936dd1763; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bank_transactions
+    ADD CONSTRAINT fk_rails_c936dd1763 FOREIGN KEY (household_id) REFERENCES public.households(id) ON DELETE CASCADE;
+
+
+--
+-- Name: statement_imports fk_rails_d1ca72f65e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.statement_imports
+    ADD CONSTRAINT fk_rails_d1ca72f65e FOREIGN KEY (household_id) REFERENCES public.households(id) ON DELETE CASCADE;
+
+
+--
+-- Name: bank_accounts fk_rails_d46090d5ac; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bank_accounts
+    ADD CONSTRAINT fk_rails_d46090d5ac FOREIGN KEY (opening_entry_id) REFERENCES public.journal_entries(id) ON DELETE SET NULL;
+
+
+--
+-- Name: bank_transactions fk_rails_e25abd14db; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bank_transactions
+    ADD CONSTRAINT fk_rails_e25abd14db FOREIGN KEY (statement_import_id) REFERENCES public.statement_imports(id) ON DELETE CASCADE;
+
+
+--
+-- Name: bank_accounts fk_rails_ff008fa997; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bank_accounts
+    ADD CONSTRAINT fk_rails_ff008fa997 FOREIGN KEY (household_id) REFERENCES public.households(id) ON DELETE CASCADE;
+
+
+--
+-- Name: statement_imports fk_statement_imports_bank_account_same_household; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.statement_imports
+    ADD CONSTRAINT fk_statement_imports_bank_account_same_household FOREIGN KEY (bank_account_id, household_id) REFERENCES public.bank_accounts(id, household_id) ON DELETE CASCADE;
 
 
 --
@@ -594,6 +938,7 @@ ALTER TABLE ONLY public.sessions
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261119130000'),
 ('20261119120000'),
 ('20261119115125'),
 ('20261119115124');
