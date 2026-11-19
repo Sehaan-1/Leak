@@ -5,13 +5,14 @@ bank account, from the statements the household already has.
 
 Built for one real user (an SBI account holder) and evaluated like a product:
 every number on the dashboard traces back to ledger rows, and the merchant
-resolver is gated in CI against a hand-labelled golden set.
+resolver is gated in CI against a frozen, hand-reviewed (synthetic) golden set.
 
-> **Status: slice 3 of the build.** A double-entry ledger whose invariants
+> **Status: slice 4 of the build.** A double-entry ledger whose invariants
 > are enforced by PostgreSQL, SBI PDF statement import that only accepts
-> statements that reconcile to the paisa, and a bare React app to sign in,
-> upload a statement and list its transactions. Merchant resolution,
-> detection and the real dashboard come in later slices (see [Roadmap](#roadmap)).
+> statements that reconcile to the paisa, a bare React app to sign in,
+> upload a statement and list its transactions, and a rules-only merchant
+> resolver with an eval gate in CI. The LLM resolver, detection and the real
+> dashboard come in later slices (see [Roadmap](#roadmap)).
 
 ## Ledger invariants
 
@@ -59,6 +60,27 @@ bin/rails 'leak:redact[path/to/statement.pdf]'                  # shape-only cop
 ```
 
 Or upload it in the web app, or `POST /api/v1/statement_imports` with a `file` (multipart).
+
+## Merchant resolution
+
+```text
+narration ──parse (UPI / NEFT / IMPS / card / NACH / bill)──▶ rules ──▶ merchant | person | bank | cash
+                                                                 └──▶ abstain ──▶ review (LLM from slice 5)
+```
+
+- The catalogue is [`config/merchants.yml`](config/merchants.yml): about 55 Indian merchants with names, UPI IDs and categories. SIPs, EMIs, insurance, rent and utilities are categorised, so detection can treat them as decoys.
+- Rules run strongest first: exact UPI ID; payee name (exact, prefix, or truncated); UPI ID before the `@`; catalogue names in card/NACH text; then a `pg_trgm` match only when one merchant clearly wins. If the signals disagree, it abstains.
+- Each transaction stores which rule decided, so every merchant can be traced to its evidence.
+
+**Eval** ([details](eval/merchant_resolution/README.md)): all synthetic. The golden set is 300 rows, reviewed and frozen; the dev set is 600 rows. The rules-only baseline on golden is **99.4% merchant accuracy [96.8–99.9%] at 76.3% coverage**. CI fails below 95% (lower bound) or 75% coverage. Synthetic numbers overstate real-world accuracy.
+
+Details: [ADR 7](docs/adr/0007-rules-merchant-resolution.md).
+
+```sh
+bin/rails leak:merchants:sync                          # load the catalogue (db:seed does this too)
+bin/rails 'leak:merchants:resolve[demo@leak.test]'     # resolve unresolved rows (ALL=1 to redo)
+bin/rails 'leak:eval:merchants[golden]'                # gated eval; [dev] lists every miss
+```
 
 ## Stack
 
@@ -118,6 +140,7 @@ Short ADRs live in [`docs/adr/`](docs/adr):
 4. [OpenAPI file as the API contract](docs/adr/0004-openapi-contract.md)
 5. [Statement import: exact parsing, reconciliation, fingerprints](docs/adr/0005-statement-import.md)
 6. [The SPA is served by Rails, built by Vite](docs/adr/0006-spa-served-by-rails.md)
+7. [Rules-first merchant resolution, measured on a frozen synthetic set](docs/adr/0007-rules-merchant-resolution.md)
 
 ## Roadmap
 
@@ -127,9 +150,10 @@ One slice per PR, each leaving something demoable.
 2. **SBI PDF statement import**: `pdftotext -layout` parser,
    reconciliation, idempotent fingerprints, import-twice and
    overlapping-import property tests.
-3. **Bare React list** ← you are here: Vite + TS SPA served by Rails, types
-   generated from OpenAPI; sign in, upload a statement, list transactions.
-4. **Alias table + rules resolver, synthetic generator, eval harness, baseline in CI.**
+3. **Bare React list**: Vite + TS SPA served by Rails, types generated from
+   OpenAPI; sign in, upload a statement, list transactions.
+4. **Alias table + rules resolver, synthetic generator, eval harness,
+   baseline in CI** ← you are here.
 5. **LLM resolver behind the router**, validators, replay fixtures, the eval gate.
 6. **Detection engine**: cadence fitting, price steps, decoys.
 7. **The four screens** and the Playwright test.
