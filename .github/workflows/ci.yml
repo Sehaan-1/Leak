@@ -35,6 +35,32 @@ jobs:
       - name: Gem audit
         run: bin/bundler-audit
 
+  web:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - name: Generated API types match openapi.yaml
+        run: npm run api-types:check
+      - name: Biome
+        run: npm run lint
+      - name: TypeScript
+        run: npm run typecheck
+      - name: Vitest
+        run: npm test
+      - name: Production build
+        run: npm run build
+      - name: npm audit (runtime dependencies)
+        run: npm audit --omit=dev --audit-level=high
+
   test:
     runs-on: ubuntu-24.04
     services:
@@ -77,6 +103,11 @@ jobs:
         env:
           RAILS_ENV: test
           REQUIRE_PDFTOTEXT: "1"
+        # On failure, the tail of the output becomes an annotation too, so
+        # errors outside examples (boot, load, db:test:prepare) show on the PR.
         run: |
-          bin/rails db:test:prepare
-          bundle exec rspec --format progress
+          set -o pipefail
+          { bin/rails db:test:prepare && bundle exec rspec --format progress; } 2>&1 | tee rspec.log || {
+            echo "::error title=RSpec failed::$(tail -c 6000 rspec.log | sed 's/%/%25/g' | awk '{printf "%s%%0A", $0}')"
+            exit 1
+          }

@@ -46,3 +46,7 @@
 # Ignore Docker-related files
 /.dockerignore
 /Dockerfile*
+
+# Frontend: dependencies are installed and the SPA is built inside the image.
+/web/node_modules/
+/public/spa/

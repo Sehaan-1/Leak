@@ -27,6 +27,15 @@ ENV RAILS_ENV="production" \
     BUNDLE_WITHOUT="development" \
     LD_PRELOAD="/usr/local/lib/libjemalloc.so"
 
+# Build the React SPA (web/) into public/spa. Node never reaches the final image.
+FROM docker.io/library/node:24-slim AS web
+WORKDIR /rails/web
+COPY web/package.json web/package-lock.json ./
+RUN npm ci
+COPY openapi/ /rails/openapi/
+COPY web/ ./
+RUN npm run build
+
 # Throw-away build stage to reduce size of final image
 FROM base AS build
 
@@ -46,6 +55,7 @@ RUN bundle install && \
 
 # Copy application code
 COPY . .
+COPY --from=web /rails/public/spa ./public/spa
 
 # Precompile bootsnap code for faster boot times.
 # -j 1 disable parallel compilation to avoid a QEMU bug: https://github.com/rails/bootsnap/issues/495

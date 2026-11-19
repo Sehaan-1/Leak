@@ -10,11 +10,13 @@ Rails.application.routes.draw do
       resource :me, only: :show, controller: :me
       resources :accounts, only: :index
       resources :statement_imports, only: %i[ index create ]
+      resources :bank_transactions, only: :index
     end
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  root "home#show"
+  # The React SPA (web/). Rails serves its shell so the CSRF token is embedded.
+  root "spa#show"
 end
