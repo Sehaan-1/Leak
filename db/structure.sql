@@ -11,6 +11,20 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: pg_trgm; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_trgm; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching based on trigrams';
+
+
+--
 -- Name: account_kind; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -30,6 +44,74 @@ CREATE TYPE public.account_kind AS ENUM (
 
 CREATE TYPE public.bank_code AS ENUM (
     'sbi'
+);
+
+
+--
+-- Name: counterparty_kind; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.counterparty_kind AS ENUM (
+    'merchant',
+    'person',
+    'bank',
+    'cash'
+);
+
+
+--
+-- Name: merchant_alias_kind; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.merchant_alias_kind AS ENUM (
+    'vpa',
+    'name'
+);
+
+
+--
+-- Name: merchant_category; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.merchant_category AS ENUM (
+    'streaming',
+    'music',
+    'software',
+    'cloud_storage',
+    'news',
+    'fitness',
+    'education',
+    'food_delivery',
+    'groceries',
+    'shopping',
+    'transport',
+    'travel',
+    'fuel',
+    'telecom',
+    'internet',
+    'dth',
+    'utilities',
+    'insurance',
+    'investment',
+    'loan',
+    'credit_card',
+    'rent',
+    'healthcare',
+    'wallet',
+    'other'
+);
+
+
+--
+-- Name: resolution_method; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.resolution_method AS ENUM (
+    'vpa_alias',
+    'name_alias',
+    'trigram',
+    'rule',
+    'abstained'
 );
 
 
@@ -222,7 +304,13 @@ CREATE TABLE public.bank_transactions (
     "position" integer NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    CONSTRAINT bank_transactions_amount_nonzero CHECK ((amount_paise <> 0))
+    merchant_id bigint,
+    counterparty public.counterparty_kind,
+    resolution public.resolution_method,
+    resolved_at timestamp(6) without time zone,
+    CONSTRAINT bank_transactions_amount_nonzero CHECK ((amount_paise <> 0)),
+    CONSTRAINT bank_transactions_merchant_matches_counterparty CHECK (((merchant_id IS NOT NULL) = (NOT (counterparty IS DISTINCT FROM 'merchant'::public.counterparty_kind)))),
+    CONSTRAINT bank_transactions_resolution_consistent CHECK ((((resolution IS NULL) AND (counterparty IS NULL) AND (resolved_at IS NULL)) OR ((resolution = 'abstained'::public.resolution_method) AND (counterparty IS NULL) AND (resolved_at IS NOT NULL)) OR ((resolution <> 'abstained'::public.resolution_method) AND (counterparty IS NOT NULL) AND (resolved_at IS NOT NULL))))
 );
 
 
@@ -307,6 +395,74 @@ CREATE SEQUENCE public.journal_entries_id_seq
 --
 
 ALTER SEQUENCE public.journal_entries_id_seq OWNED BY public.journal_entries.id;
+
+
+--
+-- Name: merchant_aliases; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.merchant_aliases (
+    id bigint NOT NULL,
+    merchant_id bigint NOT NULL,
+    household_id bigint,
+    kind public.merchant_alias_kind NOT NULL,
+    pattern character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    CONSTRAINT merchant_aliases_pattern_normalised CHECK ((((kind = 'name'::public.merchant_alias_kind) AND ((pattern)::text ~ '^[A-Z0-9]+$'::text)) OR ((kind = 'vpa'::public.merchant_alias_kind) AND ((pattern)::text ~ '^[a-z0-9._-]+@[a-z0-9]+$'::text))))
+);
+
+
+--
+-- Name: merchant_aliases_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.merchant_aliases_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: merchant_aliases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.merchant_aliases_id_seq OWNED BY public.merchant_aliases.id;
+
+
+--
+-- Name: merchants; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.merchants (
+    id bigint NOT NULL,
+    slug character varying NOT NULL,
+    name character varying NOT NULL,
+    category public.merchant_category NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: merchants_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.merchants_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: merchants_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.merchants_id_seq OWNED BY public.merchants.id;
 
 
 --
@@ -499,6 +655,20 @@ ALTER TABLE ONLY public.journal_entries ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
+-- Name: merchant_aliases id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.merchant_aliases ALTER COLUMN id SET DEFAULT nextval('public.merchant_aliases_id_seq'::regclass);
+
+
+--
+-- Name: merchants id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.merchants ALTER COLUMN id SET DEFAULT nextval('public.merchants_id_seq'::regclass);
+
+
+--
 -- Name: postings id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -572,6 +742,22 @@ ALTER TABLE ONLY public.households
 
 ALTER TABLE ONLY public.journal_entries
     ADD CONSTRAINT journal_entries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: merchant_aliases merchant_aliases_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.merchant_aliases
+    ADD CONSTRAINT merchant_aliases_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: merchants merchants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.merchants
+    ADD CONSTRAINT merchants_pkey PRIMARY KEY (id);
 
 
 --
@@ -699,6 +885,13 @@ CREATE UNIQUE INDEX index_bank_transactions_on_journal_entry_id ON public.bank_t
 
 
 --
+-- Name: index_bank_transactions_on_merchant_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_bank_transactions_on_merchant_id ON public.bank_transactions USING btree (merchant_id);
+
+
+--
 -- Name: index_bank_transactions_on_statement_import_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -724,6 +917,41 @@ CREATE INDEX index_journal_entries_on_household_id_and_occurred_on ON public.jou
 --
 
 CREATE UNIQUE INDEX index_journal_entries_on_id_and_household_id ON public.journal_entries USING btree (id, household_id);
+
+
+--
+-- Name: index_merchant_aliases_name_trgm; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_merchant_aliases_name_trgm ON public.merchant_aliases USING gin (pattern public.gin_trgm_ops);
+
+
+--
+-- Name: index_merchant_aliases_on_household_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_merchant_aliases_on_household_id ON public.merchant_aliases USING btree (household_id);
+
+
+--
+-- Name: index_merchant_aliases_on_merchant_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_merchant_aliases_on_merchant_id ON public.merchant_aliases USING btree (merchant_id);
+
+
+--
+-- Name: index_merchant_aliases_unique_pattern; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_merchant_aliases_unique_pattern ON public.merchant_aliases USING btree (kind, pattern, household_id) NULLS NOT DISTINCT;
+
+
+--
+-- Name: index_merchants_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_merchants_on_slug ON public.merchants USING btree (slug);
 
 
 --
@@ -860,6 +1088,14 @@ ALTER TABLE ONLY public.journal_entries
 
 
 --
+-- Name: merchant_aliases fk_rails_4ba06fd192; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.merchant_aliases
+    ADD CONSTRAINT fk_rails_4ba06fd192 FOREIGN KEY (household_id) REFERENCES public.households(id) ON DELETE CASCADE;
+
+
+--
 -- Name: users fk_rails_5121351c36; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -876,11 +1112,27 @@ ALTER TABLE ONLY public.bank_transactions
 
 
 --
+-- Name: merchant_aliases fk_rails_6a8c877989; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.merchant_aliases
+    ADD CONSTRAINT fk_rails_6a8c877989 FOREIGN KEY (merchant_id) REFERENCES public.merchants(id) ON DELETE CASCADE;
+
+
+--
 -- Name: sessions fk_rails_758836b4f0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT fk_rails_758836b4f0 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: bank_transactions fk_rails_bda56f7d4b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bank_transactions
+    ADD CONSTRAINT fk_rails_bda56f7d4b FOREIGN KEY (merchant_id) REFERENCES public.merchants(id) ON DELETE SET NULL;
 
 
 --
@@ -938,6 +1190,7 @@ ALTER TABLE ONLY public.statement_imports
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261120090000'),
 ('20261119130000'),
 ('20261119120000'),
 ('20261119115125'),

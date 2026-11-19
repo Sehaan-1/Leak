@@ -111,3 +111,18 @@ jobs:
             echo "::error title=RSpec failed::$(tail -c 6000 rspec.log | sed 's/%/%25/g' | awk '{printf "%s%%0A", $0}')"
             exit 1
           }
+
+      # Rules-only merchant resolution on the frozen golden set; fails below
+      # the gate in config/eval.yml. Scores go to the job summary.
+      - name: Merchant resolution eval (golden gate)
+        env:
+          RAILS_ENV: test
+        run: bin/rails 'leak:eval:merchants[golden]'
+
+      - name: Upload eval report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: eval-merchant-resolution
+          path: tmp/eval/
+          if-no-files-found: ignore

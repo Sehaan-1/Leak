@@ -1,0 +1,600 @@
+{"id":"s1-0001","narration":"TO TRANSFER-UPI/DR/977839392327/BLINKIT/ KKBK/blinkit/UPI--","amount_paise":-239019,"label":"blinkit","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0002","narration":"WDL TFR UPI/DR/515660016726/ANI TECHNOLOGIES PVT LTD/BARB/olacabs@icici/Collect 0097677964601 AT 09482 ANDHERI","amount_paise":-70395,"label":"ola","channel":"upi_merchant","noise":[]}
+{"id":"s1-0003","narration":"TO TRANSFER-UPI/DR/954517628821/UBER INDIA SYSTEMS/HDFC/uberindia/Pay to--","amount_paise":-100,"label":"uber","channel":"upi_merchant","noise":["1 rupee mandate","UPI ID without domain"]}
+{"id":"s1-0004","narration":"INTL POS TXN 459150XXXXXX4098 UBER *TRIP HELP.UBER.COM","amount_paise":-41437,"label":"uber","channel":"card","noise":[]}
+{"id":"s1-0005","narration":"TO TRANSFER-UPI/DR/642401864983/NETAJI B/SBIN/netaji78@okhdfcbank/Pay to--","amount_paise":-22793,"label":"unknown","channel":"upi_unknown","noise":["payee truncated"]}
+{"id":"s1-0006","narration":"DEP TFR UPI/CR/955328686323/GOOGLE ONE/YESB/googleone/Refund 0097753421377 AT 09482 ANDHERI","amount_paise":6501,"label":"google_one","channel":"refund","noise":["refund","UPI ID truncated"]}
+{"id":"s1-0007","narration":"TO TRANSFER-UPI/DR/743743122123/NETFLIX/ BARB/netflixupi.payu@hdfcbank/Sent from Paytm--","amount_paise":-19900,"label":"netflix","channel":"upi_merchant","noise":[]}
+{"id":"s1-0008","narration":"ACH DR INW INDIAN CLEARING CORPORATION LTD 9278586308","amount_paise":-100000,"label":"iccl","channel":"nach","noise":[]}
+{"id":"s1-0009","narration":"BBPS/RELIANCE JIO/47743443735/190343","amount_paise":-24900,"label":"jio","channel":"bill","noise":[]}
+{"id":"s1-0010","narration":"WDL TFR UPI/DR/454326680435/SWIGGY/HDFC/swigg y@icici/Payment fo 0097651493479 AT 09482 KORAMANGALA","amount_paise":-139608,"label":"swiggy","channel":"upi_merchant","noise":[]}
+{"id":"s1-0011","narration":"TO TRANSFER-UPI/DR/831547369492/Dreamplu g Technologies/KKBK/cred.rent/UPI--","amount_paise":-3952758,"label":"cred","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0012","narration":"WDL TFR UPI/DR/513057057273/NOBROKER TECHNOLOGIES/UTIB/nobroker@icici/Coll ect 0097619138701 AT 09482 THANE","amount_paise":-2200000,"label":"nobroker","channel":"upi_merchant","noise":[]}
+{"id":"s1-0013","narration":"TO TRANSFER-UPI/DR/534252827384/CAFE MOCHA BANDRA/PUNB/cafe69/Sent from Paytm--","amount_paise":-184961,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0014","narration":"WDL TFR UPI/DR/299148370304/STAR BAZAAR/UTIB/paytmqr62348260488426@pay tm/Payment from Ph 0097782455170 AT 09482 THANE","amount_paise":-130595,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0015","narration":"WDL TFR UPI/DR/828659772224/SPENCERS RET/UTIB/gpay-56974874760@okbizaxis/C ollect 0097673292564 AT 09482 THANE","amount_paise":-200302,"label":"unknown","channel":"upi_unknown","noise":["payee truncated"]}
+{"id":"s1-0016","narration":"BY TRANSFER-NEFT*ICIC0000104*CMS9989006* BLUE OCEAN LOGISTICS LLP","amount_paise":9204203,"label":"unknown","channel":"salary","noise":[]}
+{"id":"s1-0017","narration":"TO TRANSFER-IMPS/P2A/854801656686/VIKRAM SEN/UTIB/X5196","amount_paise":-1387120,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0018","narration":"WDL TFR UPI/DR/373026137969/JIOHOTSTAR/BARB/j iohotstar@axisbank/Collect 0097666941634 AT 09482 BIDHANNAGAR","amount_paise":-100,"label":"jiohotstar","channel":"upi_merchant","noise":["1 rupee mandate"]}
+{"id":"s1-0019","narration":"ATM AMC CHGS","amount_paise":-14750,"label":"bank","channel":"bank","noise":[]}
+{"id":"s1-0020","narration":"BBPS/BHARTI AIRTEL LTD/701364575185/374566","amount_paise":-39900,"label":"airtel","channel":"bill","noise":[]}
+{"id":"s1-0021","narration":"DEBIT-ACHDr HDFC MUTUAL FUND 9875706608","amount_paise":-100000,"label":"hdfc_mf","channel":"nach","noise":[]}
+{"id":"s1-0022","narration":"TO TRANSFER-UPI/DR/164028581567/NEHA KULKA/PUNB/neha257@axl/Collect--","amount_paise":-24089,"label":"person","channel":"upi_person","noise":["payee truncated"]}
+{"id":"s1-0023","narration":"TO TRANSFER-UPI/DR/718112822681/TATA PLAY/PUNB/tataplay@hdfcbank/NA--","amount_paise":-25000,"label":"tata_play","channel":"upi_merchant","noise":[]}
+{"id":"s1-0024","narration":"WDL TFR UPI/DR/817596779133/SURESH SINGH/ICIC/suresh926@ibl/Collect 0097644969213 AT 09482 BANDRA","amount_paise":-923932,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0025","narration":"MIN BAL CHGS INCL GST","amount_paise":-17984,"label":"bank","channel":"bank","noise":[]}
+{"id":"s1-0026","narration":"DEBIT-ACHDr ICCL 1102581398","amount_paise":-200000,"label":"iccl","channel":"nach","noise":[]}
+{"id":"s1-0027","narration":"BY TRANSFER-UPI/CR/509375859253/KABIR REDDY/IDIB/9308750822/Mandate--","amount_paise":92237,"label":"person","channel":"upi_person","noise":["UPI ID truncated"]}
+{"id":"s1-0028","narration":"ACH DR INW TATA CAPITAL FIN SERV 9796680554","amount_paise":-951851,"label":"unknown","channel":"unknown_nach","noise":[]}
+{"id":"s1-0029","narration":"TO TRANSFER-UPI/DR/502029194404/FLIPKART /YESB/flipkart@axisbank/Mandate--","amount_paise":-641583,"label":"flipkart","channel":"upi_merchant","noise":[]}
+{"id":"s1-0030","narration":"WDL TFR UPI/DR/583043707391/AMAZON SELL/PUNB/amazonpay@apl/UPI 0097619590862 AT 09482 SALTLAKE","amount_paise":-711765,"label":"amazon","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0031","narration":"TO TRANSFER-UPI/DR/533276293463/DIVYA GUPTA/UTIB/divya.gu/Payment from Ph--","amount_paise":-295673,"label":"person","channel":"upi_person","noise":["UPI ID truncated"]}
+{"id":"s1-0032","narration":"WDL TFR UPI/DR/770205046245/ADANI ELECTRICITY MUMBAI/SBIN/adanielectricity/Pay to 0097627307385 AT 09482 KORAMANGALA","amount_paise":-253441,"label":"adani_electricity","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0033","narration":"WDL TFR UPI/DR/751496774082/HOTEL SA/YESB/bharatpe.5636958715@fbpe/Paym ent from Ph 009776107658 AT 09482 THANE","amount_paise":-278457,"label":"unknown","channel":"upi_unknown","noise":["payee truncated"]}
+{"id":"s1-0034","narration":"DEBIT-ACHDr HDFC MF SIP 9230469674","amount_paise":-100000,"label":"hdfc_mf","channel":"nach","noise":[]}
+{"id":"s1-0035","narration":"WDL TFR UPI/DR/609454783131/RITU SHAH/ICIC/ritu.shah@upi/Sent from Paytm 0097666645516 AT 09482 KORAMANGALA","amount_paise":-811555,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0036","narration":"DEBIT-ACHDr LIC OF INDIA 3922467834","amount_paise":-1025000,"label":"lic","channel":"nach","noise":[]}
+{"id":"s1-0037","narration":"TO TRANSFER-UPI/DR/290371687192/ANI TECHNOLO/PUNB/olacabs@icici/Pay to--","amount_paise":-67371,"label":"ola","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0038","narration":"TO TRANSFER-UPI/DR/858935826554/CULVER MAX ENTERTAINMENT/HDFC/culvermax/Mandate- -","amount_paise":-39900,"label":"sonyliv","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0039","narration":"BY TRANSFER-NEFT*ICIC0000104*CMS36661502 9*ACME TECHNOLOGIES PVT LTD","amount_paise":7498280,"label":"unknown","channel":"salary","noise":[]}
+{"id":"s1-0040","narration":"POS 607152XXXXXX3853 SPOTIFY P1A2B3C4D5","amount_paise":-11900,"label":"spotify","channel":"card","noise":[]}
+{"id":"s1-0041","narration":"TO TRANSFER-UPI/DR/921883053283/ZEPTO/YE SB/zeptonow@axisbank/UPI--","amount_paise":-182871,"label":"zepto","channel":"upi_merchant","noise":[]}
+{"id":"s1-0042","narration":"INTL POS TXN 524193XXXXXX1402 SPOTIFY INDIA","amount_paise":-14900,"label":"spotify","channel":"card","noise":[]}
+{"id":"s1-0043","narration":"WDL TFR UPI/DR/889097756007/LIC/HDFC/licpremi um@sbi/NA 0097781936851 AT 09482 BIDHANNAGAR","amount_paise":-1025000,"label":"lic","channel":"upi_merchant","noise":[]}
+{"id":"s1-0044","narration":"BY TRANSFER-UPI/CR/978173957236/ANANYA MENON/KKBK/ananya103/Payment from Ph--","amount_paise":750502,"label":"person","channel":"upi_person","noise":["UPI ID without domain"]}
+{"id":"s1-0045","narration":"NACH-DR-HOME CREDIT INDIA FIN-3548772986","amount_paise":-488401,"label":"unknown","channel":"unknown_nach","noise":[]}
+{"id":"s1-0046","narration":"DEBIT CARD ANNUAL FEE + GST","amount_paise":-23600,"label":"bank","channel":"bank","noise":[]}
+{"id":"s1-0047","narration":"BY TRANSFER-NEFT*UTIB0514491*N2852523746 75*KARAN NAIR","amount_paise":777455,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0048","narration":"BY DEBIT CARD-OTHPOS 524193XXXXXX1271 ADOBE *CREATIVE CLOUD","amount_paise":-167500,"label":"adobe","channel":"card","noise":[]}
+{"id":"s1-0049","narration":"TO TRANSFER-UPI/DR/516660276306/VIJAY SALES/BARB/gpay-458/Payment fo--","amount_paise":-96884,"label":"unknown","channel":"upi_unknown","noise":["UPI ID truncated"]}
+{"id":"s1-0050","narration":"TO TRANSFER-UPI/DR/610397506706/DREAMPLU G TECHNOLOGIES/HDFC/cred.rent@axisbank/ Payment fo--","amount_paise":-2573904,"label":"cred","channel":"upi_merchant","noise":[]}
+{"id":"s1-0051","narration":"TO TRANSFER-UPI/DR/796324327556/NEHA SHARMA/PUNB/neha.sharma/Collect--","amount_paise":-883223,"label":"person","channel":"upi_person","noise":["UPI ID without domain"]}
+{"id":"s1-0052","narration":"TO TRANSFER-UPI/DR/519254539265/NEHA BOSE/SBIN/neha353@ibl/UPI--","amount_paise":-2234220,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0053","narration":"WDL TFR UPI/DR/391518801824/INDIAN OIL/YESB/iocl@sbi/Mandate 0097699122085 AT 09482 BIDHANNAGAR","amount_paise":-128549,"label":"indian_oil","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0054","narration":"WDL TFR UPI/DR/369906423677/DECATHLON SPORTS INDIA/YESB/decathlon51/Sent from Paytm 0097668800870 AT 09482 SALTLAKE","amount_paise":-283514,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0055","narration":"TO TRANSFER-UPI/DR/663886672284/ANANYA GUPTA/ICIC/ananya.gupta@axl/Collect--","amount_paise":-2450499,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0056","narration":"DEP TFR UPI/CR/229911576761/CRED/YESB/cred.cl ub@axisbank/Refund 0097649389907 AT 09482 ANDHERI","amount_paise":319451,"label":"cred","channel":"refund","noise":["refund"]}
+{"id":"s1-0057","narration":"TO TRANSFER-UPI/DR/419603920021/PAYU/KKB K/payu.9060028/Pay to--","amount_paise":-149900,"label":"sonyliv","channel":"upi_gateway","noise":["gateway only","UPI ID without domain"]}
+{"id":"s1-0058","narration":"TO TRANSFER-UPI/DR/385919047434/NOBROKER /SBIN/nobroker@icici/Sent from Paytm--","amount_paise":-2200000,"label":"nobroker","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0059","narration":"WDL TFR UPI/DR/946510467889/JIOHOTSTAR/HDFC/j iohotstar@axisbank/Payment from Ph 0097746085024 AT 09482 ANDHERI","amount_paise":-49900,"label":"jiohotstar","channel":"upi_merchant","noise":[]}
+{"id":"s1-0060","narration":"TO TRANSFER-UPI/DR/611016977690/NOBROKER TECHNOLOGIES/ICIC/nobroker/NA--","amount_paise":-2500000,"label":"nobroker","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0061","narration":"MIN BAL CHGS INCL GST","amount_paise":-37025,"label":"bank","channel":"bank","noise":[]}
+{"id":"s1-0062","narration":"WDL TFR UPI/DR/325330553382/NETFLIX/HDFC/netf lixupi.payu@hdfcbank/Sent from Paytm 0097677614169 AT 09482 SALTLAKE","amount_paise":-14900,"label":"netflix","channel":"upi_merchant","noise":[]}
+{"id":"s1-0063","narration":"NACH-DR-TATA CAPITAL FIN SERV-6999206497","amount_paise":-610041,"label":"unknown","channel":"unknown_nach","noise":[]}
+{"id":"s1-0064","narration":"WDL TFR UPI/DR/271432712034/RAZORPAY/PUNB/raz orpay.4801106@hdfcbank/Sent from Paytm 0097698832738 AT 09482 SALTLAKE","amount_paise":-79770,"label":"blinkit","channel":"upi_gateway","noise":["gateway only"]}
+{"id":"s1-0065","narration":"WDL TFR UPI/DR/828203643589/CRED/HDFC/cred.cl ub@axisbank/Pay to 0097732373278 AT 09482 KORAMANGALA","amount_paise":-3737221,"label":"cred","channel":"upi_merchant","noise":[]}
+{"id":"s1-0066","narration":"WDL TFR UPI/DR/375662143442/JIO WORLD D/HDFC/gpay-71762726060/NA 009778944694 AT 09482 ANDHERI","amount_paise":-73123,"label":"unknown","channel":"upi_unknown","noise":["payee truncated","UPI ID without domain"]}
+{"id":"s1-0067","narration":"WDL TFR UPI/DR/480180601049/MAHANAGAR GAS LTD/ICIC/mgl@icici/Collect 0097796009898 AT 09482 BANDRA","amount_paise":-40167,"label":"mahanagar_gas","channel":"upi_merchant","noise":[]}
+{"id":"s1-0068","narration":"DEP TFR UPI/CR/823471823601/SURESH KULKARNI/IDIB/suresh910@okhdfcbank/NA 009765347542 AT 09482 ANDHERI","amount_paise":1975437,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0069","narration":"ACH DR INW STAR HEALTH INSURANCE 7876046142","amount_paise":-180000,"label":"star_health","channel":"nach","noise":[]}
+{"id":"s1-0070","narration":"TO TRANSFER-UPI/DR/418068703835/NOVI DIGITAL ENTERTAINMENT/PUNB/hotstar@icici/Mand ate--","amount_paise":-149900,"label":"jiohotstar","channel":"upi_merchant","noise":[]}
+{"id":"s1-0071","narration":"WDL TFR UPI/DR/428893342537/ETERNAL LIMITED/PUNB/zomato.payu@hdfcbank/Pay ment from Ph 0097758792991 AT 09482 KORAMANGALA","amount_paise":-148269,"label":"zomato","channel":"upi_merchant","noise":[]}
+{"id":"s1-0072","narration":"TO TRANSFER-UPI/DR/461538154255/AMAZON PAY/HDFC/amazon@apl/UPI--","amount_paise":-559706,"label":"amazon","channel":"upi_merchant","noise":[]}
+{"id":"s1-0073","narration":"ECOM PUR 524193XXXXXX5333 IOCL COCO OUTLET","amount_paise":-158413,"label":"indian_oil","channel":"card","noise":[]}
+{"id":"s1-0074","narration":"TO TRANSFER-UPI/DR/337955020008/UBER INDIA S/PUNB/uberindia@hdfcbank/Pay to--","amount_paise":-68471,"label":"uber","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0075","narration":"BY DEBIT CARD-OTHPOS 524193XXXXXX6346 CULT.FIT BANGALORE","amount_paise":-149900,"label":"cultfit","channel":"card","noise":[]}
+{"id":"s1-0076","narration":"WDL TFR UPI/DR/751848571763/MSEDCL/ICIC/msedc l@sbi/Mandate 0097613369628 AT 09482 BIDHANNAGAR","amount_paise":-125533,"label":"msedcl","channel":"upi_merchant","noise":[]}
+{"id":"s1-0077","narration":"TO TRANSFER-INB MANOJ MISHRA","amount_paise":-86715,"label":"person","channel":"transfer_person","noise":["internet banking transfer"]}
+{"id":"s1-0078","narration":"WDL TFR UPI/DR/327805474986/APPLE MEDI/KKBK/appleservices.bdsk@hdfcbank /NA 0097667153367 AT 09482 SALTLAKE","amount_paise":-74900,"label":"apple","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0079","narration":"WDL TFR UPI/DR/635268269013/ACT FIBERNET/ICIC/actfibernet@icici/Pay to 0097683604557 AT 09482 KORAMANGALA","amount_paise":-119900,"label":"act_fibernet","channel":"upi_merchant","noise":[]}
+{"id":"s1-0080","narration":"WDL TFR UPI/DR/686283224862/ZOMATO/YESB/zomat o@hdfcbank/Mandate 0097657970932 AT 09482 SALTLAKE","amount_paise":-43414,"label":"zomato","channel":"upi_merchant","noise":[]}
+{"id":"s1-0081","narration":"DEP TFR UPI/CR/241514174279/KAVITA VERMA/IDIB/6176708333@upi/Pay to 0097765346086 AT 09482 THANE","amount_paise":491823,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0082","narration":"CASH DEPOSIT-BY SELF","amount_paise":830000,"label":"cash","channel":"cash","noise":[]}
+{"id":"s1-0083","narration":"INTL POS TXN 459150XXXXXX6805 CULT.FIT BANGALORE","amount_paise":-99900,"label":"cultfit","channel":"card","noise":[]}
+{"id":"s1-0084","narration":"DEP TFR UPI/CR/896741095198/PRIYA PILLAI/UTIB/6726936244@axl/Sent from Paytm 009767865311 AT 09482 ANDHERI","amount_paise":1079935,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0085","narration":"ATM WDL-ATM CASH 616778 ANDHERI","amount_paise":-570000,"label":"cash","channel":"cash","noise":[]}
+{"id":"s1-0086","narration":"TO TRANSFER-UPI/DR/187645176570/NETFLIX COM/HDFC/netflix.rzp@axisbank/Mandate --","amount_paise":-100,"label":"netflix","channel":"upi_merchant","noise":["1 rupee mandate"]}
+{"id":"s1-0087","narration":"TO TRANSFER-UPI/DR/741912833229/ANI TECHNO/IDIB/olacabs@icic/UPI--","amount_paise":-31969,"label":"ola","channel":"upi_merchant","noise":["payee truncated","UPI ID truncated"]}
+{"id":"s1-0088","narration":"TO TRANSFER-UPI/DR/202457975646/GOOGLE ONE/IDIB/googleone@/UPI--","amount_paise":-3500,"label":"google_one","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0089","narration":"ECOM PUR 524193XXXXXX8174 ADOBE SYSTEMS SOFTWARE","amount_paise":-423000,"label":"adobe","channel":"card","noise":[]}
+{"id":"s1-0090","narration":"TO TRANSFER-UPI/DR/738969461911/MAHANAGA R/UTIB/mgl@icici/Payment fo--","amount_paise":-36179,"label":"mahanagar_gas","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0091","narration":"TO TRANSFER-UPI/DR/243331314119/NETFLIX COM/IDIB/netflix.rzp/Collect--","amount_paise":-49900,"label":"netflix","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0092","narration":"TO TRANSFER-UPI/DR/296603639646/APOLLO HEALTHCO LTD/IDIB/apollo247@icici/Sent from Paytm--","amount_paise":-17735,"label":"apollo_pharmacy","channel":"upi_merchant","noise":[]}
+{"id":"s1-0093","narration":"DEP TFR UPI/CR/252512627807/SURESH MISHRA/BARB/9497029523@ibl/Mandate 0097765920778 AT 09482 KORAMANGALA","amount_paise":1548286,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0094","narration":"NACH-DR-BAJAJ FINANCE LTD-5221076797","amount_paise":-499900,"label":"bajaj_finance","channel":"nach","noise":[]}
+{"id":"s1-0095","narration":"WDL TFR UPI/DR/558917126265/NEXTBILLION TECHNOLOGY/SBIN/groww.brk@validicici/ Payment from Ph 0097779260119 AT 09482 BIDHANNAGAR","amount_paise":-100000,"label":"groww","channel":"upi_merchant","noise":[]}
+{"id":"s1-0096","narration":"TO TRANSFER-UPI/DR/718078149827/Flipkart Internet Pvt Ltd/SBIN/fkrt/Payment fo--","amount_paise":-1137323,"label":"flipkart","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0097","narration":"WDL TFR UPI/DR/562846863100/MSEDCL/BARB/msedc l@sbi/Payment from Ph 0097755896806 AT 09482 ANDHERI","amount_paise":-214177,"label":"msedcl","channel":"upi_merchant","noise":[]}
+{"id":"s1-0098","narration":"TO TRANSFER-INB BillPay BHARTI AIRTEL LTD 138319139822","amount_paise":-39900,"label":"airtel","channel":"bill","noise":[]}
+{"id":"s1-0099","narration":"WDL TFR UPI/DR/451711139919/PAYTM PAYMENTS/UTIB/paytm-pg.5710804@axisba nk/Pay to 0097620483717 AT 09482 THANE","amount_paise":-99561,"label":"mahanagar_gas","channel":"upi_gateway","noise":["gateway only"]}
+{"id":"s1-0100","narration":"TO TRANSFER-UPI/DR/616171181879/ANJALI BOSE/SBIN/8642725870/Mandate--","amount_paise":-1633859,"label":"person","channel":"upi_person","noise":["UPI ID without domain"]}
+{"id":"s1-0101","narration":"WDL TFR UPI/DR/557536567450/ACT FIBERNET/IDIB/actfibernet@icici/NA 0097786969089 AT 09482 BANDRA","amount_paise":-99900,"label":"act_fibernet","channel":"upi_merchant","noise":[]}
+{"id":"s1-0102","narration":"TO TRANSFER-UPI/DR/597138782132/SURESH PILLAI/BARB/suresh.pillai/Mandate--","amount_paise":-1108571,"label":"person","channel":"upi_person","noise":["UPI ID without domain"]}
+{"id":"s1-0103","narration":"MIN BAL CHGS INCL GST","amount_paise":-30518,"label":"bank","channel":"bank","noise":[]}
+{"id":"s1-0104","narration":"BY TRANSFER-UPI/CR/728312045630/MEERA SHAH/HDFC/meera400/Mandate--","amount_paise":817937,"label":"person","channel":"upi_person","noise":["UPI ID without domain"]}
+{"id":"s1-0105","narration":"TO TRANSFER-IMPS/P2A/871631010926/SNEHAG HOSH/YESB/X4598","amount_paise":-2262368,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0106","narration":"ECOM PUR 524193XXXXXX2275 SWIGGY BANGALORE","amount_paise":-27304,"label":"swiggy","channel":"card","noise":[]}
+{"id":"s1-0107","narration":"WDL TFR UPI/DR/486849136460/TATA PLAY/BARB/tataplay@hdfcbank/NA 0097664367342 AT 09482 BIDHANNAGAR","amount_paise":-48000,"label":"tata_play","channel":"upi_merchant","noise":[]}
+{"id":"s1-0108","narration":"POS 459150XXXXXX9403 WWW IRCTC CO IN","amount_paise":-229223,"label":"irctc","channel":"card","noise":[]}
+{"id":"s1-0109","narration":"INTL POS TXN 607152XXXXXX7724 WWW.AMAZON.IN","amount_paise":-933968,"label":"amazon","channel":"card","noise":[]}
+{"id":"s1-0110","narration":"ATM AMC CHGS","amount_paise":-14750,"label":"bank","channel":"bank","noise":[]}
+{"id":"s1-0111","narration":"TO TRANSFER-UPI/DR/266698449547/CRED/BAR B/cred.clu/Sent from Paytm--","amount_paise":-1186771,"label":"cred","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0112","narration":"WDL TFR UPI/DR/990870028172/ANANYA GHOSH/UTIB/6365012011@okicici/Collect 0097799920271 AT 09482 SALTLAKE","amount_paise":-281484,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0113","narration":"BBPS/TATA PLAY DTH/615339721021/473260","amount_paise":-35000,"label":"tata_play","channel":"bill","noise":[]}
+{"id":"s1-0114","narration":"TO TRANSFER-UPI/DR/710110038424/NETFLIX COM/IDIB/netflix.rzp/Payment from Ph--","amount_paise":-100,"label":"netflix","channel":"upi_merchant","noise":["1 rupee mandate","UPI ID without domain"]}
+{"id":"s1-0115","narration":"POS 524193XXXXXX1163 SWIGGY BANGALORE","amount_paise":-100286,"label":"swiggy","channel":"card","noise":[]}
+{"id":"s1-0116","narration":"TO TRANSFER-UPI/DR/209185189245/PAYU/UTI B/payu.1563219/Pay to--","amount_paise":-367837,"label":"bigbasket","channel":"upi_gateway","noise":["gateway only","UPI ID without domain"]}
+{"id":"s1-0117","narration":"DEBIT CARD ANNUAL FEE + GST","amount_paise":-23600,"label":"bank","channel":"bank","noise":[]}
+{"id":"s1-0118","narration":"CASH WITHDRAWAL-SELF","amount_paise":-510000,"label":"cash","channel":"cash","noise":[]}
+{"id":"s1-0119","narration":"BY TRANSFER-NEFT*SBIN0643802*N3779085266 32*SURESH SEN","amount_paise":4873198,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0120","narration":"TO TRANSFER-INB BillPay JIO PREPAID 821042875695","amount_paise":-19900,"label":"jio","channel":"bill","noise":[]}
+{"id":"s1-0121","narration":"TO TRANSFER-UPI/DR/124053916905/APOLLO TYRES SHOWROOM/SBIN/gpay-73039456522@okbiza xis/Sent from Paytm--","amount_paise":-158829,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0122","narration":"TO TRANSFER-UPI/DR/537015172948/SUNITA GUPTA/ICIC/sunita.gupta@axl/Sent from Paytm--","amount_paise":-1057350,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0123","narration":"TO TRANSFER-UPI/DR/716863910366/GOOGLE ONE/ICIC/googleone@axisbank/Collect--","amount_paise":-65000,"label":"google_one","channel":"upi_merchant","noise":[]}
+{"id":"s1-0124","narration":"NACH-DR-ADITYA BIRLA SUN LIFE-8080099121","amount_paise":-250821,"label":"unknown","channel":"unknown_nach","noise":[]}
+{"id":"s1-0125","narration":"TO TRANSFER-UPI/DR/965974584644/ACT FIBERNET/YESB/actfibernet@icici/Manda te--","amount_paise":-119900,"label":"act_fibernet","channel":"upi_merchant","noise":[]}
+{"id":"s1-0126","narration":"DEBIT CARD-OTHPG 459150XXXXXX3409 IOCL COCO OUTLET","amount_paise":-249640,"label":"indian_oil","channel":"card","noise":[]}
+{"id":"s1-0127","narration":"TO TRANSFER-UPI/DR/230258273623/AMAZE FOOTWEAR/PUNB/q479534793/Pay to--","amount_paise":-86974,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0128","narration":"TO TRANSFER-UPI/DR/127072663503/STAR INDIA P/UTIB/starindia.payu@hdfcbank/UPI--","amount_paise":-29900,"label":"jiohotstar","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0129","narration":"BY TRANSFER-UPI/CR/223924021628/LIC/SBIN /licpremium@sbi/Refund--","amount_paise":235601,"label":"lic","channel":"refund","noise":["refund"]}
+{"id":"s1-0130","narration":"WDL TFR UPI/DR/747933730742/ZERODHA BROKING LTD/BARB/zerodha/NA 0097775423815 AT 09482 SALTLAKE","amount_paise":-1000000,"label":"zerodha","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0131","narration":"WDL TFR UPI/DR/514973730388/BLINK COMMERCE PVT LTD/HDFC/blinkit.payu@hdfcbank/Sent from Paytm 0097673778364 AT 09482 BANDRA","amount_paise":-233849,"label":"blinkit","channel":"upi_merchant","noise":[]}
+{"id":"s1-0132","narration":"WDL TFR UPI/DR/655436564642/PRIME VIDEO/ICIC/primevideo/Payment from Ph 0097724440797 AT 09482 BANDRA","amount_paise":-29900,"label":"amazon_prime","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0133","narration":"WDL TFR UPI/DR/624838954117/DEEPA JOSHI/PUNB/7862872661/UPI 0097626485981 AT 09482 BIDHANNAGAR","amount_paise":-1423024,"label":"person","channel":"upi_person","noise":["UPI ID without domain"]}
+{"id":"s1-0134","narration":"WDL TFR UPI/DR/825100612869/CASHFREE/YESB/cas hfree.7996392@yesbank/Mandate 0097683461610 AT 09482 KORAMANGALA","amount_paise":-119900,"label":"act_fibernet","channel":"upi_gateway","noise":["gateway only"]}
+{"id":"s1-0135","narration":"TO TRANSFER-UPI/DR/443922499318/RAZORPAY /HDFC/razorpay.8385457@axisbank/NA--","amount_paise":-226673,"label":"msedcl","channel":"upi_gateway","noise":["gateway only"]}
+{"id":"s1-0136","narration":"TO TRANSFER-UPI/DR/892972251006/RITU DESAI/SBIN/ritu.desai@ybl/Mandate--","amount_paise":-168523,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0137","narration":"TO TRANSFER-UPI/DR/521227088219/UBER INDIA SYSTEMS/IDIB/uberindia@hdfcbank/Pay to--","amount_paise":-70606,"label":"uber","channel":"upi_merchant","noise":[]}
+{"id":"s1-0138","narration":"WDL TFR UPI/DR/723183726579/MSEDCL/SBIN/msedc l/Collect 0097759028123 AT 09482 THANE","amount_paise":-344515,"label":"msedcl","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0139","narration":"TO TRANSFER-UPI/DR/374403066005/SUNITA DESAI/HDFC/8486532815/Sent from Paytm--","amount_paise":-1137592,"label":"person","channel":"upi_person","noise":["UPI ID without domain"]}
+{"id":"s1-0140","narration":"WDL TFR UPI/DR/365000725280/SONY LIV/UTIB/sonyliv@hdfcbank/Payment from Ph 0097748500725 AT 09482 BIDHANNAGAR","amount_paise":-69900,"label":"sonyliv","channel":"upi_merchant","noise":[]}
+{"id":"s1-0141","narration":"WDL TFR UPI/DR/621900863901/NOBROKER TECHNOLOGIES/YESB/nobroker@icici/Pay to 0097690433249 AT 09482 BIDHANNAGAR","amount_paise":-2500000,"label":"nobroker","channel":"upi_merchant","noise":[]}
+{"id":"s1-0142","narration":"TO TRANSFER-UPI/DR/397601453985/NOVI DIGITAL ENTERTAINMENT/SBIN/hotstar@icici/Mand ate--","amount_paise":-14900,"label":"jiohotstar","channel":"upi_merchant","noise":[]}
+{"id":"s1-0143","narration":"WDL TFR UPI/DR/835013959296/SPOTIFY IND/IDIB/spotify/Collect 0097736005044 AT 09482 ANDHERI","amount_paise":-5900,"label":"spotify","channel":"upi_merchant","noise":["payee truncated","UPI ID without domain"]}
+{"id":"s1-0144","narration":"TO TRANSFER-UPI/DR/596682175951/ANANYA CHATTERJEE/IDIB/ananya829@/Mandate--","amount_paise":-731191,"label":"person","channel":"upi_person","noise":["UPI ID truncated"]}
+{"id":"s1-0145","narration":"TO TRANSFER-UPI/DR/840422181062/DMART READY/IDIB/dmartready@ybl/Pay to--","amount_paise":-350345,"label":"dmart","channel":"upi_merchant","noise":[]}
+{"id":"s1-0146","narration":"TO TRANSFER-UPI/DR/294492197540/NETAJI B/BARB/mab.453922491977/Collect--","amount_paise":-78545,"label":"unknown","channel":"upi_unknown","noise":["payee truncated","UPI ID without domain"]}
+{"id":"s1-0147","narration":"DEP TFR UPI/CR/134667302178/LIC/YESB/licpremi um@sbi/Refund 0097618676039 AT 09482 ANDHERI","amount_paise":117801,"label":"lic","channel":"refund","noise":["refund"]}
+{"id":"s1-0148","narration":"TO TRANSFER-UPI/DR/115605721034/MSEDCL/I CIC/msedcl@sbi/Payment from Ph--","amount_paise":-303008,"label":"msedcl","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0149","narration":"WDL TFR UPI/DR/124651445695/CAFE MOCHA BANDRA/SBIN/q794644130@ybl/Payment from Ph 0097678518804 AT 09482 BIDHANNAGAR","amount_paise":-100245,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0150","narration":"WDL TFR UPI/DR/326658690336/ADANI ELECTRICITY MUMBAI/PUNB/adanielectricity@icici/Se nt from Paytm 0097725631157 AT 09482 BANDRA","amount_paise":-231223,"label":"adani_electricity","channel":"upi_merchant","noise":[]}
+{"id":"s1-0151","narration":"WDL TFR UPI/DR/147132857937/NEHA MEHTA/BARB/neha609@okaxis/NA 009774367628 AT 09482 KORAMANGALA","amount_paise":-285318,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0152","narration":"BY DEBIT CARD-OTHPOS 607152XXXXXX9820 NETFLIX.COM","amount_paise":-19900,"label":"netflix","channel":"card","noise":[]}
+{"id":"s1-0153","narration":"WDL TFR UPI/DR/878153862502/SUPERMARK/YESB/bb now@icici/Payment from Ph 0097628098529 AT 09482 THANE","amount_paise":-342818,"label":"bigbasket","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0154","narration":"TO TRANSFER-UPI/DR/490800818866/CUREFIT HEALTHCARE/KKBK/cultfit@icici/UPI--","amount_paise":-149900,"label":"cultfit","channel":"upi_merchant","noise":[]}
+{"id":"s1-0155","narration":"TO TRANSFER-UPI/DR/427969383511/MAHANAGA R GAS LTD/IDIB/mgl@icici/Payment fo--","amount_paise":-72343,"label":"mahanagar_gas","channel":"upi_merchant","noise":[]}
+{"id":"s1-0156","narration":"TO TRANSFER-INB BillPay TATA POWER-DDL 972921052975","amount_paise":-303791,"label":"tata_power","channel":"bill","noise":[]}
+{"id":"s1-0157","narration":"INT.PD 01-04-2026 TO 30-09-2026","amount_paise":66911,"label":"bank","channel":"bank","noise":[]}
+{"id":"s1-0158","narration":"ACH DR INW HDFC LIFE INSURANCE CO 7803441984","amount_paise":-500000,"label":"hdfc_life","channel":"nach","noise":[]}
+{"id":"s1-0159","narration":"TO TRANSFER-INB BillPay TATA PLAY DTH 330673364528","amount_paise":-48000,"label":"tata_play","channel":"bill","noise":[]}
+{"id":"s1-0160","narration":"ACH DR INW HDFC MF SIP 2906128814","amount_paise":-100000,"label":"hdfc_mf","channel":"nach","noise":[]}
+{"id":"s1-0161","narration":"BBPS/TATA POWER CO LTD MUMBAI/778265902916/461414","amount_paise":-254039,"label":"tata_power","channel":"bill","noise":[]}
+{"id":"s1-0162","narration":"WDL TFR UPI/DR/170733670053/RAHUL IYER/HDFC/rahul766@ybl/Payment from Ph 0097638948878 AT 09482 BANDRA","amount_paise":-692946,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0163","narration":"BY DEBIT CARD-OTHPOS 524193XXXXXX3737 NETFLIX COM MUMBAI","amount_paise":-49900,"label":"netflix","channel":"card","noise":[]}
+{"id":"s1-0164","narration":"ACH DR INW INDIAN CLEARING CORP 5832123578","amount_paise":-500000,"label":"iccl","channel":"nach","noise":[]}
+{"id":"s1-0165","narration":"DEBIT-ACHDr HOME CREDIT INDIA FIN 5499139707","amount_paise":-798742,"label":"unknown","channel":"unknown_nach","noise":[]}
+{"id":"s1-0166","narration":"WDL TFR UPI/DR/896901714548/VIJAY SALES/HDFC/gpay-1143/Payment from Ph 0097733916106 AT 09482 KORAMANGALA","amount_paise":-296942,"label":"unknown","channel":"upi_unknown","noise":["UPI ID truncated"]}
+{"id":"s1-0167","narration":"ACH DR INW SBI FUNDS MANAGEMENT 6825007320","amount_paise":-50000,"label":"sbi_mf","channel":"nach","noise":[]}
+{"id":"s1-0168","narration":"TO TRANSFER-UPI/DR/194334308507/KRISHNA FRUITS AND VEG/PUNB/gpay-966/Payment from Ph--","amount_paise":-271906,"label":"unknown","channel":"upi_unknown","noise":["UPI ID truncated"]}
+{"id":"s1-0169","narration":"TO TRANSFER-UPI/DR/812921466117/URBAN COMPAN/YESB/gpay-44614675691/UPI--","amount_paise":-150164,"label":"unknown","channel":"upi_unknown","noise":["payee truncated","UPI ID without domain"]}
+{"id":"s1-0170","narration":"WDL TFR UPI/DR/999796597308/ZEPTO/PUNB/zepton ow/Collect 0097744083812 AT 09482 BIDHANNAGAR","amount_paise":-43721,"label":"zepto","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0171","narration":"WDL TFR UPI/DR/502782902053/ANANYA DESAI/BARB/ananya.desai@paytm/Mandate 0097775907481 AT 09482 THANE","amount_paise":-93077,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0172","narration":"TO TRANSFER-UPI/DR/724347614774/NOVI DIGITAL ENTERTAINMENT/UTIB/hotstar@icici/Sent from Paytm--","amount_paise":-149900,"label":"jiohotstar","channel":"upi_merchant","noise":[]}
+{"id":"s1-0173","narration":"TO TRANSFER-UPI/DR/125033080078/PRIYA CHAT/BARB/priya107@axl/NA--","amount_paise":-903836,"label":"person","channel":"upi_person","noise":["payee truncated"]}
+{"id":"s1-0174","narration":"ECOM PUR 607152XXXXXX6719 HOTSTAR SUBSCRIPTION","amount_paise":-149900,"label":"jiohotstar","channel":"card","noise":[]}
+{"id":"s1-0175","narration":"TO TRANSFER-UPI/DR/537616178642/APOLLO TYRE/YESB/paytmqr2521/NA--","amount_paise":-273817,"label":"unknown","channel":"upi_unknown","noise":["payee truncated","UPI ID truncated"]}
+{"id":"s1-0176","narration":"TO TRANSFER-UPI/DR/486382011936/AMAZON INDIA/BARB/amazon.seller@axisbank/Man date--","amount_paise":-919164,"label":"amazon","channel":"upi_merchant","noise":[]}
+{"id":"s1-0177","narration":"TO TRANSFER-UPI/DR/736748661705/AMAZON SELLER SERVICES/BARB/amazonpay@apl/Pay to--","amount_paise":-650229,"label":"amazon","channel":"upi_merchant","noise":[]}
+{"id":"s1-0178","narration":"ECOM PUR 459150XXXXXX2965 INDIANOIL FUEL STN","amount_paise":-233252,"label":"indian_oil","channel":"card","noise":[]}
+{"id":"s1-0179","narration":"BY DEBIT CARD-OTHPOS 524193XXXXXX5201 JIOHOTSTAR MUMBAI","amount_paise":-49900,"label":"jiohotstar","channel":"card","noise":[]}
+{"id":"s1-0180","narration":"ACH DR INW BAJAJ FINANCE LTD 8253956514","amount_paise":-185000,"label":"bajaj_finance","channel":"nach","noise":[]}
+{"id":"s1-0181","narration":"BY TRANSFER-UPI/CR/192989612175/APOLLO PHAR/BARB/apollopharm/Refund--","amount_paise":67715,"label":"apollo_pharmacy","channel":"refund","noise":["refund","payee truncated","UPI ID truncated"]}
+{"id":"s1-0182","narration":"WDL TFR UPI/DR/468001672446/ADANI ELECTRICITY MUMBAI/YESB/adanielectricity@icici/Co llect 0097784606685 AT 09482 SALTLAKE","amount_paise":-195615,"label":"adani_electricity","channel":"upi_merchant","noise":[]}
+{"id":"s1-0183","narration":"TO TRANSFER-UPI/DR/112258858729/INDIAN OIL CORPORATION/SBIN/iocl/Payment fo--","amount_paise":-72558,"label":"indian_oil","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0184","narration":"TO TRANSFER-UPI/DR/615338855552/KABIR SHARMA/HDFC/9745955052@oksbi/Payment fo--","amount_paise":-85700,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0185","narration":"TO TRANSFER-INB BillPay TATA SKY 358479138348","amount_paise":-48000,"label":"tata_play","channel":"bill","noise":[]}
+{"id":"s1-0186","narration":"BY TRANSFER-NEFT*ICIC0898690*N4951831467 38*RAJESH RAO","amount_paise":4780680,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0187","narration":"WDL TFR UPI/DR/416585215839/PAYTM PAYMENTS/ICIC/paytm-pg.9725313/Pay to 0097742199762 AT 09482 KORAMANGALA","amount_paise":-130719,"label":"swiggy","channel":"upi_gateway","noise":["gateway only","UPI ID without domain"]}
+{"id":"s1-0188","narration":"TO TRANSFER-UPI/DR/639544273321/CULVER MAX ENTERTAINMENT/YESB/culvermax@icici/UP I--","amount_paise":-39900,"label":"sonyliv","channel":"upi_merchant","noise":[]}
+{"id":"s1-0189","narration":"TO TRANSFER-UPI/DR/181655451502/SUNITA MENON/PUNB/8286622952@ibl/UPI--","amount_paise":-631555,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0190","narration":"TO TRANSFER-UPI/DR/614886093011/INDIAN OIL/YESB/iocl@sbi/Payment fo--","amount_paise":-108498,"label":"indian_oil","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0191","narration":"WDL TFR UPI/DR/358729453115/BIGBASKET/IDIB/bi gbasket@icici/Mandate 0097780291825 AT 09482 KORAMANGALA","amount_paise":-48447,"label":"bigbasket","channel":"upi_merchant","noise":[]}
+{"id":"s1-0192","narration":"TO TRANSFER-UPI/DR/157442874941/RAZORPAY /IDIB/razorpay.3417092/Payment from Ph--","amount_paise":-28212,"label":"ola","channel":"upi_gateway","noise":["gateway only","UPI ID without domain"]}
+{"id":"s1-0193","narration":"TO TRANSFER-UPI/DR/433817990024/BILLDESK /KKBK/msedcl.billdesk@hdfcbank/Sent from Paytm--","amount_paise":-390226,"label":"msedcl","channel":"upi_merchant","noise":[]}
+{"id":"s1-0194","narration":"WDL TFR UPI/DR/765564950815/UBER/HDFC/uber.ri des@icici/Collect 0097792181546 AT 09482 BANDRA","amount_paise":-61673,"label":"uber","channel":"upi_merchant","noise":[]}
+{"id":"s1-0195","narration":"TO TRANSFER-INB RAJESH ROY","amount_paise":-2700158,"label":"person","channel":"transfer_person","noise":["internet banking transfer"]}
+{"id":"s1-0196","narration":"WDL TFR UPI/DR/415748373732/TATA PLAY/IDIB/tataplay@hdfcbank/Pay to 0097645952854 AT 09482 ANDHERI","amount_paise":-48000,"label":"tata_play","channel":"upi_merchant","noise":[]}
+{"id":"s1-0197","narration":"TO TRANSFER-UPI/DR/886451358379/AMAZON PAY/SBIN/amazon@apl/UPI--","amount_paise":-899724,"label":"amazon","channel":"upi_merchant","noise":[]}
+{"id":"s1-0198","narration":"BY TRANSFER-NEFT*SBIN0441512*N7499398524 02*MANOJ SEN","amount_paise":1007310,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0199","narration":"DEP TFR UPI/CR/163675159509/ROHAN SHAH/SBIN/rohan790/Payment fo 0097724450492 AT 09482 SALTLAKE","amount_paise":265863,"label":"person","channel":"upi_person","noise":["UPI ID without domain"]}
+{"id":"s1-0200","narration":"POS 524193XXXXXX8661 OPENAI *CHATGPT SUBSCR SAN FRANCISCO USD 20.00","amount_paise":-199900,"label":"openai","channel":"card","noise":[]}
+{"id":"s1-0201","narration":"SMS CHGS QTR ENDING SEP 2026","amount_paise":-1500,"label":"bank","channel":"bank","noise":[]}
+{"id":"s1-0202","narration":"TO TRANSFER-UPI/DR/219133783512/PAYTM PAYMENTS/ICIC/paytm-pg.4685859/Mandat e--","amount_paise":-41769,"label":"zomato","channel":"upi_gateway","noise":["gateway only","UPI ID without domain"]}
+{"id":"s1-0203","narration":"TO TRANSFER-UPI/DR/115184951818/SUPERMAR KET GROCERY SUPPLIES/YESB/bbnow@icici/Mandate--","amount_paise":-324665,"label":"bigbasket","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0204","narration":"TO TRANSFER-UPI/DR/858950458549/LIC/YESB /licpremium/NA--","amount_paise":-471200,"label":"lic","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0205","narration":"TO TRANSFER-UPI/DR/841558407848/JIO/UTIB /myjio@sb/Payment fo--","amount_paise":-19900,"label":"jio","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0206","narration":"DEBIT CARD-OTHPG 459150XXXXXX9449 IRCTC ETICKETING","amount_paise":-230527,"label":"irctc","channel":"card","noise":[]}
+{"id":"s1-0207","narration":"WDL TFR UPI/DR/774796112492/AMAZON INDIA/IDIB/amazon.seller@axisbank/Col lect 0097770388916 AT 09482 THANE","amount_paise":-823639,"label":"amazon","channel":"upi_merchant","noise":[]}
+{"id":"s1-0208","narration":"WDL TFR UPI/DR/606084920281/JIO/IDIB/myjio@sb i/Collect 0097691669969 AT 09482 THANE","amount_paise":-34900,"label":"jio","channel":"upi_merchant","noise":[]}
+{"id":"s1-0209","narration":"TO TRANSFER-UPI/DR/593836769422/ARJUN PILLAI/UTIB/arjun769@paytm/Pay to--","amount_paise":-1577319,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0210","narration":"ECOM PUR 459150XXXXXX3602 MICROSOFT INDIA","amount_paise":-61900,"label":"microsoft","channel":"card","noise":[]}
+{"id":"s1-0211","narration":"TO TRANSFER-UPI/DR/833393683267/ANNAPURN A SWEETS/ICIC/q959792580/Mandate--","amount_paise":-173046,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0212","narration":"NACH-DR-STAR HEALTH INSURANCE-9182783580","amount_paise":-180000,"label":"star_health","channel":"nach","noise":[]}
+{"id":"s1-0213","narration":"TO TRANSFER-UPI/DR/732517753615/CASHFREE /HDFC/cashfree.5560455@hdfcbank/Sent from Paytm--","amount_paise":-74900,"label":"apple","channel":"upi_gateway","noise":["gateway only"]}
+{"id":"s1-0214","narration":"INT.PD 01-04-2026 TO 30-09-2026","amount_paise":117037,"label":"bank","channel":"bank","noise":[]}
+{"id":"s1-0215","narration":"BBPS/ATRIA CONVERGENCE TECH/324664953013/544790","amount_paise":-99900,"label":"act_fibernet","channel":"bill","noise":[]}
+{"id":"s1-0216","narration":"WDL TFR UPI/DR/846052997055/TATA PLAY/IDIB/tataplay@hdfcbank/Mandate 0097641965803 AT 09482 BIDHANNAGAR","amount_paise":-48000,"label":"tata_play","channel":"upi_merchant","noise":[]}
+{"id":"s1-0217","narration":"POS 524193XXXXXX1670 MSFT *MICROSOFT 365","amount_paise":-61900,"label":"microsoft","channel":"card","noise":[]}
+{"id":"s1-0218","narration":"TO TRANSFER-UPI/DR/543896377681/Star India Pvt Ltd/HDFC/starindia/Payment fo--","amount_paise":-29900,"label":"jiohotstar","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0219","narration":"TO TRANSFER-UPI/DR/830903225917/GROWW/IC IC/groww@axis/Payment fo--","amount_paise":-100,"label":"groww","channel":"upi_merchant","noise":["1 rupee mandate","UPI ID truncated"]}
+{"id":"s1-0220","narration":"TO TRANSFER-INB BillPay AEML 304677329376","amount_paise":-206023,"label":"adani_electricity","channel":"bill","noise":[]}
+{"id":"s1-0221","narration":"WDL TFR UPI/DR/308166155166/TATA PLAY/YESB/tataplay@hdfcbank/Pay to 0097718270644 AT 09482 ANDHERI","amount_paise":-25000,"label":"tata_play","channel":"upi_merchant","noise":[]}
+{"id":"s1-0222","narration":"TO TRANSFER-UPI/DR/842583868151/JIO/YESB /myjio@sbi/Pay to--","amount_paise":-34900,"label":"jio","channel":"upi_merchant","noise":[]}
+{"id":"s1-0223","narration":"TO TRANSFER-UPI/DR/580882681809/TATA POWER/BARB/tatapower@hdfcbank/Payment fo--","amount_paise":-264417,"label":"tata_power","channel":"upi_merchant","noise":[]}
+{"id":"s1-0224","narration":"TO TRANSFER-INB NIKHIL KULKARNI","amount_paise":-1989760,"label":"person","channel":"transfer_person","noise":["internet banking transfer"]}
+{"id":"s1-0225","narration":"TO TRANSFER-UPI/DR/561797832445/URBAN COMPA/ICIC/gpay-62572479861@okbizaxis /Sent from Paytm--","amount_paise":-132294,"label":"unknown","channel":"upi_unknown","noise":["payee truncated"]}
+{"id":"s1-0226","narration":"BBPS/ATRIA CONVERGENCE TECH/503644308839/102546","amount_paise":-99900,"label":"act_fibernet","channel":"bill","noise":[]}
+{"id":"s1-0227","narration":"BBPS/MSEDCL/564912584115/757348","amount_paise":-220723,"label":"msedcl","channel":"bill","noise":[]}
+{"id":"s1-0228","narration":"TO TRANSFER-UPI/DR/392843410598/ANNAPURN A SWEETS/BARB/annapurna26@paytm/Collect --","amount_paise":-268235,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0229","narration":"WDL TFR UPI/DR/784273552414/NEHA GHOSH/YESB/6650747694@upi/Pay to 0097655298324 AT 09482 SALTLAKE","amount_paise":-2387949,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0230","narration":"DEBIT-ACHDr STAR HEALTH AND ALLIED INS 4441689159","amount_paise":-240000,"label":"star_health","channel":"nach","noise":[]}
+{"id":"s1-0231","narration":"ECOM PUR 524193XXXXXX9018 UBER INDIA","amount_paise":-12871,"label":"uber","channel":"card","noise":[]}
+{"id":"s1-0232","narration":"WDL TFR UPI/DR/626873266253/SHREE GANESH KIRANA STORES/UTIB/shree31@ibl/Payment fo 0097637373397 AT 09482 ANDHERI","amount_paise":-22389,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0233","narration":"WDL TFR UPI/DR/868969809457/AVENUE SUPERMARTS LTD/IDIB/dmart/NA 0097746754654 AT 09482 SALTLAKE","amount_paise":-225086,"label":"dmart","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0234","narration":"WDL TFR UPI/DR/265031702289/JIOHOTSTAR/PUNB/j iohotstar@axisbank/Sent from Paytm 0097738771622 AT 09482 ANDHERI","amount_paise":-14900,"label":"jiohotstar","channel":"upi_merchant","noise":[]}
+{"id":"s1-0235","narration":"BY TRANSFER-UPI/CR/887993932248/RAJESH VERMA/HDFC/rajesh.verma/Sent from Paytm--","amount_paise":983637,"label":"person","channel":"upi_person","noise":["UPI ID truncated"]}
+{"id":"s1-0236","narration":"WDL TFR UPI/DR/476477199766/ZERODHA BROKING LTD/HDFC/zerodha/Pay to 0097683284467 AT 09482 SALTLAKE","amount_paise":-100,"label":"zerodha","channel":"upi_merchant","noise":["1 rupee mandate","UPI ID without domain"]}
+{"id":"s1-0237","narration":"WDL TFR UPI/DR/928797548145/TATA PLAY/BARB/tataplay@hdfcbank/Collect 0097667759702 AT 09482 KORAMANGALA","amount_paise":-25000,"label":"tata_play","channel":"upi_merchant","noise":[]}
+{"id":"s1-0238","narration":"BBPS/ATRIA CONVERGENCE TECH/497237342762/437738","amount_paise":-119900,"label":"act_fibernet","channel":"bill","noise":[]}
+{"id":"s1-0239","narration":"BY TRANSFER-UPI/CR/716470682635/AMIT SHARMA/UTIB/8591874434@ybl/Pay to--","amount_paise":12508,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0240","narration":"TO TRANSFER-INB KARAN PILLAI","amount_paise":-300361,"label":"person","channel":"transfer_person","noise":["internet banking transfer"]}
+{"id":"s1-0241","narration":"WDL TFR UPI/DR/697970658044/MANOJ SINGH/UTIB/manoj.singh@ibl/Pay to 0097667403593 AT 09482 BANDRA","amount_paise":-1805667,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0242","narration":"WDL TFR UPI/DR/495972432886/APOLLO P/ICIC/apollopharmacy@hdfcbank/Pay to 0097721104975 AT 09482 THANE","amount_paise":-239177,"label":"apollo_pharmacy","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0243","narration":"BY TRANSFER-NEFT*ICIC0000104*CMS77498762 7*ACME TECHNOLOGIES PVT LTD","amount_paise":6303826,"label":"unknown","channel":"salary","noise":[]}
+{"id":"s1-0244","narration":"TO TRANSFER-INB BillPay ATRIA CONVERGENCE TECH 132946156778","amount_paise":-79900,"label":"act_fibernet","channel":"bill","noise":[]}
+{"id":"s1-0245","narration":"WDL TFR UPI/DR/245635806582/SAI MEDICAL AND GENERAL/KKBK/paytmqr10180258852047@pa ytm/UPI 00977533637 AT 09482 BIDHANNAGAR","amount_paise":-10279,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0246","narration":"WDL TFR UPI/DR/860870135455/STARBUCKS/BARB/st arbucks54@ybl/NA 0097765346595 AT 09482 SALTLAKE","amount_paise":-275330,"label":"unknown","channel":"upi_unknown","noise":["payee truncated"]}
+{"id":"s1-0247","narration":"TO TRANSFER-UPI/DR/149231187429/DREAMPLU G TECHNOLOGIES/KKBK/cred.rent@axisbank/ Collect--","amount_paise":-1915338,"label":"cred","channel":"upi_merchant","noise":[]}
+{"id":"s1-0248","narration":"WDL TFR UPI/DR/328659377145/APPLE MEDIA SERVICES/SBIN/appleservices.bdsk@hdfc bank/Payment from Ph 0097771555588 AT 09482 KORAMANGALA","amount_paise":-17900,"label":"apple","channel":"upi_merchant","noise":[]}
+{"id":"s1-0249","narration":"TO TRANSFER-UPI/DR/853626051144/NETAJI BOOK DEPOT/PUNB/gpay-70011032713/Collect--","amount_paise":-6263,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0250","narration":"TO TRANSFER-UPI/DR/704208831722/NOBROKER /HDFC/nobroker/Collect--","amount_paise":-100,"label":"nobroker","channel":"upi_merchant","noise":["1 rupee mandate","payee truncated","UPI ID without domain"]}
+{"id":"s1-0251","narration":"BY DEBIT CARD-OTHPOS 459150XXXXXX9722 WWW IRCTC CO IN","amount_paise":-263460,"label":"irctc","channel":"card","noise":[]}
+{"id":"s1-0252","narration":"POS 607152XXXXXX7981 AMAZON PAY INDIA PVT","amount_paise":-47384,"label":"amazon","channel":"card","noise":[]}
+{"id":"s1-0253","narration":"WDL TFR UPI/DR/952180312777/SUNITA MISHRA/BARB/8680357304@axl/NA 0097790074423 AT 09482 BIDHANNAGAR","amount_paise":-2244008,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0254","narration":"TO TRANSFER-UPI/DR/575143741145/LIC/PUNB /licpremium@sbi/Payment fo--","amount_paise":-1025000,"label":"lic","channel":"upi_merchant","noise":[]}
+{"id":"s1-0255","narration":"WDL TFR UPI/DR/435018051179/NYKAA E RETAIL/ICIC/bharatpe.3685776854@fbpe/ Sent from Paytm 0097628122538 AT 09482 KORAMANGALA","amount_paise":-54500,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0256","narration":"WDL TFR UPI/DR/634904144044/RAHUL NAIR/UTIB/rahul.nair@i/Payment from Ph 0097712714892 AT 09482 KORAMANGALA","amount_paise":-1051308,"label":"person","channel":"upi_person","noise":["UPI ID truncated"]}
+{"id":"s1-0257","narration":"TO TRANSFER-UPI/DR/756639610320/SWIGGY/P UNB/swiggy@icici/Collect--","amount_paise":-54484,"label":"swiggy","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0258","narration":"WDL TFR UPI/DR/253807913680/RAJESH RAO/IDIB/rajesh873@oksbi/Pay to 0097751738146 AT 09482 BANDRA","amount_paise":-915050,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0259","narration":"WDL TFR UPI/DR/314077446308/MCDONALDS WESTLIFE/PUNB/mcdonalds85/Sent from Paytm 0097666236207 AT 09482 KORAMANGALA","amount_paise":-31019,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0260","narration":"BY TRANSFER-NEFT*ICIC0000104*CMS42274170 5*ACME TECHNOLOGIES PVT LTD","amount_paise":9590865,"label":"unknown","channel":"salary","noise":[]}
+{"id":"s1-0261","narration":"WDL TFR UPI/DR/353199698093/YOUTUBE PREM/PUNB/youtube@axisbank/Collect 0097691751290 AT 09482 SALTLAKE","amount_paise":-18900,"label":"youtube_premium","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0262","narration":"WDL TFR UPI/DR/290411509080/APPLE MEDIA SERVICES/UTIB/appleservices.bdsk/NA 0097646345379 AT 09482 KORAMANGALA","amount_paise":-19500,"label":"apple","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0263","narration":"WDL TFR UPI/DR/278902537407/ACT FIBERNET/YESB/actfibernet@icici/Manda te 009774193609 AT 09482 BIDHANNAGAR","amount_paise":-99900,"label":"act_fibernet","channel":"upi_merchant","noise":[]}
+{"id":"s1-0264","narration":"TO TRANSFER-UPI/DR/374968443431/KARAN MISHRA/UTIB/karan419/UPI--","amount_paise":-1875088,"label":"person","channel":"upi_person","noise":["UPI ID without domain"]}
+{"id":"s1-0265","narration":"TO TRANSFER-UPI/DR/358496734029/DMART READY/PUNB/dmartready@ybl/Sent from Paytm--","amount_paise":-129842,"label":"dmart","channel":"upi_merchant","noise":[]}
+{"id":"s1-0266","narration":"TO TRANSFER-UPI/DR/810411459528/SHREE GA/HDFC/q211926529@ybl/Payment from Ph--","amount_paise":-290342,"label":"unknown","channel":"upi_unknown","noise":["payee truncated"]}
+{"id":"s1-0267","narration":"WDL TFR UPI/DR/424641242380/INDIAN RAILWAY CATERING/PUNB/irctc.uts@sbi/Pay to 0097648684382 AT 09482 THANE","amount_paise":-32167,"label":"irctc","channel":"upi_merchant","noise":[]}
+{"id":"s1-0268","narration":"BY TRANSFER-UPI/CR/138135677643/SNEHA MISHRA/BARB/8261172696@okhdfcbank/Man date--","amount_paise":2372024,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0269","narration":"ATM WDL-ATM CASH 353631 KORAMANGALA","amount_paise":-180000,"label":"cash","channel":"cash","noise":[]}
+{"id":"s1-0270","narration":"WDL TFR UPI/DR/164607602540/ADANI ELECTRICITY MUMBAI/SBIN/adanielectricity/NA 0097613362634 AT 09482 BANDRA","amount_paise":-157653,"label":"adani_electricity","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0271","narration":"TO TRANSFER-UPI/DR/249379701279/TATA PLAY/YESB/tataplay/Mandate--","amount_paise":-35000,"label":"tata_play","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0272","narration":"CREDIT INTEREST","amount_paise":50579,"label":"bank","channel":"bank","noise":[]}
+{"id":"s1-0273","narration":"TO TRANSFER-UPI/DR/549253700300/IRCTC/KK BK/irctc/UPI--","amount_paise":-318910,"label":"irctc","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0274","narration":"WDL TFR UPI/DR/810366060324/NOBROKER TECHNOLOGIES/BARB/nobroker@icici/Mand ate 0097744345342 AT 09482 KORAMANGALA","amount_paise":-2500000,"label":"nobroker","channel":"upi_merchant","noise":[]}
+{"id":"s1-0275","narration":"WDL TFR UPI/DR/686663433764/GOOGLE PLAY/SBIN/playstore@axisbank/Pay to 0097621375057 AT 09482 SALTLAKE","amount_paise":-29900,"label":"google_play","channel":"upi_merchant","noise":[]}
+{"id":"s1-0276","narration":"WDL TFR UPI/DR/929337601136/BALAJI MOBILE POINT/YESB/balaji77/NA 0097659801108 AT 09482 BIDHANNAGAR","amount_paise":-126971,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0277","narration":"DEP TFR UPI/CR/678659223212/ETERNAL LIMITED/HDFC/zomato.pa/Refund 0097740336762 AT 09482 ANDHERI","amount_paise":64087,"label":"zomato","channel":"refund","noise":["refund","UPI ID truncated"]}
+{"id":"s1-0278","narration":"NACH-DR-LIFE INSURANCE CORPN-8276992879","amount_paise":-235600,"label":"lic","channel":"nach","noise":[]}
+{"id":"s1-0279","narration":"INTL POS TXN 524193XXXXXX2053 TIMES PRIME MEMBERSHIP","amount_paise":-119900,"label":"times_prime","channel":"card","noise":[]}
+{"id":"s1-0280","narration":"BY DEBIT CARD-OTHPOS 459150XXXXXX5217 AMAZON PAY INDIA PVT","amount_paise":-240594,"label":"amazon","channel":"card","noise":[]}
+{"id":"s1-0281","narration":"WDL TFR UPI/DR/894879324530/RELIANCE JIO INFOCOMM/UTIB/jiomobility@hdfcbank/Pa yment from Ph 009771998376 AT 09482 KORAMANGALA","amount_paise":-34900,"label":"jio","channel":"upi_merchant","noise":[]}
+{"id":"s1-0282","narration":"WDL TFR UPI/DR/552148035346/MAHANAGAR GAS LTD/KKBK/mgl@icici/Pay to 0097733333580 AT 09482 BANDRA","amount_paise":-43027,"label":"mahanagar_gas","channel":"upi_merchant","noise":[]}
+{"id":"s1-0283","narration":"BBPS/TATA POWER CO LTD MUMBAI/851095266300/619160","amount_paise":-262394,"label":"tata_power","channel":"bill","noise":[]}
+{"id":"s1-0284","narration":"WDL TFR UPI/DR/784205035638/Prime Video/UTIB/primevideo@apl/Payment from Ph 0097725212544 AT 09482 KORAMANGALA","amount_paise":-59900,"label":"amazon_prime","channel":"upi_merchant","noise":[]}
+{"id":"s1-0285","narration":"BBPS/TATA POWER CO LTD MUMBAI/853511960212/563373","amount_paise":-427670,"label":"tata_power","channel":"bill","noise":[]}
+{"id":"s1-0286","narration":"TO TRANSFER-UPI/DR/556780034504/ZEPTO/PU NB/zeptonow@axisbank/UPI--","amount_paise":-102875,"label":"zepto","channel":"upi_merchant","noise":[]}
+{"id":"s1-0287","narration":"WDL TFR UPI/DR/434818499723/INDIAN O/PUNB/iocl@sbi/UPI 0097629332857 AT 09482 KORAMANGALA","amount_paise":-100,"label":"indian_oil","channel":"upi_merchant","noise":["1 rupee mandate","payee truncated"]}
+{"id":"s1-0288","narration":"WDL TFR UPI/DR/563609930127/APPLE MEDIA/KKBK/appleservices.bdsk@hdfcban k/NA 0097768510914 AT 09482 SALTLAKE","amount_paise":-74900,"label":"apple","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0289","narration":"TO TRANSFER-UPI/DR/658745803565/POOJA GUPTA/HDFC/pooja.gupta@axl/NA--","amount_paise":-2047706,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0290","narration":"TO TRANSFER-UPI/DR/952297539856/PRIME VIDEO/HDFC/primevideo/NA--","amount_paise":-29900,"label":"amazon_prime","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0291","narration":"WDL TFR UPI/DR/298380083770/BILLDESK/BARB/mse dcl.billdesk@hdfcbank/Pay to 009775798493 AT 09482 THANE","amount_paise":-234655,"label":"msedcl","channel":"upi_merchant","noise":[]}
+{"id":"s1-0292","narration":"ACH DR INW TATA CAPITAL FIN SERV 6441896701","amount_paise":-659672,"label":"unknown","channel":"unknown_nach","noise":[]}
+{"id":"s1-0293","narration":"WDL TFR UPI/DR/790968454586/AVENUE SUPER/BARB/dmart@hdfcbank/Mandate 0097611589654 AT 09482 KORAMANGALA","amount_paise":-441322,"label":"dmart","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0294","narration":"ACH DR INW HDFC STANDARD LIFE 6617976069","amount_paise":-500000,"label":"hdfc_life","channel":"nach","noise":[]}
+{"id":"s1-0295","narration":"TO TRANSFER-UPI/DR/234789713945/TATA CLIQ/SBIN/q376653847/Payment from Ph--","amount_paise":-102405,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0296","narration":"TO TRANSFER-UPI/DR/880637231091/CAFE MOCHA BANDRA/SBIN/bharatpe.1555617196@fbpe/ Payment fo--","amount_paise":-258832,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0297","narration":"ATM AMC CHGS","amount_paise":-14750,"label":"bank","channel":"bank","noise":[]}
+{"id":"s1-0298","narration":"TO TRANSFER-UPI/DR/211049897294/NIKHIL ROY/UTIB/nikhil.roy@oksbi/Mandate--","amount_paise":-2004405,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0299","narration":"DEP TFR UPI/CR/138567079168/AMIT GHOSH/BARB/amit.ghosh@okicici/Sent from Paytm 0097659422821 AT 09482 BANDRA","amount_paise":266482,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0300","narration":"TO TRANSFER-UPI/DR/492495331358/NEXTBILL IO/YESB/groww.br/UPI--","amount_paise":-100000,"label":"groww","channel":"upi_merchant","noise":["payee truncated","UPI ID truncated"]}
+{"id":"s1-0301","narration":"WDL TFR UPI/DR/483979001925/SURESH ROY/PUNB/suresh.roy@okhdfcbank/NA 0097712463147 AT 09482 BANDRA","amount_paise":-651585,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0302","narration":"TO TRANSFER-UPI/DR/760502255423/DIVYA MENON/IDIB/divya.menon@ybl/Mandate--","amount_paise":-42705,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0303","narration":"DEP TFR UPI/CR/265907892435/INDIAN RAILWAY CATERING/PUNB/irctc.uts@sbi/Refund 0097623622469 AT 09482 THANE","amount_paise":56031,"label":"irctc","channel":"refund","noise":["refund"]}
+{"id":"s1-0304","narration":"INT.PD 01-04-2026 TO 30-09-2026","amount_paise":186681,"label":"bank","channel":"bank","noise":[]}
+{"id":"s1-0305","narration":"TO TRANSFER-UPI/DR/440557493505/DEEPA GHOSH/BARB/deepa.ghosh@oksbi/Collect- -","amount_paise":-1935039,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0306","narration":"WDL TFR UPI/DR/840864097333/AMAZON PAY/PUNB/amazon@apl/UPI 0097722797628 AT 09482 BANDRA","amount_paise":-159657,"label":"amazon","channel":"upi_merchant","noise":[]}
+{"id":"s1-0307","narration":"ACH DR INW SBI MUTUAL FUND 1817490312","amount_paise":-250000,"label":"sbi_mf","channel":"nach","noise":[]}
+{"id":"s1-0308","narration":"ECOM PUR 524193XXXXXX9219 CULT.FIT BANGALORE","amount_paise":-99900,"label":"cultfit","channel":"card","noise":[]}
+{"id":"s1-0309","narration":"WDL TFR UPI/DR/763662480691/SNEHA SHAH/BARB/sneha853@okaxis/NA 0097666914543 AT 09482 ANDHERI","amount_paise":-1880066,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0310","narration":"TO TRANSFER-UPI/DR/573097150523/MANOJ IYER/ICIC/8132033080@okhdfcbank/Pay to--","amount_paise":-2418738,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0311","narration":"TO TRANSFER-IMPS/P2A/954091677931/DIVYAD AS/UTIB/X8869","amount_paise":-1778391,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0312","narration":"TO TRANSFER-UPI/DR/318105142753/ANNAPURN A S/PUNB/mab.528510205426@axisbank/NA--","amount_paise":-296147,"label":"unknown","channel":"upi_unknown","noise":["payee truncated"]}
+{"id":"s1-0313","narration":"DEP TFR UPI/CR/581958051142/YOUTUBE PREMIUM/SBIN/youtube@axisbank/Refund 0097612304034 AT 09482 SALTLAKE","amount_paise":7451,"label":"youtube_premium","channel":"refund","noise":["refund"]}
+{"id":"s1-0314","narration":"POS 459150XXXXXX8619 ADOBE SYSTEMS SOFTWARE","amount_paise":-423000,"label":"adobe","channel":"card","noise":[]}
+{"id":"s1-0315","narration":"TO TRANSFER-INB BillPay BHARTI AIRTEL LTD 590065488088","amount_paise":-59900,"label":"airtel","channel":"bill","noise":[]}
+{"id":"s1-0316","narration":"WDL TFR UPI/DR/312063083358/INDIAN RAILWAY CATERING/BARB/irctc.uts@sbi/UPI 0097775193107 AT 09482 BIDHANNAGAR","amount_paise":-93736,"label":"irctc","channel":"upi_merchant","noise":[]}
+{"id":"s1-0317","narration":"TO TRANSFER-UPI/DR/540799985761/ACT FIBERNET/ICIC/actfibernet@icici/Sent from Paytm--","amount_paise":-99900,"label":"act_fibernet","channel":"upi_merchant","noise":[]}
+{"id":"s1-0318","narration":"TO TRANSFER-UPI/DR/233908096481/PAYTM PAYMENTS/UTIB/paytm-pg.4779498@axisba nk/Payment fo--","amount_paise":-2500000,"label":"zerodha","channel":"upi_gateway","noise":["gateway only"]}
+{"id":"s1-0319","narration":"WDL TFR UPI/DR/138438915622/SHREE GANESH KIRANA STORES/ICIC/bharatpe.2/NA 0097713528435 AT 09482 KORAMANGALA","amount_paise":-240853,"label":"unknown","channel":"upi_unknown","noise":["UPI ID truncated"]}
+{"id":"s1-0320","narration":"TO TRANSFER-UPI/DR/658508002794/TATA PLAY/BARB/tataplay@hdfcbank/Payment from Ph--","amount_paise":-48000,"label":"tata_play","channel":"upi_merchant","noise":[]}
+{"id":"s1-0321","narration":"ACH DR INW ICICIPRU LIFE 7881446214","amount_paise":-250000,"label":"icici_prulife","channel":"nach","noise":[]}
+{"id":"s1-0322","narration":"BBPS/TATA POWER-DDL/815615323347/800568","amount_paise":-325253,"label":"tata_power","channel":"bill","noise":[]}
+{"id":"s1-0323","narration":"WDL TFR UPI/DR/772518691883/ZEPTO/SBIN/zepton ow/NA 0097789611260 AT 09482 ANDHERI","amount_paise":-104100,"label":"zepto","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0324","narration":"TO TRANSFER-IMPS/P2A/413376265321/SNEHAS HAH/KKBK/X5185","amount_paise":-415362,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0325","narration":"WDL TFR UPI/DR/511110964808/KRISHNA F/PUNB/krishna3/Sent from Paytm 0097679767591 AT 09482 SALTLAKE","amount_paise":-286983,"label":"unknown","channel":"upi_unknown","noise":["payee truncated","UPI ID truncated"]}
+{"id":"s1-0326","narration":"DEP TFR UPI/CR/978854159885/NEHA BOSE/PUNB/neha616@ybl/Payment fo 0097753379212 AT 09482 SALTLAKE","amount_paise":1282960,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0327","narration":"WDL TFR UPI/DR/258341684784/BILLDESK/IDIB/mse dcl.billdesk@hdfcbank/Pay to 0097772509878 AT 09482 KORAMANGALA","amount_paise":-96723,"label":"msedcl","channel":"upi_merchant","noise":[]}
+{"id":"s1-0328","narration":"WDL TFR UPI/DR/836314430441/INDIAN OIL CORPORATION/IDIB/iocl@sbi/NA 009762750908 AT 09482 BANDRA","amount_paise":-183715,"label":"indian_oil","channel":"upi_merchant","noise":[]}
+{"id":"s1-0329","narration":"TO TRANSFER-UPI/DR/708998379469/SONY LIV/UTIB/sonyliv/Sent from Paytm--","amount_paise":-39900,"label":"sonyliv","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0330","narration":"WDL TFR UPI/DR/563904156430/ANANYA DAS/ICIC/ananya.das@okaxis/NA 0097694625899 AT 09482 THANE","amount_paise":-2147341,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0331","narration":"CSH DEP (CDM) 309508 SALTLAKE","amount_paise":330000,"label":"cash","channel":"cash","noise":[]}
+{"id":"s1-0332","narration":"NACH-DR-ICICIPRU LIFE-3111222025","amount_paise":-250000,"label":"icici_prulife","channel":"nach","noise":[]}
+{"id":"s1-0333","narration":"TO TRANSFER-UPI/DR/914610252245/TATA PLAY/BARB/tataplay@hdfcbank/Mandate--","amount_paise":-25000,"label":"tata_play","channel":"upi_merchant","noise":[]}
+{"id":"s1-0334","narration":"TO TRANSFER-IMPS/P2A/610927885995/AMITSH ARMA/HDFC/X9880","amount_paise":-980270,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0335","narration":"WDL TFR UPI/DR/458761415034/SURESH MISH/BARB/7419044604@ybl/Mandate 0097739459393 AT 09482 KORAMANGALA","amount_paise":-391358,"label":"person","channel":"upi_person","noise":["payee truncated"]}
+{"id":"s1-0336","narration":"POS 459150XXXXXX7998 DMART AVENUE SUPERMARTS","amount_paise":-499755,"label":"dmart","channel":"card","noise":[]}
+{"id":"s1-0337","narration":"WDL TFR UPI/DR/233796884067/YOUTUBE PREMIUM/UTIB/youtube@axis/Sent from Paytm 0097763015710 AT 09482 KORAMANGALA","amount_paise":-18900,"label":"youtube_premium","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0338","narration":"WDL TFR UPI/DR/557662568669/NEHA SHARMA/PUNB/7184889272@ybl/Collect 0097721780650 AT 09482 THANE","amount_paise":-1150737,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0339","narration":"DEP TFR UPI/CR/692516592413/POOJA SEN/BARB/pooja.sen@/Mandate 0097794902473 AT 09482 ANDHERI","amount_paise":333260,"label":"person","channel":"upi_person","noise":["UPI ID truncated"]}
+{"id":"s1-0340","narration":"TO TRANSFER-UPI/DR/793601684563/AMIT BOSE/IDIB/8169685018@okicici/Sent from Paytm--","amount_paise":-1908051,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0341","narration":"BY DEBIT CARD-OTHPOS 524193XXXXXX8352 DMART AVENUE SUPERMARTS","amount_paise":-444944,"label":"dmart","channel":"card","noise":[]}
+{"id":"s1-0342","narration":"TO TRANSFER-UPI/DR/791602897937/SONY LIV/PUNB/sonyliv@hdfcbank/Pay to--","amount_paise":-69900,"label":"sonyliv","channel":"upi_merchant","noise":[]}
+{"id":"s1-0343","narration":"CSH DEP (CDM) 598217 BIDHANNAGAR","amount_paise":720000,"label":"cash","channel":"cash","noise":[]}
+{"id":"s1-0344","narration":"BY TRANSFER-UPI/CR/374370385600/CUREFIT HEALTHCARE/HDFC/cultfit/Refund--","amount_paise":74951,"label":"cultfit","channel":"refund","noise":["refund","UPI ID without domain"]}
+{"id":"s1-0345","narration":"WDL TFR UPI/DR/273102096716/ACT FIBERNET/HDFC/actfibernet/Collect 0097646825552 AT 09482 THANE","amount_paise":-79900,"label":"act_fibernet","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0346","narration":"DEBIT CARD ANNUAL FEE + GST","amount_paise":-23600,"label":"bank","channel":"bank","noise":[]}
+{"id":"s1-0347","narration":"WDL TFR UPI/DR/228981058295/JIO WORLD DRIVE PARKING/KKBK/mab.677675643879@axisban k/Mandate 0097765547638 AT 09482 BANDRA","amount_paise":-216824,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0348","narration":"WDL TFR UPI/DR/948675941407/PAYTM PAYMENTS/HDFC/paytm-pg.9708352@hdfcba nk/Payment fo 0097687173523 AT 09482 THANE","amount_paise":-709902,"label":"flipkart","channel":"upi_gateway","noise":["gateway only"]}
+{"id":"s1-0349","narration":"INTL POS TXN 607152XXXXXX3006 YOUTUBEPREMIUM G.CO/HELPPAY","amount_paise":-18900,"label":"youtube_premium","channel":"card","noise":[]}
+{"id":"s1-0350","narration":"TO TRANSFER-UPI/DR/691513430651/OLA ELECTR/ICIC/bharatpe.7/UPI--","amount_paise":-64033,"label":"unknown","channel":"upi_unknown","noise":["payee truncated","UPI ID truncated"]}
+{"id":"s1-0351","narration":"TO TRANSFER-UPI/DR/505302478480/TATA PLAY/ICIC/tataplay@hdfcbank/Sent from Paytm--","amount_paise":-35000,"label":"tata_play","channel":"upi_merchant","noise":[]}
+{"id":"s1-0352","narration":"TO TRANSFER-UPI/DR/986172715342/GOOGLE YOUTUBE/KKBK/youtubepr/Mandate--","amount_paise":-14900,"label":"youtube_premium","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0353","narration":"WDL TFR UPI/DR/673448210897/BILLDESK/BARB/mse dcl.bill/Payment from Ph 0097618092064 AT 09482 KORAMANGALA","amount_paise":-306301,"label":"msedcl","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0354","narration":"POS 524193XXXXXX9785 OPENAI CHATGPT","amount_paise":-199900,"label":"openai","channel":"card","noise":[]}
+{"id":"s1-0355","narration":"ECOM PUR 524193XXXXXX8832 IRCTC ETICKETING","amount_paise":-47717,"label":"irctc","channel":"card","noise":[]}
+{"id":"s1-0356","narration":"WDL TFR UPI/DR/395840283478/GROWW/BARB/groww@ axisbank/Mandate 0097730891039 AT 09482 THANE","amount_paise":-100000,"label":"groww","channel":"upi_merchant","noise":[]}
+{"id":"s1-0357","narration":"TO TRANSFER-UPI/DR/928532427372/RAJESH NAIR/SBIN/9638120462@okhdfcbank/NA--","amount_paise":-212057,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0358","narration":"BY TRANSFER-UPI/CR/949873894198/SUNITA NAIR/ICIC/sunita793@ybl/Sent from Paytm--","amount_paise":2362292,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0359","narration":"BBPS/AEML/7280682734/481458","amount_paise":-400682,"label":"adani_electricity","channel":"bill","noise":[]}
+{"id":"s1-0360","narration":"WDL TFR UPI/DR/506492616194/INDIAN OIL CORPORATION/IDIB/iocl@sbi/UPI 0097626382277 AT 09482 BIDHANNAGAR","amount_paise":-155019,"label":"indian_oil","channel":"upi_merchant","noise":[]}
+{"id":"s1-0361","narration":"TO TRANSFER-IMPS/P2A/167356910678/RITUSH ARMA/UTIB/X8090","amount_paise":-158962,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0362","narration":"BY TRANSFER-UPI/CR/373098011477/RITU SEN/PUNB/ritu415@upi/Payment from Ph--","amount_paise":1387339,"label":"person","channel":"upi_person","noise":["UPI ID truncated"]}
+{"id":"s1-0363","narration":"WDL TFR UPI/DR/722783768683/ETERNAL LIMITED/ICIC/zomato.payu@hdfcbank/Pay ment from Ph 0097784137832 AT 09482 BIDHANNAGAR","amount_paise":-121887,"label":"zomato","channel":"upi_merchant","noise":[]}
+{"id":"s1-0364","narration":"WDL TFR UPI/DR/604206775572/KIRANAKART T/PUNB/zepto.rzp@icici/NA 009775558481 AT 09482 BIDHANNAGAR","amount_paise":-100,"label":"zepto","channel":"upi_merchant","noise":["1 rupee mandate","payee truncated"]}
+{"id":"s1-0365","narration":"TO TRANSFER-UPI/DR/312907861574/ADANI ELECTRICITY MUMBAI/BARB/adanielectricity@icici/Pa y to--","amount_paise":-325003,"label":"adani_electricity","channel":"upi_merchant","noise":[]}
+{"id":"s1-0366","narration":"TO TRANSFER-UPI/DR/652725734054/NEHA REDDY/KKBK/8665608162@ybl/NA--","amount_paise":-1804213,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0367","narration":"WDL TFR UPI/DR/156110731311/BALAJI MOBILE POINT/ICIC/q446614909/Collect 0097720568662 AT 09482 BANDRA","amount_paise":-253027,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0368","narration":"WDL TFR UPI/DR/511932561079/CULVER MAX ENTERTAINMENT/YESB/culvermax/Payment fo 0097755283674 AT 09482 BIDHANNAGAR","amount_paise":-39900,"label":"sonyliv","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0369","narration":"WDL TFR UPI/DR/631676225154/YOUTUBE PRE/ICIC/youtube/Mandate 0097611482514 AT 09482 THANE","amount_paise":-18900,"label":"youtube_premium","channel":"upi_merchant","noise":["payee truncated","UPI ID without domain"]}
+{"id":"s1-0370","narration":"TO TRANSFER-UPI/DR/176620704346/SPOTIFY INDIA/KKBK/spotify/NA--","amount_paise":-100,"label":"spotify","channel":"upi_merchant","noise":["1 rupee mandate","UPI ID without domain"]}
+{"id":"s1-0371","narration":"WDL TFR UPI/DR/739644097493/GOOGLE ONE/PUNB/googleone@axisbank/Payment fo 0097623667182 AT 09482 BIDHANNAGAR","amount_paise":-3500,"label":"google_one","channel":"upi_merchant","noise":[]}
+{"id":"s1-0372","narration":"WDL TFR UPI/DR/760826584899/DEEPA RAO/HDFC/deepa979@ib/Payment from Ph 0097746742272 AT 09482 ANDHERI","amount_paise":-2147328,"label":"person","channel":"upi_person","noise":["UPI ID truncated"]}
+{"id":"s1-0373","narration":"BBPS/TATA POWER-DDL/17346231029/191821","amount_paise":-449000,"label":"tata_power","channel":"bill","noise":[]}
+{"id":"s1-0374","narration":"ECOM PUR 607152XXXXXX2796 IOCL COCO OUTLET","amount_paise":-257655,"label":"indian_oil","channel":"card","noise":[]}
+{"id":"s1-0375","narration":"BY TRANSFER-UPI/CR/789647927767/SPOTIFY/ KKBK/spotify.in@ybl/Refund--","amount_paise":5951,"label":"spotify","channel":"refund","noise":["refund"]}
+{"id":"s1-0376","narration":"TO TRANSFER-UPI/DR/590780697461/STAR INDIA PVT LTD/HDFC/starindia.payu@hdfcbank/NA--","amount_paise":-149900,"label":"jiohotstar","channel":"upi_merchant","noise":[]}
+{"id":"s1-0377","narration":"TO TRANSFER-INB BillPay MAHARASHTRA STATE ELEC DIST 525616836938","amount_paise":-327648,"label":"msedcl","channel":"bill","noise":[]}
+{"id":"s1-0378","narration":"WDL TFR UPI/DR/507287485857/CASHFREE/SBIN/cas hfree.8955167@icici/Sent from Paytm 0097636998406 AT 09482 THANE","amount_paise":-13000,"label":"google_one","channel":"upi_gateway","noise":["gateway only"]}
+{"id":"s1-0379","narration":"TO TRANSFER-UPI/DR/736014059073/CAFE MOCHA BANDRA/SBIN/bharatpe.2719250950@fbpe/ Collect--","amount_paise":-92835,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0380","narration":"BY TRANSFER-NEFT*SBIN0938004*N1648439645 23*ARJUN MEHTA","amount_paise":4144820,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0381","narration":"TO TRANSFER-UPI/DR/143792134180/SHIV SHAKTI HARDWARE/BARB/gpay-49033500384/UPI--","amount_paise":-213154,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0382","narration":"ACH DR INW BSE STAR MF 6730138492","amount_paise":-500000,"label":"iccl","channel":"nach","noise":[]}
+{"id":"s1-0383","narration":"TO TRANSFER-UPI/DR/741108236016/SWIGGY/U TIB/swiggy@icici/Payment from Ph--","amount_paise":-94592,"label":"swiggy","channel":"upi_merchant","noise":[]}
+{"id":"s1-0384","narration":"TO TRANSFER-UPI/DR/485127942861/AMAZON PRIME/UTIB/amazonprime/Sent from Paytm--","amount_paise":-29900,"label":"amazon_prime","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0385","narration":"TO TRANSFER-UPI/DR/362475204750/PATEL BROTHERS/PUNB/gpay-81161490574/Pay to--","amount_paise":-261175,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0386","narration":"TO TRANSFER-IMPS/P2A/962402731807/AMITJO SHI/UTIB/X1570","amount_paise":-1369567,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0387","narration":"WDL TFR UPI/DR/573728847981/ANNAPURNA SWEETS/SBIN/annapurna74@oksbi/Sent from Paytm 0097736736299 AT 09482 KORAMANGALA","amount_paise":-18713,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0388","narration":"BBPS/ADANI ELECTRICITY/313379322408/158226","amount_paise":-319238,"label":"adani_electricity","channel":"bill","noise":[]}
+{"id":"s1-0389","narration":"WDL TFR UPI/DR/460797810387/INDIAN RAILWAY CATERING/SBIN/irctc.uts@sbi/NA 0097714596508 AT 09482 ANDHERI","amount_paise":-272071,"label":"irctc","channel":"upi_merchant","noise":[]}
+{"id":"s1-0390","narration":"TO TRANSFER-UPI/DR/532977273671/UBER/SBI N/uber.rides@icici/Mandate--","amount_paise":-100,"label":"uber","channel":"upi_merchant","noise":["1 rupee mandate"]}
+{"id":"s1-0391","narration":"TO TRANSFER-UPI/DR/322598771438/OLA ELECTRIC SERVICE CENTRE/PUNB/ola54/Payment from Ph--","amount_paise":-19092,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0392","narration":"TO TRANSFER-UPI/DR/479214307823/INDIAN OIL CORPORATION/PUNB/iocl@sbi/Payment from Ph--","amount_paise":-100,"label":"indian_oil","channel":"upi_merchant","noise":["1 rupee mandate"]}
+{"id":"s1-0393","narration":"DEBIT-ACHDr ICICIPRU LIFE 6289704878","amount_paise":-600000,"label":"icici_prulife","channel":"nach","noise":[]}
+{"id":"s1-0394","narration":"TO TRANSFER-IMPS/P2A/113029769650/NEHAKU LKARNI/HDFC/X2343","amount_paise":-1554191,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0395","narration":"BY TRANSFER-UPI/CR/920807183946/KAVITA MEHTA/IDIB/kavita320@okaxis/Mandate--","amount_paise":830656,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0396","narration":"WDL TFR UPI/DR/157421854558/AIRTEL/KKBK/airte lpostpaid@icici/NA 0097610599132 AT 09482 THANE","amount_paise":-44900,"label":"airtel","channel":"upi_merchant","noise":[]}
+{"id":"s1-0397","narration":"NACH-DR-TATA CAPITAL FIN SERV-3919198014","amount_paise":-852713,"label":"unknown","channel":"unknown_nach","noise":[]}
+{"id":"s1-0398","narration":"BY TRANSFER-UPI/CR/476609102321/SURESH NAIR/KKBK/suresh961@ybl/Collect--","amount_paise":2318021,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0399","narration":"TO TRANSFER-UPI/DR/362125305989/ETERNAL LIM/HDFC/zomato.payu/Payment from Ph--","amount_paise":-41696,"label":"zomato","channel":"upi_merchant","noise":["payee truncated","UPI ID without domain"]}
+{"id":"s1-0400","narration":"DEBIT-ACHDr HDFC MUTUAL FUND 9830207785","amount_paise":-100000,"label":"hdfc_mf","channel":"nach","noise":[]}
+{"id":"s1-0401","narration":"TO TRANSFER-UPI/DR/577731964997/GROWW/ID IB/groww@ax/Mandate--","amount_paise":-100,"label":"groww","channel":"upi_merchant","noise":["1 rupee mandate","UPI ID truncated"]}
+{"id":"s1-0402","narration":"DEP TFR UPI/CR/686590375913/KARAN RAO/PUNB/918111545/Sent from Paytm 0097797325746 AT 09482 ANDHERI","amount_paise":231094,"label":"person","channel":"upi_person","noise":["UPI ID truncated"]}
+{"id":"s1-0403","narration":"ACH DR INW SBI FUNDS MANAGEMENT 7247287372","amount_paise":-250000,"label":"sbi_mf","channel":"nach","noise":[]}
+{"id":"s1-0404","narration":"TO TRANSFER-UPI/DR/131063170998/CHAI POINT/SBIN/bharatpe.5388788512@fbpe/S ent from Paytm--","amount_paise":-181642,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0405","narration":"ACH DR INW BAJAJ FINANCE LTD 7244041423","amount_paise":-333300,"label":"bajaj_finance","channel":"nach","noise":[]}
+{"id":"s1-0406","narration":"INTL POS TXN 607152XXXXXX4777 UBER *TRIP HELP.UBER.COM","amount_paise":-22120,"label":"uber","channel":"card","noise":[]}
+{"id":"s1-0407","narration":"BY TRANSFER-NEFT*ICIC0000104*CMS73187107 7*SUNRISE INFOTECH SOLUTIONS","amount_paise":13889720,"label":"unknown","channel":"salary","noise":[]}
+{"id":"s1-0408","narration":"INTL POS TXN 524193XXXXXX3572 TIMES PRIME MEMBERSHIP","amount_paise":-119900,"label":"times_prime","channel":"card","noise":[]}
+{"id":"s1-0409","narration":"ACH DR INW NIPPON INDIA MF 9514847137","amount_paise":-797983,"label":"unknown","channel":"unknown_nach","noise":[]}
+{"id":"s1-0410","narration":"TO TRANSFER-UPI/DR/199300917495/RAHUL PILLAI/SBIN/6560653970@paytm/Pay to--","amount_paise":-2116311,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0411","narration":"TO TRANSFER-UPI/DR/285376299260/ROHAN KULKA/KKBK/6692769728@p/NA--","amount_paise":-1038556,"label":"person","channel":"upi_person","noise":["payee truncated","UPI ID truncated"]}
+{"id":"s1-0412","narration":"WDL TFR UPI/DR/718585846385/KRISHNA FRUI/HDFC/gpay-74003579433@okbizaxis/ Payment from Ph 0097790454447 AT 09482 SALTLAKE","amount_paise":-141583,"label":"unknown","channel":"upi_unknown","noise":["payee truncated"]}
+{"id":"s1-0413","narration":"WDL TFR UPI/DR/208584370656/NYKAA E RETAIL/PUNB/q662831320/NA 0097795019679 AT 09482 ANDHERI","amount_paise":-186117,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0414","narration":"TO TRANSFER-UPI/DR/151044556396/INDIAN RAILWAY CATERING/YESB/irctc.uts@sbi/Payment fo--","amount_paise":-121293,"label":"irctc","channel":"upi_merchant","noise":[]}
+{"id":"s1-0415","narration":"WDL TFR UPI/DR/491235740401/TATA POWER/IDIB/tatapower/Payment from Ph 0097634457708 AT 09482 BANDRA","amount_paise":-366873,"label":"tata_power","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0416","narration":"TO TRANSFER-UPI/DR/167434821432/SANJAY IYER/ICIC/9695712185/NA--","amount_paise":-328885,"label":"person","channel":"upi_person","noise":["UPI ID without domain"]}
+{"id":"s1-0417","narration":"NACH-DR-ICICI PRUDENTIAL LIFE INS-8388727623","amount_paise":-250000,"label":"icici_prulife","channel":"nach","noise":[]}
+{"id":"s1-0418","narration":"WDL TFR UPI/DR/791400079340/PAYU/YESB/payu.45 94095/Mandate 0097726885998 AT 09482 KORAMANGALA","amount_paise":-48000,"label":"tata_play","channel":"upi_gateway","noise":["gateway only","UPI ID truncated"]}
+{"id":"s1-0419","narration":"TO TRANSFER-UPI/DR/641036766277/MEERA SHAH/ICIC/meera.shah@ybl/Pay to--","amount_paise":-1434278,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0420","narration":"TO TRANSFER-UPI/DR/650403365260/NEXTBILL ION TECHNOLOGY/BARB/groww.brk@va/Sent from Paytm--","amount_paise":-50000,"label":"groww","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0421","narration":"WDL TFR UPI/DR/935230523215/VIJAY SALES/UTIB/gpay-25629660449/UPI 0097714282102 AT 09482 BANDRA","amount_paise":-107010,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0422","narration":"BY TRANSFER-UPI/CR/610651504918/FLIPKART INTERNET PVT LTD/YESB/fkrt@ybl/Refund--","amount_paise":317254,"label":"flipkart","channel":"refund","noise":["refund"]}
+{"id":"s1-0423","narration":"BBPS/ATRIA CONVERGENCE TECH/711868402290/877413","amount_paise":-79900,"label":"act_fibernet","channel":"bill","noise":[]}
+{"id":"s1-0424","narration":"BBPS/MAHANAGAR GAS/399280628073/364300","amount_paise":-82712,"label":"mahanagar_gas","channel":"bill","noise":[]}
+{"id":"s1-0425","narration":"WDL TFR UPI/DR/374077503539/POOJA PILLAI/KKBK/9367735871@upi/UPI 0097690643663 AT 09482 THANE","amount_paise":-399265,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0426","narration":"WDL TFR UPI/DR/295879849569/RELIANCE JIO INFOCOMM/SBIN/jiomobility/Payment from Ph 0097673256103 AT 09482 KORAMANGALA","amount_paise":-79900,"label":"jio","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0427","narration":"WDL TFR UPI/DR/424839265426/CAFE MOCHA BANDRA/PUNB/gpay-30219910610@okbizaxi s/Collect 0097682965174 AT 09482 KORAMANGALA","amount_paise":-114148,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0428","narration":"TO TRANSFER-UPI/DR/654542825481/NETFLIX ENTERTAINMENT SERVICES/BARB/netflix@icici/Sent from Paytm--","amount_paise":-49900,"label":"netflix","channel":"upi_merchant","noise":[]}
+{"id":"s1-0429","narration":"TO TRANSFER-UPI/DR/438816203094/ZERODHA B/ICIC/zerodha/Payment from Ph--","amount_paise":-2500000,"label":"zerodha","channel":"upi_merchant","noise":["payee truncated","UPI ID without domain"]}
+{"id":"s1-0430","narration":"WDL TFR UPI/DR/538347586596/LIC/SBIN/licpremi um@sbi/Payment fo 009779993420 AT 09482 THANE","amount_paise":-235600,"label":"lic","channel":"upi_merchant","noise":[]}
+{"id":"s1-0431","narration":"TO TRANSFER-UPI/DR/564496963551/SHIV SHAKTI/ICIC/gpay-61542789734/NA--","amount_paise":-221198,"label":"unknown","channel":"upi_unknown","noise":["payee truncated","UPI ID without domain"]}
+{"id":"s1-0432","narration":"TO TRANSFER-UPI/DR/808288676097/NETAJI BO/UTIB/mab.999245555359@axisbank/Sen t from Paytm--","amount_paise":-27001,"label":"unknown","channel":"upi_unknown","noise":["payee truncated"]}
+{"id":"s1-0433","narration":"INTL POS TXN 607152XXXXXX5278 AMAZON PAY INDIA PVT","amount_paise":-420680,"label":"amazon","channel":"card","noise":[]}
+{"id":"s1-0434","narration":"WDL TFR UPI/DR/613846729319/APPLE MEDIA/BARB/appleserv/Collect 0097617572462 AT 09482 BANDRA","amount_paise":-19500,"label":"apple","channel":"upi_merchant","noise":["payee truncated","UPI ID truncated"]}
+{"id":"s1-0435","narration":"WDL TFR UPI/DR/518880861894/PHONEPE RECHARGE/UTIB/bharatpe.8426056890@fbp e/Mandate 0097791315883 AT 09482 BIDHANNAGAR","amount_paise":-112614,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0436","narration":"TO TRANSFER-IMPS/P2A/639191830266/KARANJ OSHI/UTIB/X3327","amount_paise":-2711946,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0437","narration":"DEBIT CARD-OTHPG 607152XXXXXX3679 DMART AVENUE SUPERMARTS","amount_paise":-402461,"label":"dmart","channel":"card","noise":[]}
+{"id":"s1-0438","narration":"TO TRANSFER-UPI/DR/697896489446/LIC/HDFC /licpremium@sbi/Sent from Paytm--","amount_paise":-235600,"label":"lic","channel":"upi_merchant","noise":[]}
+{"id":"s1-0439","narration":"TO TRANSFER-UPI/DR/839032929082/ARJUN VERMA/KKBK/arjun.verma@paytm/Mandate- -","amount_paise":-576809,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0440","narration":"TO TRANSFER-UPI/DR/242304829521/TATA POWER/BARB/tatapower@hdfcbank/Sent from Paytm--","amount_paise":-431166,"label":"tata_power","channel":"upi_merchant","noise":[]}
+{"id":"s1-0441","narration":"WDL TFR UPI/DR/253795786164/ETERNAL/IDIB/zoma to.p/Collect 009774607638 AT 09482 KORAMANGALA","amount_paise":-162131,"label":"zomato","channel":"upi_merchant","noise":["payee truncated","UPI ID truncated"]}
+{"id":"s1-0442","narration":"TO TRANSFER-INB BillPay MAHANAGAR GAS 408600804567","amount_paise":-69129,"label":"mahanagar_gas","channel":"bill","noise":[]}
+{"id":"s1-0443","narration":"TO TRANSFER-UPI/DR/597764273716/DIVYA SINGH/IDIB/divya.sin/Mandate--","amount_paise":-1222068,"label":"person","channel":"upi_person","noise":["UPI ID truncated"]}
+{"id":"s1-0444","narration":"BY TRANSFER-NEFT*ICIC0000104*CMS52607940 7*BLUE OCEAN LOGISTICS LLP","amount_paise":13202602,"label":"unknown","channel":"salary","noise":[]}
+{"id":"s1-0445","narration":"WDL TFR UPI/DR/307245427236/INDIAN OIL CORPORATION/ICIC/iocl@sbi/Payment fo 0097791494572 AT 09482 SALTLAKE","amount_paise":-49351,"label":"indian_oil","channel":"upi_merchant","noise":[]}
+{"id":"s1-0446","narration":"TO TRANSFER-UPI/DR/789874034542/DREAMPLU G TECHNOLOGIES/PUNB/cred.rent@axisbank/ NA--","amount_paise":-1485221,"label":"cred","channel":"upi_merchant","noise":[]}
+{"id":"s1-0447","narration":"WDL TFR UPI/DR/280027780605/SANJAY SEN/PUNB/966328577/Collect 0097668499455 AT 09482 SALTLAKE","amount_paise":-1406068,"label":"person","channel":"upi_person","noise":["UPI ID truncated"]}
+{"id":"s1-0448","narration":"ACH DR INW BAJAJ FIN LTD 1292200453","amount_paise":-499900,"label":"bajaj_finance","channel":"nach","noise":[]}
+{"id":"s1-0449","narration":"BBPS/MGL PNG BILL/470714375346/638524","amount_paise":-71376,"label":"mahanagar_gas","channel":"bill","noise":[]}
+{"id":"s1-0450","narration":"BY TRANSFER-NEFT*PUNB0794013*N8354463183 60*AMIT MENON","amount_paise":2353842,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0451","narration":"ACH DR INW HDFC MF SIP 8276063558","amount_paise":-100000,"label":"hdfc_mf","channel":"nach","noise":[]}
+{"id":"s1-0452","narration":"DEBIT CARD-OTHPG 607152XXXXXX9366 WWW.AMAZON.IN","amount_paise":-372732,"label":"amazon","channel":"card","noise":[]}
+{"id":"s1-0453","narration":"WDL TFR UPI/DR/936402245919/YOUTUBE PREMIUM/HDFC/youtube@axisbank/UPI 0097671865457 AT 09482 BANDRA","amount_paise":-14900,"label":"youtube_premium","channel":"upi_merchant","noise":[]}
+{"id":"s1-0454","narration":"BY TRANSFER-NEFT*ICIC0000104*CMS33535100 5*BLUE OCEAN LOGISTICS LLP","amount_paise":13959929,"label":"unknown","channel":"salary","noise":[]}
+{"id":"s1-0455","narration":"CSH DEP (CDM) 195165 BANDRA","amount_paise":520000,"label":"cash","channel":"cash","noise":[]}
+{"id":"s1-0456","narration":"TO TRANSFER-UPI/DR/921851073030/ACT FIBERNET/BARB/actfibern/Payment from Ph--","amount_paise":-99900,"label":"act_fibernet","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0457","narration":"TO TRANSFER-UPI/DR/936560604728/TATA CLIQ/ICIC/mab.195796046512/NA--","amount_paise":-239272,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0458","narration":"TO TRANSFER-UPI/DR/572635220762/NETFLIX COM/PUNB/netflix.rz/UPI--","amount_paise":-14900,"label":"netflix","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0459","narration":"POS 524193XXXXXX9698 DMART AVENUE SUPERMARTS","amount_paise":-35920,"label":"dmart","channel":"card","noise":[]}
+{"id":"s1-0460","narration":"TO TRANSFER-INB BillPay AIRTEL POSTPAID 91596463182","amount_paise":-29900,"label":"airtel","channel":"bill","noise":[]}
+{"id":"s1-0461","narration":"ACH DR INW INDIAN CLEARING CORPORATION LTD 6893759244","amount_paise":-200000,"label":"iccl","channel":"nach","noise":[]}
+{"id":"s1-0462","narration":"TO TRANSFER-UPI/DR/353765412487/GOOGLE ONE/IDIB/googleone/Mandate--","amount_paise":-13000,"label":"google_one","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0463","narration":"TO TRANSFER-UPI/DR/572088907157/ACT FIBERNET/SBIN/actfibernet/NA--","amount_paise":-99900,"label":"act_fibernet","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0464","narration":"INTL POS TXN 459150XXXXXX6863 TIMES PRIME MEMBERSHIP","amount_paise":-119900,"label":"times_prime","channel":"card","noise":[]}
+{"id":"s1-0465","narration":"NACH-DR-HDFC MF SIP-2585288049","amount_paise":-100000,"label":"hdfc_mf","channel":"nach","noise":[]}
+{"id":"s1-0466","narration":"TO TRANSFER-INB BillPay ADANI ELECTRICITY 317253485315","amount_paise":-253005,"label":"adani_electricity","channel":"bill","noise":[]}
+{"id":"s1-0467","narration":"BBPS/TATA POWER CO LTD MUMBAI/965306350352/112560","amount_paise":-481505,"label":"tata_power","channel":"bill","noise":[]}
+{"id":"s1-0468","narration":"TO TRANSFER-UPI/DR/250584179997/ZOMATO LIMITED/YESB/zomatoorder/Payment from Ph--","amount_paise":-67975,"label":"zomato","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0469","narration":"ACH DR INW LIC OF INDIA 7582579257","amount_paise":-235600,"label":"lic","channel":"nach","noise":[]}
+{"id":"s1-0470","narration":"TO TRANSFER-INB BillPay MAHANAGAR GAS 472121736738","amount_paise":-94340,"label":"mahanagar_gas","channel":"bill","noise":[]}
+{"id":"s1-0471","narration":"WDL TFR UPI/DR/324328607603/TATA POWER/IDIB/tatapower@hdfcbank/Pay to 0097641331731 AT 09482 SALTLAKE","amount_paise":-452560,"label":"tata_power","channel":"upi_merchant","noise":[]}
+{"id":"s1-0472","narration":"MIN BAL CHGS INCL GST","amount_paise":-42384,"label":"bank","channel":"bank","noise":[]}
+{"id":"s1-0473","narration":"BY TRANSFER-NEFT*UTIB0566454*N6003796576 20*ARJUN SHARMA","amount_paise":3691144,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0474","narration":"ACH DR INW TATA CAPITAL FIN SERV 7534234917","amount_paise":-937330,"label":"unknown","channel":"unknown_nach","noise":[]}
+{"id":"s1-0475","narration":"TO TRANSFER-UPI/DR/743258229544/GOOGLE YOUTU/HDFC/youtubepremium@okaxis/UPI- -","amount_paise":-14900,"label":"youtube_premium","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0476","narration":"DEBIT CARD-OTHPG 607152XXXXXX4104 TIMES PRIME MEMBERSHIP","amount_paise":-119900,"label":"times_prime","channel":"card","noise":[]}
+{"id":"s1-0477","narration":"NACH-DR-HDFC MF SIP-5386834481","amount_paise":-300000,"label":"hdfc_mf","channel":"nach","noise":[]}
+{"id":"s1-0478","narration":"TO TRANSFER-UPI/DR/977644205451/GOOGLE ONE/PUNB/googleone/Pay to--","amount_paise":-13000,"label":"google_one","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0479","narration":"ACH DR INW HOME CREDIT INDIA FIN 5632195310","amount_paise":-871392,"label":"unknown","channel":"unknown_nach","noise":[]}
+{"id":"s1-0480","narration":"WDL TFR UPI/DR/777502015279/BHARTI AIR/PUNB/airtel.p/NA 0097639167039 AT 09482 SALTLAKE","amount_paise":-59900,"label":"airtel","channel":"upi_merchant","noise":["payee truncated","UPI ID truncated"]}
+{"id":"s1-0481","narration":"WDL TFR UPI/DR/652478320052/SUNITA GUPTA/HDFC/sunita.gupta@ybl/Payment from Ph 0097694322663 AT 09482 BANDRA","amount_paise":-1814629,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0482","narration":"WDL TFR UPI/DR/428078501909/VIJAY SALES/SBIN/paytmqr84358677670094@payt m/Sent from Paytm 0097648154168 AT 09482 KORAMANGALA","amount_paise":-277679,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0483","narration":"TO TRANSFER-UPI/DR/603501878958/RAHUL JOSHI/KKBK/9377482765/UPI--","amount_paise":-923299,"label":"person","channel":"upi_person","noise":["UPI ID without domain"]}
+{"id":"s1-0484","narration":"DEBIT-ACHDr LICI PREMIUM 5508575556","amount_paise":-471200,"label":"lic","channel":"nach","noise":[]}
+{"id":"s1-0485","narration":"WDL TFR UPI/DR/936336696252/KRISHNA FRUITS AND VEG/HDFC/bharatpe.39/Collect 0097627209094 AT 09482 SALTLAKE","amount_paise":-61421,"label":"unknown","channel":"upi_unknown","noise":["UPI ID truncated"]}
+{"id":"s1-0486","narration":"DEBIT-ACHDr HOME CREDIT INDIA FIN 7324571428","amount_paise":-920426,"label":"unknown","channel":"unknown_nach","noise":[]}
+{"id":"s1-0487","narration":"TO TRANSFER-UPI/DR/199414158500/TATA POWER/ICIC/tatapower@hdfcbank/Payment from Ph--","amount_paise":-350004,"label":"tata_power","channel":"upi_merchant","noise":[]}
+{"id":"s1-0488","narration":"TO TRANSFER-UPI/DR/534389470892/GOOGLE ONE/YESB/googleone@/Payment from Ph--","amount_paise":-13000,"label":"google_one","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0489","narration":"DEP TFR UPI/CR/367569564949/LIC/KKBK/licpremi um@sbi/Refund 009772268535 AT 09482 BIDHANNAGAR","amount_paise":117801,"label":"lic","channel":"refund","noise":["refund"]}
+{"id":"s1-0490","narration":"WDL TFR UPI/DR/354999684021/JIO/BARB/myjio@sb i/Sent from Paytm 0097679150876 AT 09482 BANDRA","amount_paise":-19900,"label":"jio","channel":"upi_merchant","noise":[]}
+{"id":"s1-0491","narration":"TO TRANSFER-UPI/DR/987010981299/DMART READY/SBIN/dmartready/Pay to--","amount_paise":-378315,"label":"dmart","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0492","narration":"WDL TFR UPI/DR/286367262392/AMAZE FOOTWEAR/YESB/amaze13@paytm/UPI 0097726317199 AT 09482 SALTLAKE","amount_paise":-167055,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0493","narration":"BY TRANSFER-NEFT*ICIC0000104*CMS68818403 6*SUNRISE INFOTECH SOLUTIONS","amount_paise":13585216,"label":"unknown","channel":"salary","noise":[]}
+{"id":"s1-0494","narration":"TO TRANSFER-UPI/DR/357259580196/ANI TECHNOLOGIES PVT LTD/ICIC/olacabs@icici/Sent from Paytm--","amount_paise":-79077,"label":"ola","channel":"upi_merchant","noise":[]}
+{"id":"s1-0495","narration":"TO TRANSFER-UPI/DR/182830837240/RELIANCE JIO INFOCOMM/HDFC/jiomobility@hdfcbank/Se nt from Paytm--","amount_paise":-29900,"label":"jio","channel":"upi_merchant","noise":[]}
+{"id":"s1-0496","narration":"DEP TFR UPI/CR/815513960937/CUREFIT HEAL/PUNB/cultfit@icici/Refund 0097788657450 AT 09482 ANDHERI","amount_paise":49951,"label":"cultfit","channel":"refund","noise":["refund","payee truncated"]}
+{"id":"s1-0497","narration":"CSH DEP (CDM) 825543 ANDHERI","amount_paise":990000,"label":"cash","channel":"cash","noise":[]}
+{"id":"s1-0498","narration":"TO TRANSFER-UPI/DR/125868494273/SWIGGY INS/KKBK/instamart@icici/Payment from Ph--","amount_paise":-51773,"label":"swiggy","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0499","narration":"BBPS/MAHANAGAR GAS/943739433149/735187","amount_paise":-126852,"label":"mahanagar_gas","channel":"bill","noise":[]}
+{"id":"s1-0500","narration":"TO TRANSFER-UPI/DR/745624560967/AIRTEL/P UNB/airtelpostpaid@icici/Pay to--","amount_paise":-44900,"label":"airtel","channel":"upi_merchant","noise":[]}
+{"id":"s1-0501","narration":"TO TRANSFER-UPI/DR/702312975209/HOTEL SAI PALACE/ICIC/hotel45@i/Payment fo--","amount_paise":-245833,"label":"unknown","channel":"upi_unknown","noise":["UPI ID truncated"]}
+{"id":"s1-0502","narration":"TO TRANSFER-UPI/DR/644442545484/ZEPTO/PU NB/zeptonow/Collect--","amount_paise":-107637,"label":"zepto","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0503","narration":"POS 459150XXXXXX4131 APPLE SERVICES CORK","amount_paise":-17900,"label":"apple","channel":"card","noise":[]}
+{"id":"s1-0504","narration":"TO TRANSFER-UPI/DR/392580253465/APPLE MEDIA/IDIB/appleservices.bdsk@hdfcban k/Mandate--","amount_paise":-19500,"label":"apple","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0505","narration":"BBPS/TATA POWER CO LTD MUMBAI/795720483128/811010","amount_paise":-219965,"label":"tata_power","channel":"bill","noise":[]}
+{"id":"s1-0506","narration":"TO TRANSFER-UPI/DR/711285218129/SPOTIFY I/SBIN/spotify/NA--","amount_paise":-11900,"label":"spotify","channel":"upi_merchant","noise":["payee truncated","UPI ID without domain"]}
+{"id":"s1-0507","narration":"TO TRANSFER-UPI/DR/802131452616/NOVI DIGITA/PUNB/hotstar@icici/Sent from Paytm--","amount_paise":-14900,"label":"jiohotstar","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0508","narration":"BBPS/BHARTI AIRTEL LTD/269845343600/748300","amount_paise":-29900,"label":"airtel","channel":"bill","noise":[]}
+{"id":"s1-0509","narration":"DEBIT CARD ANNUAL FEE + GST","amount_paise":-23600,"label":"bank","channel":"bank","noise":[]}
+{"id":"s1-0510","narration":"BY TRANSFER-UPI/CR/589099202484/TATA POWER/PUNB/tatapower/Refund--","amount_paise":25336,"label":"tata_power","channel":"refund","noise":["refund","UPI ID without domain"]}
+{"id":"s1-0511","narration":"TO TRANSFER-UPI/DR/604556269819/GOOGLE INDIA DIGITAL SERVICES/ICIC/googlepla/Pay to--","amount_paise":-9900,"label":"google_play","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0512","narration":"TO TRANSFER-UPI/DR/302873365850/TATA CLIQ/BARB/gpay-91589244866@okbizaxis/ Mandate--","amount_paise":-114958,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0513","narration":"NACH-DR-STAR HEALTH AND ALLIED INS-1670731180","amount_paise":-240000,"label":"star_health","channel":"nach","noise":[]}
+{"id":"s1-0514","narration":"BY TRANSFER-NEFT*PUNB0766439*N6199350316 38*KABIR GHOSH","amount_paise":4318265,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0515","narration":"WDL TFR UPI/DR/937440686532/TATA POWER/PUNB/tatapower@hdfcbank/Payment fo 0097664284194 AT 09482 ANDHERI","amount_paise":-237167,"label":"tata_power","channel":"upi_merchant","noise":[]}
+{"id":"s1-0516","narration":"WDL TFR UPI/DR/741496713437/NETFLIX/ICIC/netf lixupi.payu/Payment fo 0097675623662 AT 09482 BANDRA","amount_paise":-14900,"label":"netflix","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0517","narration":"TO TRANSFER-UPI/DR/996844021400/TATA POWER/YESB/tatapower@hdfcbank/Mandate --","amount_paise":-437578,"label":"tata_power","channel":"upi_merchant","noise":[]}
+{"id":"s1-0518","narration":"WDL TFR UPI/DR/782824904302/SHIV SHAKTI HARDWARE/ICIC/bharatpe.7033008647/NA 0097776374899 AT 09482 ANDHERI","amount_paise":-150874,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0519","narration":"TO TRANSFER-UPI/DR/184961748948/AMAZON INDIA/KKBK/amazon.seller@axisbank/Sen t from Paytm--","amount_paise":-861805,"label":"amazon","channel":"upi_merchant","noise":[]}
+{"id":"s1-0520","narration":"WDL TFR UPI/DR/958727288033/SURESH MISHRA/SBIN/suresh365@oksbi/Payment from Ph 0097713401293 AT 09482 ANDHERI","amount_paise":-987232,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0521","narration":"WDL TFR UPI/DR/507417810277/OLA/UTIB/olamoney /Mandate 009765146257 AT 09482 KORAMANGALA","amount_paise":-31862,"label":"ola","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0522","narration":"TO TRANSFER-UPI/DR/351417509716/HOTEL SAI PALACE/UTIB/q650627240@ybl/Collect--","amount_paise":-283864,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0523","narration":"WDL TFR UPI/DR/713462084545/MCDONALDS W/PUNB/gpay-91040395232@okbizaxis/Sen t from Paytm 0097668295903 AT 09482 THANE","amount_paise":-192020,"label":"unknown","channel":"upi_unknown","noise":["payee truncated"]}
+{"id":"s1-0524","narration":"TO TRANSFER-UPI/DR/233393659192/TATA POWER/IDIB/tatapower@hd/Payment from Ph--","amount_paise":-477563,"label":"tata_power","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0525","narration":"DEP TFR UPI/CR/912480990819/SUPERMAR/BARB/bbn ow@icici/Refund 0097653366238 AT 09482 THANE","amount_paise":118871,"label":"bigbasket","channel":"refund","noise":["refund","payee truncated"]}
+{"id":"s1-0526","narration":"TO TRANSFER-UPI/DR/572582423639/SANJAY IYER/YESB/9542468893@okhdfcbank/Payme nt fo--","amount_paise":-928765,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0527","narration":"TO TRANSFER-UPI/DR/248339785815/BILLDESK /PUNB/msedcl.billdesk@hdfcbank/Paymen t fo--","amount_paise":-257598,"label":"msedcl","channel":"upi_merchant","noise":[]}
+{"id":"s1-0528","narration":"BBPS/MGL PNG BILL/449535502601/778616","amount_paise":-113322,"label":"mahanagar_gas","channel":"bill","noise":[]}
+{"id":"s1-0529","narration":"WDL TFR UPI/DR/484551816850/CROMA INFINITI RETAIL/HDFC/mab.431337450866@axisbank /NA 0097635606778 AT 09482 ANDHERI","amount_paise":-52846,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0530","narration":"DEP TFR UPI/CR/674368178646/CRED/PUNB/cred.cl ub@axisbank/Refund 0097726909430 AT 09482 BANDRA","amount_paise":1207649,"label":"cred","channel":"refund","noise":["refund"]}
+{"id":"s1-0531","narration":"WDL TFR UPI/DR/992597016761/ZEPTO/UTIB/zepton ow@axi/Pay to 0097713078291 AT 09482 SALTLAKE","amount_paise":-10429,"label":"zepto","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0532","narration":"DEBIT CARD-OTHPG 607152XXXXXX4115 DMART AVENUE SUPERMARTS","amount_paise":-117756,"label":"dmart","channel":"card","noise":[]}
+{"id":"s1-0533","narration":"ACH DR INW HDFC LIFE INSURANCE CO 4348146425","amount_paise":-1250000,"label":"hdfc_life","channel":"nach","noise":[]}
+{"id":"s1-0534","narration":"TO TRANSFER-UPI/DR/719722868834/NEHA MISHRA/HDFC/neha11@axl/Payment fo--","amount_paise":-2488622,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0535","narration":"WDL TFR UPI/DR/216653029927/ACT FIBERNET/HDFC/actfibernet@/Sent from Paytm 0097758745020 AT 09482 SALTLAKE","amount_paise":-79900,"label":"act_fibernet","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0536","narration":"WDL TFR UPI/DR/666285224341/AMAZE FOOTWE/PUNB/mab.478217396242@axisbank /Mandate 0097756483212 AT 09482 KORAMANGALA","amount_paise":-289022,"label":"unknown","channel":"upi_unknown","noise":["payee truncated"]}
+{"id":"s1-0537","narration":"TO TRANSFER-UPI/DR/189114355425/LIC/HDFC /licpremiu/UPI--","amount_paise":-235600,"label":"lic","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0538","narration":"WDL TFR UPI/DR/727982207889/AIRTEL/ICIC/airte lpostpaid@icici/Collect 0097778919827 AT 09482 BANDRA","amount_paise":-44900,"label":"airtel","channel":"upi_merchant","noise":[]}
+{"id":"s1-0539","narration":"BBPS/MAHANAGAR GAS/683397612341/462002","amount_paise":-84228,"label":"mahanagar_gas","channel":"bill","noise":[]}
+{"id":"s1-0540","narration":"TO TRANSFER-UPI/DR/976512551989/MAHANAGA R/HDFC/mgl@icici/NA--","amount_paise":-32703,"label":"mahanagar_gas","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0541","narration":"TO TRANSFER-UPI/DR/430442255563/STAR INDIA PVT LTD/BARB/starindia.payu@hdfcbank/NA--","amount_paise":-14900,"label":"jiohotstar","channel":"upi_merchant","noise":[]}
+{"id":"s1-0542","narration":"WDL TFR UPI/DR/885551138407/NOBROKER TEC/KKBK/nobroker/Sent from Paytm 0097616824244 AT 09482 THANE","amount_paise":-2500000,"label":"nobroker","channel":"upi_merchant","noise":["payee truncated","UPI ID without domain"]}
+{"id":"s1-0543","narration":"TO TRANSFER-UPI/DR/549125063113/LENSKART SOL/PUNB/bharatpe.7688398266@fbpe/NA- -","amount_paise":-203656,"label":"unknown","channel":"upi_unknown","noise":["payee truncated"]}
+{"id":"s1-0544","narration":"WDL TFR UPI/DR/337171236785/APPLE MEDIA SERVICES/ICIC/appleserv/NA 0097734474110 AT 09482 BANDRA","amount_paise":-74900,"label":"apple","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0545","narration":"WDL TFR UPI/DR/575827133371/RAZORPAY/ICIC/raz orpay.4674834@icici/Sent from Paytm 0097692240047 AT 09482 BANDRA","amount_paise":-35000,"label":"tata_play","channel":"upi_gateway","noise":["gateway only"]}
+{"id":"s1-0546","narration":"TO TRANSFER-UPI/DR/959518842305/Amazon Seller Services/UTIB/amazonpay/Pay to--","amount_paise":-777908,"label":"amazon","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0547","narration":"WDL TFR UPI/DR/352420193146/CULVER MAX ENTERTAINMENT/PUNB/culvermax@icici/Co llect 0097670764752 AT 09482 KORAMANGALA","amount_paise":-149900,"label":"sonyliv","channel":"upi_merchant","noise":[]}
+{"id":"s1-0548","narration":"TO TRANSFER-UPI/DR/555565284039/RELIANCE JIO INFOCOMM/SBIN/jiomobility@hdfcbank/Se nt from Paytm--","amount_paise":-24900,"label":"jio","channel":"upi_merchant","noise":[]}
+{"id":"s1-0549","narration":"TO TRANSFER-UPI/DR/772372621277/DMART READY/BARB/dmartready@ybl/Mandate--","amount_paise":-326428,"label":"dmart","channel":"upi_merchant","noise":[]}
+{"id":"s1-0550","narration":"POS 524193XXXXXX2192 IOCL COCO OUTLET","amount_paise":-80227,"label":"indian_oil","channel":"card","noise":[]}
+{"id":"s1-0551","narration":"TO TRANSFER-UPI/DR/187157218268/ETERNAL LIMITED/IDIB/zomato.payu@/NA--","amount_paise":-47085,"label":"zomato","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0552","narration":"WDL TFR UPI/DR/931591993019/POOJA MISHRA/BARB/pooja.mishra@okicici/UPI 0097742463303 AT 09482 BANDRA","amount_paise":-2270775,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0553","narration":"TO TRANSFER-UPI/DR/891258980295/TATA CLIQ/ICIC/tata48/Sent from Paytm--","amount_paise":-163619,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0554","narration":"TO TRANSFER-UPI/DR/556054879407/RELIANCE JIO INFOCOMM/HDFC/jiomobility@hdfcbank/UP I--","amount_paise":-79900,"label":"jio","channel":"upi_merchant","noise":[]}
+{"id":"s1-0555","narration":"TO TRANSFER-UPI/DR/407070904222/MANOJ KULKA/PUNB/8437201742/Collect--","amount_paise":-2211697,"label":"person","channel":"upi_person","noise":["payee truncated","UPI ID without domain"]}
+{"id":"s1-0556","narration":"TO TRANSFER-IMPS/P2A/856609034174/KAVITA PILLAI/PUNB/X1454","amount_paise":-1956996,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0557","narration":"DEBIT CARD-OTHPG 524193XXXXXX2564 UBER INDIA","amount_paise":-75495,"label":"uber","channel":"card","noise":[]}
+{"id":"s1-0558","narration":"WDL TFR UPI/DR/831349855350/VIJAY SALES/HDFC/bharatpe.4429443367@fbpe/P ay to 0097653673213 AT 09482 THANE","amount_paise":-182149,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0559","narration":"WDL TFR UPI/DR/704560340611/JIO/HDFC/myjio@sb i/Pay to 0097665484963 AT 09482 KORAMANGALA","amount_paise":-24900,"label":"jio","channel":"upi_merchant","noise":[]}
+{"id":"s1-0560","narration":"DEP TFR UPI/CR/948315865036/ANANYA MEHTA/YESB/6347281031@ibl/Pay to 009774464845 AT 09482 BIDHANNAGAR","amount_paise":1766992,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0561","narration":"DEBIT CARD-OTHPG 607152XXXXXX6876 GOOGLE *PLAY STORE","amount_paise":-1000,"label":"google_play","channel":"card","noise":[]}
+{"id":"s1-0562","narration":"CASH DEPOSIT-BY SELF","amount_paise":140000,"label":"cash","channel":"cash","noise":[]}
+{"id":"s1-0563","narration":"WDL TFR UPI/DR/858073163830/APPLE MED/SBIN/appleservices.bdsk/Payment from Ph 0097687989600 AT 09482 KORAMANGALA","amount_paise":-17900,"label":"apple","channel":"upi_merchant","noise":["payee truncated","UPI ID without domain"]}
+{"id":"s1-0564","narration":"TO TRANSFER-UPI/DR/897846531241/ACT FIBERNET/UTIB/actfibernet@icici/Manda te--","amount_paise":-119900,"label":"act_fibernet","channel":"upi_merchant","noise":[]}
+{"id":"s1-0565","narration":"WDL TFR UPI/DR/664874474677/NETFLIX ENTERTAINMENT SERVICES/PUNB/netflix@icici/NA 009763892712 AT 09482 BANDRA","amount_paise":-14900,"label":"netflix","channel":"upi_merchant","noise":[]}
+{"id":"s1-0566","narration":"WDL TFR UPI/DR/737825544780/BHARTI AI/ICIC/airtel.payu@axisbank/Sent from Paytm 0097641397472 AT 09482 ANDHERI","amount_paise":-59900,"label":"airtel","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0567","narration":"TO TRANSFER-UPI/DR/627306405229/KAVITA SINGH/ICIC/kavita738/Payment from Ph--","amount_paise":-1886804,"label":"person","channel":"upi_person","noise":["UPI ID without domain"]}
+{"id":"s1-0568","narration":"TO TRANSFER-INB BillPay BHARTI AIRTEL LTD 44839862334","amount_paise":-59900,"label":"airtel","channel":"bill","noise":[]}
+{"id":"s1-0569","narration":"POS 459150XXXXXX2230 PAYPAL *SPOTIFY","amount_paise":-11900,"label":"spotify","channel":"card","noise":[]}
+{"id":"s1-0570","narration":"CSH DEP (CDM) 791327 BIDHANNAGAR","amount_paise":340000,"label":"cash","channel":"cash","noise":[]}
+{"id":"s1-0571","narration":"TO TRANSFER-UPI/DR/458216149324/NETFLIX COM/HDFC/netflix.rzp@axisbank/Pay to--","amount_paise":-14900,"label":"netflix","channel":"upi_merchant","noise":[]}
+{"id":"s1-0572","narration":"TO TRANSFER-UPI/DR/507514753159/APPLE MEDIA SERVICES/IDIB/appleservices.bdsk/Paym ent fo--","amount_paise":-74900,"label":"apple","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0573","narration":"WDL TFR UPI/DR/956957003239/ZERODHA BROKING LTD/UTIB/zerodha@hdfcbank/Collect 0097791306741 AT 09482 THANE","amount_paise":-1000000,"label":"zerodha","channel":"upi_merchant","noise":[]}
+{"id":"s1-0574","narration":"WDL TFR UPI/DR/891404909571/AMAZON PRIME/KKBK/amazonpr/Sent from Paytm 0097692026183 AT 09482 BANDRA","amount_paise":-59900,"label":"amazon_prime","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0575","narration":"ACH DR INW SBI MUTUAL FUND 1895574301","amount_paise":-250000,"label":"sbi_mf","channel":"nach","noise":[]}
+{"id":"s1-0576","narration":"TO TRANSFER-UPI/DR/398919121389/OLA ELECTRIC SERVICE CENTRE/KKBK/mab.790025179065/Pay to--","amount_paise":-262041,"label":"unknown","channel":"upi_unknown","noise":["UPI ID without domain"]}
+{"id":"s1-0577","narration":"TO TRANSFER-UPI/DR/736311503074/NOBROKER TE/KKBK/nobroker@icici/Sent from Paytm--","amount_paise":-2500000,"label":"nobroker","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0578","narration":"WDL TFR UPI/DR/269153227650/NOVI DIGIT/HDFC/hotstar@icici/Collect 009771180934 AT 09482 BANDRA","amount_paise":-29900,"label":"jiohotstar","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0579","narration":"WDL TFR UPI/DR/952751613622/NOVI DIGIT/UTIB/hotstar@icici/Payment from Ph 0097671542987 AT 09482 SALTLAKE","amount_paise":-49900,"label":"jiohotstar","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0580","narration":"TO TRANSFER-UPI/DR/656536366951/JIO/BARB /myjio@sbi/UPI--","amount_paise":-34900,"label":"jio","channel":"upi_merchant","noise":[]}
+{"id":"s1-0581","narration":"TO TRANSFER-UPI/DR/132658946076/LIC/UTIB /licpremium@sbi/Collect--","amount_paise":-471200,"label":"lic","channel":"upi_merchant","noise":[]}
+{"id":"s1-0582","narration":"WDL TFR UPI/DR/928809564338/JIOHOTSTAR/PUNB/j iohotstar@axisbank/Mandate 0097697307660 AT 09482 BIDHANNAGAR","amount_paise":-29900,"label":"jiohotstar","channel":"upi_merchant","noise":[]}
+{"id":"s1-0583","narration":"ACH DR INW HDFC STANDARD LIFE 7271774672","amount_paise":-300000,"label":"hdfc_life","channel":"nach","noise":[]}
+{"id":"s1-0584","narration":"BY TRANSFER-UPI/CR/691853362565/DEEPA REDDY/IDIB/deepa.reddy@okicici/Mandat e--","amount_paise":1364731,"label":"person","channel":"upi_person","noise":[]}
+{"id":"s1-0585","narration":"INTL POS TXN 459150XXXXXX1754 CULT.FIT BANGALORE","amount_paise":-99900,"label":"cultfit","channel":"card","noise":[]}
+{"id":"s1-0586","narration":"TO TRANSFER-UPI/DR/662981261561/BHARTI AIRTEL/PUNB/airtel.payu/UPI--","amount_paise":-59900,"label":"airtel","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0587","narration":"TO TRANSFER-UPI/DR/102649246524/NETFLIX COM/KKBK/netflix.r/Mandate--","amount_paise":-19900,"label":"netflix","channel":"upi_merchant","noise":["UPI ID truncated"]}
+{"id":"s1-0588","narration":"TO TRANSFER-UPI/DR/584024216818/DMART READY/UTIB/dmartready@ybl/Payment fo--","amount_paise":-100,"label":"dmart","channel":"upi_merchant","noise":["1 rupee mandate"]}
+{"id":"s1-0589","narration":"TO TRANSFER-UPI/DR/187132266748/BALAJI MOB/KKBK/paytmqr79954930879968@paytm/ Collect--","amount_paise":-223696,"label":"unknown","channel":"upi_unknown","noise":["payee truncated"]}
+{"id":"s1-0590","narration":"TO TRANSFER-UPI/DR/362395495453/ADANI ELECTRICITY MUMBAI/HDFC/adanielectricity@icici/Pa y to--","amount_paise":-154630,"label":"adani_electricity","channel":"upi_merchant","noise":[]}
+{"id":"s1-0591","narration":"TO TRANSFER-UPI/DR/905550752322/PHONEPE RECHARGE/HDFC/bharatpe.6012655786@fbp e/Mandate--","amount_paise":-218044,"label":"unknown","channel":"upi_unknown","noise":[]}
+{"id":"s1-0592","narration":"WDL TFR UPI/DR/718214709082/PAYU/HDFC/payu.23 88045@hdfcbank/Payment from Ph 0097756453228 AT 09482 THANE","amount_paise":-130535,"label":"swiggy","channel":"upi_gateway","noise":["gateway only"]}
+{"id":"s1-0593","narration":"TO TRANSFER-UPI/DR/408312376699/INDIAN OIL/YESB/iocl@sbi/Collect--","amount_paise":-162427,"label":"indian_oil","channel":"upi_merchant","noise":["payee truncated"]}
+{"id":"s1-0594","narration":"BY TRANSFER-NEFT*IDIB0924665*N1668287932 91*SNEHA MEHTA","amount_paise":749247,"label":"person","channel":"transfer_person","noise":[]}
+{"id":"s1-0595","narration":"WDL TFR UPI/DR/226102309725/POOJA IYER/ICIC/pooja.iyer/Collect 0097667469617 AT 09482 ANDHERI","amount_paise":-693920,"label":"person","channel":"upi_person","noise":["UPI ID without domain"]}
+{"id":"s1-0596","narration":"WDL TFR UPI/DR/293925392893/RAZORPAY/KKBK/raz orpay.9851447@yesbank/Collect 0097797887589 AT 09482 SALTLAKE","amount_paise":-500000,"label":"zerodha","channel":"upi_gateway","noise":["gateway only"]}
+{"id":"s1-0597","narration":"TO TRANSFER-UPI/DR/657712513632/AMAZON PAY/YESB/amazon/Mandate--","amount_paise":-221760,"label":"amazon","channel":"upi_merchant","noise":["UPI ID without domain"]}
+{"id":"s1-0598","narration":"ACH DR INW NIPPON INDIA MF 5167900203","amount_paise":-570576,"label":"unknown","channel":"unknown_nach","noise":[]}
+{"id":"s1-0599","narration":"WDL TFR UPI/DR/748952186008/ZEPTO/UTIB/zepton ow@axisbank/Pay to 0097669628622 AT 09482 SALTLAKE","amount_paise":-22351,"label":"zepto","channel":"upi_merchant","noise":[]}
+{"id":"s1-0600","narration":"TO TRANSFER-UPI/DR/513029991129/INDIAN OIL CORPORATION/YESB/iocl@sbi/NA--","amount_paise":-282398,"label":"indian_oil","channel":"upi_merchant","noise":[]}

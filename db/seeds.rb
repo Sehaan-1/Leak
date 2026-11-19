@@ -2,6 +2,11 @@
 #
 #   bin/rails db:seed
 #   DEMO_PASSWORD=... bin/rails db:seed   # choose the demo password
+
+# The merchant catalogue is reference data, not demo data, so it is synced
+# everywhere (config/merchants.yml).
+Merchants::Catalogue.sync!
+
 return if Rails.env.production? && ENV["ALLOW_DEMO_SEED"] != "1"
 
 household = Household.find_or_create_by!(name: "Demo household")

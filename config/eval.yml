@@ -1,0 +1,17 @@
+# Eval gates. CI runs `bin/rails leak:eval:merchants` on the frozen golden
+# set and fails if a gate is missed. See eval/merchant_resolution/README.md.
+merchant_resolution:
+  golden: eval/merchant_resolution/golden-v1.jsonl
+  # The golden set is frozen: editing it changes this hash and fails CI.
+  # Make a golden-v2 instead, and record why in the README.
+  golden_sha256: 0a647cf0cafa693f49ef35a667bf2a277aec64ca7d885f84893cffc7b04e88c9
+  dev: eval/merchant_resolution/dev.jsonl
+  # Rules-only baseline on golden-v1 (2026-11-20): merchant accuracy 99.4%
+  # [96.8%, 99.9%] at coverage 76.3% [70.4%, 81.4%], 224 business rows.
+  # The gate sits just below it: about three more wrong answers, or three
+  # fewer answered rows, fails CI.
+  gate:
+    # 95% Wilson lower bound on merchant accuracy among answered business rows.
+    merchant_accuracy_low: 0.95
+    # Share of business rows the resolver answers instead of abstaining.
+    merchant_coverage: 0.75
