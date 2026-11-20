@@ -10,6 +10,11 @@ module Api
       end
 
       def create
+        if Demo.enabled?
+          return render_error :forbidden, "demo_uploads_disabled",
+            "The public demo only uses made-up data, so uploading statements is turned off."
+        end
+
         file = params.require(:file)
         unless file.respond_to?(:tempfile)
           return render_error :bad_request, "bad_request", "Attach the statement as a file."

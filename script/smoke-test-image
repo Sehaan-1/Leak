@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+# Smoke-tests the production Docker image as the public demo: boots it
+# against Postgres, then walks the API like the SPA does. CI runs this on
+# every PR (.github/workflows/ci.yml, job "image").
+#
+#   script/smoke-test-image <image> [base_url]
+#
+# Expects the container to be running and reachable at base_url
+# (default http://localhost:8080), with LEAK_DEMO=1.
+set -euo pipefail
+
+base=${2:-http://localhost:8080}
+jar=$(mktemp)
+headers=$(mktemp)
+trap 'rm -f "$jar" "$headers"' EXIT
+
+echo "== waiting for /up"
+for i in $(seq 1 60); do
+  if curl -fsS "$base/up" > /dev/null 2>&1; then break; fi
+  if [ "$i" = 60 ]; then echo "::error title=Image smoke test::/up never answered"; exit 1; fi
+  sleep 2
+done
+
+# kamal-proxy terminates TLS in production; tell Rails the request was HTTPS
+# (config.assume_ssl) and keep cookies by hand, since they are Secure.
+proto=(-H "X-Forwarded-Proto: https")
+declare -A cookies
+# Keeps the cookies the last response set (by name), as a browser would.
+remember_cookies() {
+  local line
+  while IFS= read -r line; do
+    cookies[${line%%=*}]=$line
+  done < <(grep -i '^set-cookie:' "$headers" | sed -E 's/^[Ss]et-[Cc]ookie: ([^;]*).*/\1/' | tr -d '\r')
+}
+cookie() { local IFS=';'; echo "${cookies[*]}"; }
+
+echo "== the HTML shell, marked as the demo, with the built SPA"
+shell=$(curl -fsS "${proto[@]}" -D "$headers" "$base/")
+grep -q '<meta name="leak-demo" content="1">' <<< "$shell"
+asset=$(grep -oE '/spa/assets/[^"]+\.js' <<< "$shell" | head -1)
+test -n "$asset"
+curl -fsS "${proto[@]}" -o /dev/null "$base$asset"
+token=$(grep -oE 'name="csrf-token" content="[^"]+"' <<< "$shell" | sed -E 's/.*content="([^"]+)"/\1/')
+remember_cookies
+test -n "$token" && test -n "$(cookie)"
+
+echo "== signed out"
+status=$(curl -sS "${proto[@]}" -o /dev/null -w '%{http_code}' -H "Cookie: $(cookie)" "$base/api/v1/me")
+test "$status" = 401
+
+echo "== try the demo: imports the made-up statement and runs detection"
+me=$(curl -fsS "${proto[@]}" -D "$headers" -X POST -H "Cookie: $(cookie)" -H "X-CSRF-Token: $token" \
+  -H "Accept: application/json" "$base/api/v1/demo_session")
+grep -q '"demo_expires_at":"' <<< "$me"
+remember_cookies
+
+echo "== findings"
+findings=$(curl -fsS "${proto[@]}" -H "Cookie: $(cookie)" -H "Accept: application/json" "$base/api/v1/findings")
+grep -q '"subscriptions_count":4' <<< "$findings"
+grep -q '"kind":"price_increase"' <<< "$findings"
+
+echo "== uploads are off"
+status=$(curl -sS "${proto[@]}" -o /dev/null -w '%{http_code}' -X POST -H "Cookie: $(cookie)" -H "X-CSRF-Token: $token" \
+  -F "file=@spec/fixtures/synthetic/sbi/sample_statement.pdf;type=application/pdf" "$base/api/v1/statement_imports")
+test "$status" = 403
+
+echo "== delete my data"
+deleted=$(curl -fsS "${proto[@]}" -X DELETE -H "Cookie: $(cookie)" -H "X-CSRF-Token: $token" \
+  -H "Accept: application/json" "$base/api/v1/household_data")
+grep -q '"statements":1' <<< "$deleted"
+
+echo "✓ image smoke test passed"

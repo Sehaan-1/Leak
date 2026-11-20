@@ -4,7 +4,8 @@ module Api
       def self.payload(user)
         {
           user: { id: user.id, email_address: user.email_address },
-          household: { id: user.household.id, name: user.household.name }
+          household: { id: user.household.id, name: user.household.name,
+                       demo_expires_at: user.household.demo_expires_at&.iso8601 }
         }
       end
 

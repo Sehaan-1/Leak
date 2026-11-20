@@ -16,7 +16,7 @@ RSpec.describe "API v1 me" do
     assert_response_schema_confirm(200)
     expect(json).to eq(
       "user" => { "id" => user.id, "email_address" => user.email_address },
-      "household" => { "id" => user.household.id, "name" => user.household.name }
+      "household" => { "id" => user.household.id, "name" => user.household.name, "demo_expires_at" => nil }
     )
   end
 

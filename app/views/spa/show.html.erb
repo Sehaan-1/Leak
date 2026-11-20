@@ -8,6 +8,7 @@
     <title>Leak</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <% if Demo.enabled? %><meta name="leak-demo" content="1"><% end %>
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <%= vite_tags %>
   </head>

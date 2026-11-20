@@ -22,6 +22,28 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/demo_session": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Try the public demo
+         * @description Only on the public demo (LEAK_DEMO=1); 404 elsewhere. Creates a
+         *     household with a year of made-up statements and its findings, signs
+         *     in to it, and deletes it after a day (`household.demo_expires_at`).
+         */
+        post: operations["createDemoSession"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/me": {
         parameters: {
             query?: never;
@@ -71,6 +93,7 @@ export interface paths {
          * @description Parses, reconciles and posts the statement to the ledger in one step.
          *     Nothing is written unless the statement ties. Re-uploading the same
          *     file returns the earlier import with 200. The PDF is not stored.
+         *     Turned off on the public demo (403 `demo_uploads_disabled`).
          */
         post: operations["createStatementImport"];
         delete?: never;
@@ -216,6 +239,29 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/household_data": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** What Leak holds for the household */
+        get: operations["getHouseholdData"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete my data
+         * @description Deletes every statement, transaction, series, finding, dismissal and
+         *     merchant the household taught Leak, in one transaction. The
+         *     household and its sign-in stay. Returns what was deleted.
+         */
+        delete: operations["deleteHouseholdData"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -228,7 +274,19 @@ export interface components {
             household: {
                 id: number;
                 name: string;
+                /**
+                 * Format: date-time
+                 * @description When a public demo household is deleted; null for a real one.
+                 */
+                demo_expires_at: string | null;
             };
+        };
+        DataCounts: {
+            statements: number;
+            transactions: number;
+            subscriptions: number;
+            learned_merchants: number;
+            dismissed_findings: number;
         };
         Account: {
             id: number;
@@ -497,6 +555,29 @@ export interface operations {
             422: components["responses"]["Error"];
         };
     };
+    createDemoSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Demo household created; session cookie set. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Me"];
+                };
+            };
+            404: components["responses"]["Error"];
+            422: components["responses"]["Error"];
+            429: components["responses"]["Error"];
+        };
+    };
     getMe: {
         parameters: {
             query?: never;
@@ -602,6 +683,7 @@ export interface operations {
             };
             400: components["responses"]["Error"];
             401: components["responses"]["Error"];
+            403: components["responses"]["Error"];
             /** @description Rejected; `error` says why and on which text line. */
             422: {
                 headers: {
@@ -843,6 +925,58 @@ export interface operations {
                 };
             };
             401: components["responses"]["Error"];
+        };
+    };
+    getHouseholdData: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        counts: components["schemas"]["DataCounts"];
+                        /**
+                         * Format: date-time
+                         * @description When a public demo household is deleted; null for a real one.
+                         */
+                        demo_expires_at: string | null;
+                    };
+                };
+            };
+            401: components["responses"]["Error"];
+        };
+    };
+    deleteHouseholdData: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        deleted: components["schemas"]["DataCounts"];
+                    };
+                };
+            };
+            401: components["responses"]["Error"];
+            422: components["responses"]["Error"];
         };
     };
 }

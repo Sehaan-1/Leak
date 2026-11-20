@@ -452,7 +452,8 @@ CREATE TABLE public.households (
     id bigint NOT NULL,
     name character varying NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    demo_expires_at timestamp(6) without time zone
 );
 
 
@@ -1182,6 +1183,13 @@ CREATE UNIQUE INDEX index_findings_on_recurring_series_id_and_kind ON public.fin
 
 
 --
+-- Name: index_households_on_demo_expires_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_households_on_demo_expires_at ON public.households USING btree (demo_expires_at) WHERE (demo_expires_at IS NOT NULL);
+
+
+--
 -- Name: index_journal_entries_on_household_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1588,6 +1596,7 @@ ALTER TABLE ONLY public.statement_imports
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261120170000'),
 ('20261120160000'),
 ('20261120150000'),
 ('20261120120000'),

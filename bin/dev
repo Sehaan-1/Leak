@@ -1,2 +1,27 @@
 #!/usr/bin/env ruby
-exec "./bin/rails", "server", *ARGV
+# Development: Rails on :3000 and Vite on :5173 (open http://localhost:5173).
+#   bin/dev              both
+#   bin/dev --rails-only Rails alone, serving the last `npm --prefix web run build`
+# Extra arguments go to `rails server`.
+
+rails_only = ARGV.delete("--rails-only")
+Dir.chdir(File.expand_path("..", __dir__))
+
+unless rails_only || File.directory?("web/node_modules")
+  abort "web/node_modules is missing: run `npm --prefix web ci` (or bin/dev --rails-only)"
+end
+
+env = rails_only ? { "VITE_DEV_SERVER" => "0" } : {}
+pids = [ Process.spawn(env, "bin/rails", "server", *ARGV) ]
+pids << Process.spawn("npm", "--prefix", "web", "run", "dev") unless rails_only
+
+stop = lambda do |*|
+  pids.each { |pid| Process.kill("TERM", pid) rescue nil }
+end
+trap("INT", &stop)
+trap("TERM", &stop)
+
+# When either one exits, stop the other.
+Process.wait
+stop.call
+Process.waitall

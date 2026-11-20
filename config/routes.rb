@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resource :session, only: %i[ create destroy ]
+      resource :demo_session, only: :create
       resource :me, only: :show, controller: :me
       resources :accounts, only: :index
       resources :statement_imports, only: %i[ index create ]
@@ -19,6 +20,7 @@ Rails.application.routes.draw do
         resource :resolution, only: :create, controller: :review_resolutions
       end
       resources :merchants, only: :index
+      resource :household_data, only: %i[ show destroy ], controller: :household_data
     end
   end
 

@@ -88,7 +88,9 @@ production:
   primary: &primary_production
     <<: *default
     database: leak_production
-    username: leak
+    # The Postgres accessory in config/deploy.yml (or any server).
+    host: <%= ENV["DB_HOST"] %>
+    username: <%= ENV.fetch("DB_USER", "leak") %>
     password: <%= ENV["LEAK_DATABASE_PASSWORD"] %>
   cache:
     <<: *primary_production

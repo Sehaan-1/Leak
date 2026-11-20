@@ -37,10 +37,53 @@ globalThis.ResizeObserver ??= class {
   disconnect() {}
 };
 
+// jsdom has no <dialog> behaviour. A minimal stand-in for what the screens
+// use: showModal(), close(returnValue) with its close event, and
+// <form method="dialog"> closing the dialog with the submitter's value.
+if (!("showModal" in HTMLDialogElement.prototype)) {
+  const values = new WeakMap<HTMLDialogElement, string>();
+  Object.defineProperties(HTMLDialogElement.prototype, {
+    returnValue: {
+      get(this: HTMLDialogElement) {
+        return values.get(this) ?? "";
+      },
+      set(this: HTMLDialogElement, value: string) {
+        values.set(this, value);
+      },
+    },
+    showModal: {
+      value(this: HTMLDialogElement) {
+        this.setAttribute("open", "");
+        this.querySelector<HTMLElement>("[autofocus]")?.focus();
+      },
+    },
+    close: {
+      value(this: HTMLDialogElement, value?: string) {
+        if (!this.open) return;
+        if (value !== undefined) this.returnValue = value;
+        this.removeAttribute("open");
+        this.dispatchEvent(new Event("close"));
+      },
+    },
+  });
+  document.addEventListener(
+    "submit",
+    (event) => {
+      const form = event.target as HTMLFormElement;
+      if (form.getAttribute("method") !== "dialog") return;
+      event.preventDefault();
+      const submitter = (event as SubmitEvent).submitter as HTMLButtonElement | null;
+      form.closest("dialog")?.close(submitter?.value);
+    },
+    true,
+  );
+}
+
 beforeAll(() => server.listen({ onUnhandledFrame: "error" }));
 afterEach(() => {
   cleanup();
   server.resetHandlers();
   window.location.hash = "";
+  document.querySelector('meta[name="leak-demo"]')?.remove();
 });
 afterAll(() => server.close());
