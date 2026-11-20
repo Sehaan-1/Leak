@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Smoke-tests the production Docker image as the public demo: boots it
 # against Postgres, then walks the API like the SPA does. CI runs this on
-# every PR (.github/workflows/ci.yml, job "image").
+# every push (.github/workflows/ci.yml, job "image").
 #
 #   script/smoke-test-image <image> [base_url]
 #

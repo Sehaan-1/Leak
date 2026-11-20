@@ -1,15 +1,13 @@
-# 1. Money is integer paise
+# Money is integer paise
 
-**Status:** accepted
-
-## Context
+## Problem
 
 Bank statements are exact. A recurring-charge finding is only credible if its
 totals match the statement to the paisa, and the importer will reject
 statements that don't reconcile. Floats can't represent 0.10 exactly, and
 `BigDecimal` invites mixed-type arithmetic bugs.
 
-## Decision
+## Approach
 
 Every amount is an `Integer` number of paise in Ruby and `bigint` in
 PostgreSQL. Columns are suffixed `_paise`, and so are API fields. Strings
@@ -19,7 +17,7 @@ grouping, at most two decimals) and never goes through `Float`.
 `Paise.format` renders Indian grouping (`₹1,23,456.78`); the web client uses
 `Intl.NumberFormat("en-IN")`.
 
-## Consequences
+## Trade-offs
 
 - Statement totals reconcile with plain integer addition.
 - `bigint` paise covers ±₹92 quadrillion; JSON numbers are exact up to

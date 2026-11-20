@@ -1,8 +1,9 @@
 name: LLM eval
 
-# The merchant-resolution eval against a live model (ADR 0008). PR CI
-# replays recorded replies; this checks the model itself:
-# - on PRs that change the prompt, the resolver, the catalogue or the eval;
+# The merchant-resolution eval against a live model
+# (docs/design/llm-merchant-resolution.md). CI replays recorded replies;
+# this checks the model itself:
+# - when the prompt, the resolver, the catalogue or the eval changes;
 # - nightly, to catch a provider changing its model under us;
 # - on demand. With record=true it commits fresh recordings to the branch
 #   (push again, or re-run CI, to replay them: pushes made with
@@ -11,10 +12,8 @@ name: LLM eval
 # The provider is gemini unless chosen on dispatch or by the
 # LLM_EVAL_PROVIDER repository variable. It needs a GEMINI_API_KEY (or
 # NVIDIA_API_KEY, ...) repository secret; without one the job is skipped
-# with a notice, and PR CI's replay gate stays off until recordings exist.
-# (GitHub Models answered every request with a bare "OK" from this repo's
-# runners in Nov 2026, so it isn't a preset.) Eval sets are synthetic: no
-# real narration is ever sent from CI.
+# with a notice, and CI's replay gate stays off until recordings exist.
+# Eval sets are synthetic: no real narration is ever sent from CI.
 
 on:
   pull_request:

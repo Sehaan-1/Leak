@@ -15,7 +15,8 @@ merchant_resolution:
     merchant_accuracy_low: 0.95
     # Share of business rows the resolver answers instead of abstaining.
     merchant_coverage: 0.75
-  # Rules + LLM (slice 5, ADR 0008) on the same set must beat rules only.
+  # Rules + LLM (docs/design/llm-merchant-resolution.md) on the same set
+  # must beat rules only.
   # CI checks it with recorded replies (LLM_EVAL=replay); the LLM eval
   # workflow checks it live when the prompt, model or catalogue changes,
   # and nightly.
@@ -27,7 +28,7 @@ merchant_resolution:
     # no lower over business rows: one wrong merchant costs three right ones.
     wrong_answer_cost: 3
 
-# Recurring-charge detection (slice 6, ADR 0009). CI runs
+# Recurring-charge detection (docs/design/recurring-charge-detection.md). CI runs
 # `bin/rails leak:eval:detection` on the frozen golden set and fails if a
 # gate is missed. See eval/detection/README.md.
 detection:

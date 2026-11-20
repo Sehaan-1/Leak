@@ -7,7 +7,7 @@
 #          longer payee ("NETFLIX" matches "NETFLIX ENTERTAINMENT SERVICES").
 #   vpas:  exact UPI IDs.
 #
-# Categories feed detection later: investment, loan, insurance, rent and
+# Categories feed detection: investment, loan, insurance, rent and
 # utilities are recurring by nature and must not be flagged as leaks.
 
 netflix:

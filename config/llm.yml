@@ -1,4 +1,4 @@
-# The LLM merchant resolver (Merchants::LlmResolver, ADR 0008). It sees
+# The LLM merchant resolver (Merchants::LlmResolver). It sees
 # only rows the rules abstained on, and only the narration (digit runs and
 # phone numbers masked). Its answers count only if the validators accept
 # them; everything else goes to the review queue.

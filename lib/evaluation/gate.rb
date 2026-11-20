@@ -13,7 +13,7 @@ module Evaluation
   #
   #   replay  recorded replies (eval/merchant_resolution/replay/), offline;
   #           a stale recording fails, a missing one skips the LLM gate.
-  #           CI runs this on every PR.
+  #           CI runs this.
   #   live    the configured provider (LLM_PROVIDER, config/llm.yml).
   #   record  live, then saves the replies as the new recording.
   #
@@ -123,7 +123,7 @@ module Evaluation
     # Workflow command properties can't hold "," or ":" as such.
     def escape(text) = text.gsub("%", "%25").gsub(",", "%2C").gsub(":", "%3A")
 
-    # Workflow commands, so the scores (or the failure) show on the PR.
+    # Workflow commands, so the scores (or the failure) show in the checks.
     def annotate(out, set, report, failures)
       failures.each { |failure| out.puts "\n::error title=Merchant eval gate failed::#{failure}" }
       out.puts "\n::notice title=Merchant resolution (rules only%2C #{set})::#{report.summary_lines.first}"
