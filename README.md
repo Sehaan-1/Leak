@@ -3,19 +3,11 @@
 Finds the subscriptions and recurring charges quietly draining a household's
 bank account, from the statements the household already has.
 
-Built for one real user (an SBI account holder) and evaluated like a product:
-every number on the dashboard traces back to ledger rows, and the merchant
-resolver and the detection engine are gated in CI against frozen synthetic
-golden sets.
-
-> **Status: complete (8 slices).** A double-entry ledger whose invariants
-> are enforced by PostgreSQL; SBI PDF import that only accepts statements
-> that reconcile to the paisa; a rules merchant resolver and an LLM
-> resolver (any provider) behind validators, both evaluated in CI; a
-> detection engine for subscriptions, price increases and second
-> subscriptions, gated on false flags; four screens (Findings, Series,
-> Review, Import) plus "Your data" with **Delete my data**; and a Kamal 2
-> deploy of a public synthetic demo and a private instance.
+Upload an SBI PDF statement and Leak shows what you pay every month for
+subscriptions, which ones got more expensive, and where you're paying twice.
+Every number traces back to the rows of the statement, and the merchant
+matching and the detection are checked in CI against fixed synthetic test
+sets.
 
 ## Ledger invariants
 
@@ -55,7 +47,7 @@ PDF ──pdftotext -layout──▶ text ──SBI parser──▶ rows ──r
 - The PDF is not stored. Narrations are encrypted at rest, and only the
   account number's last four digits are kept.
 
-Details: [ADR 5](docs/adr/0005-statement-import.md).
+Details: [docs/design/statement-import.md](docs/design/statement-import.md).
 
 ```sh
 bin/rails 'leak:import[path/to/statement.pdf,demo@leak.test]'   # PDF_PASSWORD=... if protected
@@ -78,7 +70,7 @@ narration ──parse (UPI / NEFT / IMPS / card / NACH / bill)──▶ rules �
 
 **Eval** ([details](eval/merchant_resolution/README.md)): all synthetic. The golden set is 300 rows, reviewed and frozen; the dev set is 600 rows. The rules-only baseline on golden is **99.4% merchant accuracy [96.8–99.9%] at 76.3% coverage**. CI fails below 95% (lower bound) or 75% coverage. Synthetic numbers overstate real-world accuracy.
 
-Details: [ADR 7](docs/adr/0007-rules-merchant-resolution.md).
+Details: [docs/design/rules-merchant-resolution.md](docs/design/rules-merchant-resolution.md).
 
 ### The LLM step
 
@@ -87,7 +79,7 @@ Rows the rules abstain on go to an LLM, after each import (a background job) or 
 - check that it matches the merchant's names better than any other merchant's;
 - apply the rules' test for a personal name.
 
-Anything else, including every `unknown`, stays in review with the reason. Details: [ADR 8](docs/adr/0008-llm-merchant-resolution.md).
+Anything else, including every `unknown`, stays in review with the reason. Details: [docs/design/llm-merchant-resolution.md](docs/design/llm-merchant-resolution.md).
 
 **Choose any provider** ([`config/llm.yml`](config/llm.yml)). Keys go in the environment or `bin/rails credentials:edit` (`llm: { provider:, api_key:, model:, base_url: }`), never in git.
 
@@ -110,7 +102,7 @@ bin/rails 'leak:eval:merchants[golden]'                # gated eval; [dev] lists
 LLM_EVAL=record LLM_PROVIDER=gemini bin/rails 'leak:eval:merchants[golden]'   # live eval, saves replay recordings
 ```
 
-**LLM eval.** CI replays recorded replies (`LLM_EVAL=replay`, offline) once recordings exist. On golden, rules + LLM must keep the 95% accuracy floor and beat rules only on net score (correct − 3 × wrong). [`llm-eval.yml`](.github/workflows/llm-eval.yml) runs the live model on PRs that touch the prompt, resolver or catalogue, nightly, and on demand (`record=true` commits fresh recordings). **Not yet enforced:** no provider secret is set, so the live eval is skipped and no recordings exist yet. To turn it on, add a `GEMINI_API_KEY` repository secret, then run `gh workflow run llm-eval.yml -f record=true`.
+**LLM eval.** CI replays recorded replies (`LLM_EVAL=replay`, offline) once recordings exist. On golden, rules + LLM must keep the 95% accuracy floor and beat rules only on net score (correct − 3 × wrong). [`llm-eval.yml`](.github/workflows/llm-eval.yml) runs the live model when the prompt, resolver or catalogue changes, nightly, and on demand (`record=true` commits fresh recordings). **Not yet enforced:** no provider secret is set, so the live eval is skipped and no recordings exist yet. To turn it on, add a `GEMINI_API_KEY` repository secret, then run `gh workflow run llm-eval.yml -f record=true`.
 
 ## Detection
 
@@ -133,7 +125,7 @@ bin/rails 'leak:detect[demo@leak.test]'      # rebuild a household's series and 
 bin/rails 'leak:eval:detection[golden]'      # gated eval; [dev] lists every miss
 ```
 
-Details: [ADR 9](docs/adr/0009-recurring-charge-detection.md).
+Details: [docs/design/recurring-charge-detection.md](docs/design/recurring-charge-detection.md).
 
 ## Stack
 
@@ -151,9 +143,9 @@ and CI fails if the committed types are stale.
 
 - **Findings**: what the household pays each month for subscriptions, with price increases and second subscriptions first. "Mark as OK" hides a finding until something new happens.
 - **Series**: every charge behind a finding, with the price over time.
-- **Review**: the payees the resolvers wouldn't guess, grouped. One answer teaches Leak that payee for good ([ADR 10](docs/adr/0010-review-queue-and-dismissals.md)).
+- **Review**: the payees the resolvers wouldn't guess, grouped. One answer teaches Leak that payee for good ([details](docs/design/review-queue-and-dismissals.md)).
 - **Import**: upload an SBI PDF statement; see past imports and why any were rejected.
-- **Your data**: what Leak keeps, and **Delete my data**, which erases every statement, transaction and finding after a confirmation, and keeps you signed in ([ADR 12](docs/adr/0012-delete-my-data.md)).
+- **Your data**: what Leak keeps, and **Delete my data**, which erases every statement, transaction and finding after a confirmation, and keeps you signed in ([details](docs/design/delete-my-data.md)).
 
 ## Running it locally (WSL2 / Linux / macOS)
 
@@ -181,7 +173,7 @@ on a seeded database).
 
 ## Deploying
 
-Two instances from one image with [Kamal 2](https://kamal-deploy.org), usually on one VPS ([ADR 11](docs/adr/0011-deploy-and-public-demo.md)):
+Two instances from one image with [Kamal 2](https://kamal-deploy.org), usually on one VPS ([details](docs/design/deploy-and-public-demo.md)):
 
 | Destination | What it is |
 |---|---|
@@ -228,7 +220,7 @@ bin/kamal rails -d private "'leak:users:delete[mum@example.com]'" CONFIRM=yes   
 bin/kamal console -d private
 ```
 
-CI builds the production image on every PR and boots it as the demo against Postgres (the `image` job, [`script/smoke-test-image`](script/smoke-test-image)).
+CI builds the production image on every push and boots it as the demo against Postgres (the `image` job, [`script/smoke-test-image`](script/smoke-test-image)).
 
 ## Privacy rules
 
@@ -249,43 +241,26 @@ CI builds the production image on every PR and boots it as the demo against Post
 - Secrets (`config/*.key`, credentials) are never committed; production
   secrets are supplied at deploy time.
 
-## Decisions
+## Design notes
 
-Short ADRs live in [`docs/adr/`](docs/adr):
+Why things are the way they are, in [`docs/design/`](docs/design):
 
-1. [Money is integer paise](docs/adr/0001-integer-paise.md)
-2. [Double-entry ledger with database-enforced invariants](docs/adr/0002-double-entry-ledger.md)
-3. [Same-origin cookie sessions, not JWT](docs/adr/0003-cookie-session-auth.md)
-4. [OpenAPI file as the API contract](docs/adr/0004-openapi-contract.md)
-5. [Statement import: exact parsing, reconciliation, fingerprints](docs/adr/0005-statement-import.md)
-6. [The SPA is served by Rails, built by Vite](docs/adr/0006-spa-served-by-rails.md)
-7. [Rules-first merchant resolution, measured on a frozen synthetic set](docs/adr/0007-rules-merchant-resolution.md)
-8. [LLM merchant resolution: any provider, grounded answers, replayed in CI](docs/adr/0008-llm-merchant-resolution.md)
-9. [Recurring-charge detection: explainable chains, decoys rejected by rule, measured by false flags](docs/adr/0009-recurring-charge-detection.md)
-10. [Review queue answers teach the resolver; dismissals are anchored on ledger rows](docs/adr/0010-review-queue-and-dismissals.md)
-11. [Two Kamal instances from one image; the public demo can't take real statements](docs/adr/0011-deploy-and-public-demo.md)
-12. ["Delete my data" erases everything in one transaction and keeps the sign-in](docs/adr/0012-delete-my-data.md)
+- [Money is integer paise](docs/design/integer-paise.md)
+- [Double-entry ledger with database-enforced invariants](docs/design/double-entry-ledger.md)
+- [Same-origin cookie sessions, not JWT](docs/design/cookie-session-auth.md)
+- [OpenAPI file as the API contract](docs/design/openapi-contract.md)
+- [Statement import: exact parsing, reconciliation, fingerprints](docs/design/statement-import.md)
+- [The SPA is served by Rails, built by Vite](docs/design/spa-served-by-rails.md)
+- [Rules-first merchant resolution, measured on a frozen synthetic set](docs/design/rules-merchant-resolution.md)
+- [LLM merchant resolution: any provider, grounded answers, replayed in CI](docs/design/llm-merchant-resolution.md)
+- [Recurring-charge detection: explainable chains, decoys rejected by rule, measured by false flags](docs/design/recurring-charge-detection.md)
+- [Review queue answers teach the resolver; dismissals are anchored on ledger rows](docs/design/review-queue-and-dismissals.md)
+- [Two Kamal instances from one image; the public demo can't take real statements](docs/design/deploy-and-public-demo.md)
+- ["Delete my data" erases everything in one transaction and keeps the sign-in](docs/design/delete-my-data.md)
 
-## How it was built
+## Not built yet
 
-Eight slices, each leaving something demoable:
-
-1. **Foundation**: app, auth, ledger + invariants, CI.
-2. **SBI PDF statement import**: `pdftotext -layout` parser,
-   reconciliation, idempotent fingerprints, import-twice and
-   overlapping-import property tests.
-3. **Bare React list**: Vite + TS SPA served by Rails, types generated from
-   OpenAPI; sign in, upload a statement, list transactions.
-4. **Alias table + rules resolver, synthetic generator, eval harness,
-   baseline in CI**.
-5. **LLM resolver behind the router**, validators, replay fixtures, the eval
-   gate.
-6. **Detection engine**: cadence fitting, price steps, decoys, false-flag
-   gate.
-7. **The four screens** and the Playwright test.
-8. **Deploy** (Kamal 2): public synthetic demo + private instance,
-   "Delete my data".
-
-Not built yet: undoing a review answer, statements from banks other than SBI,
-and the LLM eval gate (it switches on when a provider key is added; see
-[The LLM step](#the-llm-step)).
+- Undoing a review answer.
+- Statements from banks other than SBI.
+- The live LLM eval gate: it switches on when a provider key is added (see
+  [The LLM step](#the-llm-step)).

@@ -10,7 +10,7 @@ module Statements
   #
   # HMAC'd with a key derived from secret_key_base, so the stored value
   # reveals nothing about the narration. Rotating secret_key_base changes
-  # every fingerprint: re-key before rotating (see docs/adr/0005).
+  # every fingerprint: re-key before rotating (see docs/design/statement-import.md).
   module Fingerprint
     VERSION = "v1"
 

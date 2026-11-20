@@ -1,6 +1,6 @@
 module Api
   module V1
-    # What detection flagged (ADR 0009), each with its evidence: the series
+    # What detection flagged, each with its evidence: the series
     # and, for a price increase, the first charge at the new price. Price
     # increases and duplicates first, then subscriptions by monthly cost.
     class FindingsController < BaseController

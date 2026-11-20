@@ -1,14 +1,12 @@
-# 11. Two Kamal instances from one image; the public demo can't take real statements
+# Two Kamal instances from one image; the public demo can't take real statements
 
-**Status:** accepted
-
-## Context
+## Problem
 
 Leak has two audiences. The household needs a private instance for its real SBI statements. Everyone else (reviewers, anyone curious) needs to try it without an account and without uploading anything. The data model and the code are the same for both. The risk is not: a public server that accepts uploads will, sooner or later, receive somebody's real statement.
 
 The budget is one small VPS, and the build runs on GitHub Actions only (no local Ruby is assumed).
 
-## Decision
+## Approach
 
 - **Kamal 2, two destinations, one image.** `config/deploy.yml` holds what they share. `config/deploy.demo.yml` and `config/deploy.private.yml` set the service (`leak-demo`, `leak-private`), the domain and the environment. Each has its own Postgres 18 accessory (`<service>-db`, not published, on Kamal's Docker network) and its own secrets, so neither can read the other's data, and both can share one server behind one kamal-proxy with Let's Encrypt. `require_destination: true`, so a bare `kamal deploy` refuses to guess.
 - **Nothing about the server is in git.** Hosts come from `LEAK_SERVER`, `LEAK_DEMO_HOST`, `LEAK_PRIVATE_HOST`. `.kamal/secrets.<destination>` maps `LEAK_<DESTINATION>_*` environment variables to the container's names; `bin/rails 'leak:secrets[<destination>]'` prints a fresh set. The `Deploy` workflow (manual) reads them from repository secrets and pushes to ghcr.io with the job's token.
@@ -21,7 +19,7 @@ The budget is one small VPS, and the build runs on GitHub Actions only (no local
 - **The private instance has no sign-up.** Accounts are made on the server: `leak:users:create[email,household]`, run through `bin/kamal rails -d private`.
 - **The production image is tested in CI** (`image` job): built, booted as the demo against Postgres 18 with throwaway secrets, and walked through the HTML shell, a demo session, findings, the upload refusal and "Delete my data". A second run checks it refuses to boot without its secrets.
 
-## Consequences
+## Trade-offs
 
 - A real statement can only reach the private instance.
 - One deploy pipeline and one image for both; a fix ships to both by deploying twice.
@@ -29,7 +27,7 @@ The budget is one small VPS, and the build runs on GitHub Actions only (no local
 - When a demo household is deleted, its user and sessions go with it, so an old demo cookie just signs out.
 - Kamal's Let's Encrypt support needs one server per destination and port 443 open.
 
-## Alternatives considered
+## Not chosen
 
 - **One shared, read-only demo account:** visitors would see each other's review answers and dismissals, and resetting it would need a schedule. A throwaway household per visitor costs one import.
 - **One instance with a "demo household":** the real statements and the public would share a database, secrets and an upload endpoint.

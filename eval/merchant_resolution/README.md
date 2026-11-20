@@ -74,8 +74,8 @@ With `LLM_EVAL` set, the same rows also go through rules + LLM (`Merchants::LlmR
 
 | `LLM_EVAL` | Model | Used by |
 |---|---|---|
-| `replay` | recorded replies in `replay/<set>.json`, keyed by a hash of each request | PR CI. A stale recording fails; a missing one skips the LLM gate with a notice |
-| `live` | the configured provider (`config/llm.yml`) | `.github/workflows/llm-eval.yml`: PRs touching the resolver, prompt or catalogue; nightly |
+| `replay` | recorded replies in `replay/<set>.json`, keyed by a hash of each request | CI. A stale recording fails; a missing one skips the LLM gate with a notice |
+| `live` | the configured provider (`config/llm.yml`) | `.github/workflows/llm-eval.yml`: when the resolver, prompt or catalogue changes; nightly |
 | `record` | live, then saves `replay/<set>.json` | after changing the prompt, catalogue or rows; `llm-eval.yml` with `record=true` |
 
 Recordings contain synthetic narrations and model replies only. Never record from real data.

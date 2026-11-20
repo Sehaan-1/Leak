@@ -104,7 +104,7 @@ jobs:
           RAILS_ENV: test
           REQUIRE_PDFTOTEXT: "1"
         # On failure, the tail of the output becomes an annotation too, so
-        # errors outside examples (boot, load, db:test:prepare) show on the PR.
+        # errors outside examples (boot, load, db:test:prepare) show in the checks.
         run: |
           set -o pipefail
           { bin/rails db:test:prepare && bundle exec rspec --format progress; } 2>&1 | tee rspec.log || {
@@ -238,7 +238,7 @@ jobs:
             leak:ci
 
       # On failure, the container's log becomes an annotation too, so boot
-      # errors show on the PR.
+      # errors show in the checks.
       - name: Smoke test
         run: |
           script/smoke-test-image || {

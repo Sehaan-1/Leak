@@ -1,5 +1,5 @@
 # Merchant resolution: a global catalogue of merchants with aliases (UPI IDs
-# and normalised names), optional per-household aliases learnt later from the
+# and normalised names), optional per-household aliases learnt from the
 # review queue, and the resolver's verdict on each bank transaction.
 #
 # pg_trgm powers the fuzzy name match (similarity() over a GIN index).

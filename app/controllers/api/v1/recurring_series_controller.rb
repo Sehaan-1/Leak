@@ -1,8 +1,8 @@
 module Api
   module V1
     # One recurring series with the ledger rows behind it, oldest first, and
-    # what was flagged about it. Series are rebuilt on every detection run
-    # (ADR 0009), so an id from an earlier run answers 404.
+    # what was flagged about it. Series are rebuilt on every detection run,
+    # so an id from an earlier run answers 404.
     class RecurringSeriesController < BaseController
       def show
         series = current_household.recurring_series.includes(:merchant, series_charges: :bank_transaction).find(params[:id])

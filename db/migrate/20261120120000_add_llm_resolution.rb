@@ -1,4 +1,4 @@
-# Slice 5: the LLM resolver, for rows the rules abstain on.
+# The LLM resolver, for rows the rules abstain on.
 #
 # - resolution "llm": the LLM decided and the validators accepted it.
 # - resolution_evidence: why (rules or LLM); encrypted, as it quotes the

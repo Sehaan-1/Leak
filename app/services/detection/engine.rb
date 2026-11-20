@@ -1,6 +1,6 @@
 module Detection
   # Finds recurring charges in a household's merchant transactions and what
-  # is worth flagging about them (ADR 0009):
+  # is worth flagging about them:
   #
   #   result = Detection::Engine.new(as_of: Date.new(2026, 10, 31)).call(txns)  # txns: [Detection::Txn]
   #   result.series    # => [Series] every recurring series, commitments included

@@ -1,4 +1,4 @@
-# Recurring-charge detection (Detection::Engine, ADR 0009).
+# Recurring-charge detection (Detection::Engine).
 #
 # A series is a merchant's charges repeating on one cadence, at one price
 # (following small drift, e.g. a USD price converted to rupees), possibly

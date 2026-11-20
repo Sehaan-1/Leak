@@ -2,8 +2,8 @@ require "digest"
 
 module Merchants
   module Llm
-    # Recorded LLM replies, so the eval runs offline and deterministically on
-    # every PR (eval/merchant_resolution/replay/<set>.json):
+    # Recorded LLM replies, so the eval runs offline and deterministically in
+    # CI (eval/merchant_resolution/replay/<set>.json):
     #
     #   ReplayClient.new(path)                         # replay; a new request raises Miss
     #   ReplayClient.new(path, record: live_client)    # call the live model, then #save!

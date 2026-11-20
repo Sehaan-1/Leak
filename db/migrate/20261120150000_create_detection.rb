@@ -1,4 +1,4 @@
-# Slice 6: recurring-charge detection (Detection::Engine, ADR 0009).
+# Recurring-charge detection (Detection::Engine).
 #
 # A recurring series is a merchant's charges that repeat on a cadence; each
 # charge belongs to at most one series, and `level` numbers its price
