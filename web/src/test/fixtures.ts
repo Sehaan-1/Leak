@@ -2,6 +2,7 @@ import type {
   BankTransaction,
   Finding,
   FindingsList,
+  HouseholdData,
   Me,
   Merchant,
   ReviewItem,
@@ -16,7 +17,17 @@ import type {
 // typecheck if the contract changes under them.
 export const me: Me = {
   user: { id: 1, email_address: "asha@example.com" },
-  household: { id: 1, name: "Sharma household" },
+  household: { id: 1, name: "Sharma household", demo_expires_at: null },
+};
+
+export const demoMe: Me = {
+  user: { id: 9, email_address: "demo-1a2b3c4d5e6f7a8b@demo.invalid" },
+  household: { id: 9, name: "Demo household", demo_expires_at: "2026-11-20T10:15:00Z" },
+};
+
+export const householdData: HouseholdData = {
+  counts: { statements: 1, transactions: 160, subscriptions: 4, learned_merchants: 1, dismissed_findings: 0 },
+  demo_expires_at: null,
 };
 
 const account = { id: 3, name: "SBI ••9475" };

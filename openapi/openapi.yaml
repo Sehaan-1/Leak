@@ -56,6 +56,25 @@ paths:
         "401": { $ref: "#/components/responses/Error" }
         "422": { $ref: "#/components/responses/Error" }
 
+  /api/v1/demo_session:
+    post:
+      operationId: createDemoSession
+      summary: Try the public demo
+      description: |
+        Only on the public demo (LEAK_DEMO=1); 404 elsewhere. Creates a
+        household with a year of made-up statements and its findings, signs
+        in to it, and deletes it after a day (`household.demo_expires_at`).
+      security: []
+      responses:
+        "201":
+          description: Demo household created; session cookie set.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Me" }
+        "404": { $ref: "#/components/responses/Error" }
+        "422": { $ref: "#/components/responses/Error" }
+        "429": { $ref: "#/components/responses/Error" }
+
   /api/v1/me:
     get:
       operationId: getMe
@@ -112,6 +131,7 @@ paths:
         Parses, reconciles and posts the statement to the ledger in one step.
         Nothing is written unless the statement ties. Re-uploading the same
         file returns the earlier import with 200. The PDF is not stored.
+        Turned off on the public demo (403 `demo_uploads_disabled`).
       requestBody:
         required: true
         content:
@@ -145,6 +165,7 @@ paths:
                   - { $ref: "#/components/schemas/Error" }
         "400": { $ref: "#/components/responses/Error" }
         "401": { $ref: "#/components/responses/Error" }
+        "403": { $ref: "#/components/responses/Error" }
 
   /api/v1/bank_transactions:
     get:
@@ -356,6 +377,48 @@ paths:
                     items: { $ref: "#/components/schemas/Merchant" }
         "401": { $ref: "#/components/responses/Error" }
 
+  /api/v1/household_data:
+    get:
+      operationId: getHouseholdData
+      summary: What Leak holds for the household
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [counts, demo_expires_at]
+                properties:
+                  counts: { $ref: "#/components/schemas/DataCounts" }
+                  demo_expires_at:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: When a public demo household is deleted; null for a real one.
+        "401": { $ref: "#/components/responses/Error" }
+    delete:
+      operationId: deleteHouseholdData
+      summary: Delete my data
+      description: |
+        Deletes every statement, transaction, series, finding, dismissal and
+        merchant the household taught Leak, in one transaction. The
+        household and its sign-in stay. Returns what was deleted.
+      responses:
+        "200":
+          description: Deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [deleted]
+                properties:
+                  deleted: { $ref: "#/components/schemas/DataCounts" }
+        "401": { $ref: "#/components/responses/Error" }
+        "422": { $ref: "#/components/responses/Error" }
+
 components:
   securitySchemes:
     sessionCookie:
@@ -386,10 +449,26 @@ components:
         household:
           type: object
           additionalProperties: false
-          required: [id, name]
+          required: [id, name, demo_expires_at]
           properties:
             id: { type: integer }
             name: { type: string }
+            demo_expires_at:
+              type: string
+              format: date-time
+              nullable: true
+              description: When a public demo household is deleted; null for a real one.
+
+    DataCounts:
+      type: object
+      additionalProperties: false
+      required: [statements, transactions, subscriptions, learned_merchants, dismissed_findings]
+      properties:
+        statements: { type: integer, minimum: 0 }
+        transactions: { type: integer, minimum: 0 }
+        subscriptions: { type: integer, minimum: 0 }
+        learned_merchants: { type: integer, minimum: 0 }
+        dismissed_findings: { type: integer, minimum: 0 }
 
     Account:
       type: object

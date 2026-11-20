@@ -21,7 +21,8 @@ RSpec.configure do |config|
   config.include LedgerHelpers
   config.include DemoHelpers
   config.include Committee::Rails::Test::Methods, type: :request
-  config.include RequestHelpers, type: :request
+  config.include RequestHelpers # create_user anywhere; sign_in needs a request spec
+  config.include ActiveSupport::Testing::TimeHelpers
 
   config.add_setting :committee_options
   config.committee_options = {

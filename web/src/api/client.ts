@@ -167,3 +167,32 @@ export async function resolveReviewItem(id: number, answer: Answer): Promise<Res
   if (!data) throw toApiError(error, response);
   return data;
 }
+
+export type DataCounts = components["schemas"]["DataCounts"];
+export type HouseholdData =
+  paths["/api/v1/household_data"]["get"]["responses"]["200"]["content"]["application/json"];
+
+/** True on the public demo (LEAK_DEMO=1): Rails marks the HTML shell it serves. */
+export function isDemoInstance(): boolean {
+  return document.querySelector('meta[name="leak-demo"]') !== null;
+}
+
+/** Public demo only: a fresh household of made-up data, signed in. */
+export async function startDemo(): Promise<Me> {
+  const { data, error, response } = await api.POST("/api/v1/demo_session");
+  if (!data) throw toApiError(error, response);
+  return data;
+}
+
+export async function getHouseholdData(): Promise<HouseholdData> {
+  const { data, error, response } = await api.GET("/api/v1/household_data");
+  if (!data) throw toApiError(error, response);
+  return data;
+}
+
+/** "Delete my data": everything imported, detected or learnt. The sign-in stays. */
+export async function deleteHouseholdData(): Promise<DataCounts> {
+  const { data, error, response } = await api.DELETE("/api/v1/household_data");
+  if (!data) throw toApiError(error, response);
+  return data.deleted;
+}

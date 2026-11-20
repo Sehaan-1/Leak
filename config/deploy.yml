@@ -1,119 +1,87 @@
-# Name of your application. Used to uniquely configure containers.
+# Kamal 2: two instances of Leak from one image, usually on one VPS.
+#
+#   bin/kamal setup  -d demo      # first time: Postgres, proxy, app
+#   bin/kamal deploy -d private   # afterwards
+#
+# demo     public, synthetic data only, uploads off   (config/deploy.demo.yml)
+# private  the household's own statements             (config/deploy.private.yml)
+#
+# Settings come from the environment, so nothing about the server is in git:
+#   LEAK_SERVER        the VPS's IP address or hostname (SSH as root, or set LEAK_SSH_USER)
+#   LEAK_DEMO_HOST     the public demo's domain, e.g. demo.example.com
+#   LEAK_PRIVATE_HOST  the private instance's domain
+#   KAMAL_REGISTRY_USERNAME / KAMAL_REGISTRY_PASSWORD  ghcr.io user and a token with write:packages
+# Secrets: .kamal/secrets-common and .kamal/secrets.<destination>. README › Deploying.
+
+# Each destination overrides this, so their containers, Postgres and
+# volumes don't collide on a shared server.
 service: leak
 
-# Name of the container image (use your-user/app-name on external registries).
-image: leak
+image: <%= ENV.fetch("KAMAL_REGISTRY_USERNAME", "sehaan-1").downcase %>/leak
 
-# Deploy to these servers.
+require_destination: true
+
 servers:
   web:
-    - 192.168.0.1
-  # job:
-  #   hosts:
-  #     - 192.168.0.1
-  #   cmd: bin/jobs
+    - <%= ENV.fetch("LEAK_SERVER", "set-LEAK_SERVER") %>
 
-# Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.
-# If used with Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
-#
-# Using an SSL proxy like this requires turning on config.assume_ssl and config.force_ssl in production.rb!
-#
-# Don't use this when deploying to multiple web servers (then you have to terminate SSL at your load balancer).
-#
-# proxy:
-#   ssl: true
-#   host: app.example.com
+ssh:
+  user: <%= ENV.fetch("LEAK_SSH_USER", "root") %>
 
-# Where you keep your container images.
+# kamal-proxy terminates TLS with Let's Encrypt; each destination sets its host.
+proxy:
+  ssl: true
+  # Statement upload parses the PDF in the request.
+  response_timeout: 60
+  healthcheck:
+    path: /up
+
 registry:
-  # Alternatives: hub.docker.com / registry.digitalocean.com / ghcr.io / ...
-  server: localhost:5555
+  server: ghcr.io
+  username: <%= ENV.fetch("KAMAL_REGISTRY_USERNAME", "sehaan-1") %>
+  password:
+    - KAMAL_REGISTRY_PASSWORD
 
-  # Needed for authenticated registries.
-  # username: your-user
-
-  # Always use an access token rather than real password when possible.
-  # password:
-  #   - KAMAL_REGISTRY_PASSWORD
-
-# Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
   secret:
-    - RAILS_MASTER_KEY
+    - SECRET_KEY_BASE
+    - ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
+    - ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
+    - ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
+    - LEAK_DATABASE_PASSWORD
   clear:
-    # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
-    # When you start using multiple servers, you should split out job processing to a dedicated machine.
+    # Background jobs (detection after an import, the LLM step, demo clean-up)
+    # run in the web container's Puma.
     SOLID_QUEUE_IN_PUMA: true
+    RAILS_LOG_LEVEL: info
 
-    # Set number of processes dedicated to Solid Queue (default: 1)
-    # JOB_CONCURRENCY: 3
-
-    # Set number of cores available to the application on each server (default: 1).
-    # WEB_CONCURRENCY: 2
-
-    # Match this to any external database server to configure Active Record correctly
-    # Use leak-db for a db accessory server on same machine via local kamal docker network.
-    # DB_HOST: 192.168.0.2
-
-    # Log everything from Rails
-    # RAILS_LOG_LEVEL: debug
-
-# Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
-# "bin/kamal logs -r job" will tail logs from the first server in the job section.
 aliases:
   console: app exec --interactive --reuse "bin/rails console"
   shell: app exec --interactive --reuse "bash"
   logs: app logs -f
   dbc: app exec --interactive --reuse "bin/rails dbconsole --include-password"
+  # bin/kamal rails -d private "'leak:users:create[mum@example.com,Sharma household]'"
+  rails: app exec --reuse "bin/rails"
 
-# Use a persistent storage volume for sqlite database files and local Active Storage files.
-# Recommended to change this to a mounted volume path that is backed up off server.
-volumes:
-  - "leak_storage:/rails/storage"
+# No volumes: statement PDFs are parsed in the request and never stored, so
+# everything Leak keeps is in Postgres.
 
-# Bridge fingerprinted assets, like JS and CSS, between versions to avoid
-# hitting 404 on in-flight requests. Combines all files from new and old
-# version inside the asset_path.
-asset_path: /rails/public/assets
+asset_path: /rails/public/spa
 
-# Configure the image builder.
 builder:
   arch: amd64
 
-  # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
-  # remote: ssh://docker@docker-builder-server
-  #
-  # # Pass arguments and secrets to the Docker build process
-  # args:
-  #   RUBY_VERSION: ruby-4.0.10
-  # secrets:
-  #   - GITHUB_TOKEN
-  #   - RAILS_MASTER_KEY
-
-# Use a different ssh user than root
-# ssh:
-#   user: app
-
-# Use accessory services (secrets come from .kamal/secrets).
-# accessories:
-#   db:
-#     image: mysql:8.0
-#     host: 192.168.0.2
-#     # Change to 3306 to expose port to the world instead of just local network.
-#     port: "127.0.0.1:3306:3306"
-#     env:
-#       clear:
-#         MYSQL_ROOT_HOST: '%'
-#       secret:
-#         - MYSQL_ROOT_PASSWORD
-#     files:
-#       - config/mysql/production.cnf:/etc/mysql/my.cnf
-#       - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
-#     directories:
-#       - data:/var/lib/mysql
-#   redis:
-#     image: valkey/valkey:8
-#     host: 192.168.0.2
-#     port: 6379
-#     directories:
-#       - data:/data
+accessories:
+  db:
+    image: postgres:18
+    host: <%= ENV.fetch("LEAK_SERVER", "set-LEAK_SERVER") %>
+    # Not published: the app reaches it as <service>-db on Kamal's Docker network.
+    env:
+      clear:
+        POSTGRES_USER: leak
+        POSTGRES_DB: leak_production
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      # PostgreSQL 18 images keep data under /var/lib/postgresql/18/docker.
+      - data:/var/lib/postgresql

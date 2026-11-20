@@ -1,0 +1,22 @@
+# The household's own instance: real statements. Accounts are created by
+# hand (bin/kamal rails -d private "'leak:users:create[...]'"); there is no
+# sign-up. An LLM key is optional (README › The LLM step).
+service: leak-private
+
+proxy:
+  host: <%= ENV.fetch("LEAK_PRIVATE_HOST", "set-LEAK_PRIVATE_HOST") %>
+
+env:
+  clear:
+    APP_HOST: <%= ENV.fetch("LEAK_PRIVATE_HOST", "set-LEAK_PRIVATE_HOST") %>
+    DB_HOST: leak-private-db
+  secret:
+    - SECRET_KEY_BASE
+    - ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
+    - ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
+    - ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
+    - LEAK_DATABASE_PASSWORD
+    - LLM_PROVIDER
+    - LLM_API_KEY
+    - LLM_MODEL
+    - LLM_BASE_URL

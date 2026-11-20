@@ -50,3 +50,11 @@
 # Frontend: dependencies are installed and the SPA is built inside the image.
 /web/node_modules/
 /public/spa/
+
+# Development and evaluation only: specs, synthetic eval sets, docs, CI.
+/spec/
+/eval/
+/docs/
+/.github/
+/web/test-results/
+/web/playwright-report/

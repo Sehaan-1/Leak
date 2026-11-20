@@ -8,7 +8,9 @@ import { defineConfig, devices } from "@playwright/test";
 //   RAILS_ENV=test bin/rails db:reset          # from the repo root
 //   npm run e2e
 //
-// The flow answers a review question, so seed again before re-running.
+// The first flow answers a review question, so seed again before re-running.
+// E2E_BASE_URL points the tests at a server you started yourself (start it
+// with LEAK_DEMO=1).
 const BASE_URL = process.env.E2E_BASE_URL ?? "http://localhost:3000";
 
 export default defineConfig({
@@ -32,7 +34,9 @@ export default defineConfig({
           command: "bin/rails server -p 3000 -b 127.0.0.1",
           cwd: "..",
           url: `${BASE_URL}/up`,
-          env: { RAILS_ENV: "test" },
+          // As the public demo, so the demo flow is covered; the seeded
+          // account signs in the same way.
+          env: { RAILS_ENV: "test", LEAK_DEMO: "1" },
           reuseExistingServer: !process.env.CI,
           timeout: 120_000,
           stdout: "pipe",

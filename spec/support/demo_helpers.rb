@@ -3,12 +3,7 @@
 module DemoHelpers
   def import_demo!(household)
     Merchants::Catalogue.sync!
-    import = Statements::Importer.import_text(household: household, text: Synthetic::DemoStatement.text,
-      filename: "demo-statement.pdf")
-    raise "demo statement rejected: #{import.error_message}" if import.rejected?
-
-    Detection::Run.new(household: household).call
-    import
+    Demo.populate!(household)
   end
 
   # [[kind, merchant slug], ...] of a household's findings.

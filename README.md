@@ -8,14 +8,14 @@ every number on the dashboard traces back to ledger rows, and the merchant
 resolver and the detection engine are gated in CI against frozen synthetic
 golden sets.
 
-> **Status: slice 6 of the build.** A double-entry ledger whose invariants
-> are enforced by PostgreSQL, SBI PDF statement import that only accepts
-> statements that reconcile to the paisa, a bare React app to sign in,
-> upload a statement and list its transactions, a rules merchant resolver
-> with an eval gate in CI, an LLM resolver (any provider) for what the
-> rules can't decide, behind validators, and a detection engine that finds
-> subscriptions, price increases and second subscriptions, gated in CI on
-> false flags. The real screens come next (see [Roadmap](#roadmap)).
+> **Status: complete (8 slices).** A double-entry ledger whose invariants
+> are enforced by PostgreSQL; SBI PDF import that only accepts statements
+> that reconcile to the paisa; a rules merchant resolver and an LLM
+> resolver (any provider) behind validators, both evaluated in CI; a
+> detection engine for subscriptions, price increases and second
+> subscriptions, gated on false flags; four screens (Findings, Series,
+> Review, Import) plus "Your data" with **Delete my data**; and a Kamal 2
+> deploy of a public synthetic demo and a private instance.
 
 ## Ledger invariants
 
@@ -110,7 +110,7 @@ bin/rails 'leak:eval:merchants[golden]'                # gated eval; [dev] lists
 LLM_EVAL=record LLM_PROVIDER=gemini bin/rails 'leak:eval:merchants[golden]'   # live eval, saves replay recordings
 ```
 
-**LLM eval.** PR CI replays recorded replies (`LLM_EVAL=replay`, offline). On golden, rules + LLM must keep the 95% accuracy floor and beat rules only on net score (correct − 3 × wrong). [`llm-eval.yml`](.github/workflows/llm-eval.yml) runs the live model on PRs that touch the prompt, resolver or catalogue, nightly, and on demand (`record=true` commits fresh recordings). **Not yet enforced:** no provider secret is set, so the live eval is skipped and no recordings exist yet. To turn it on, add a `GEMINI_API_KEY` repository secret, then run `gh workflow run llm-eval.yml -f record=true`.
+**LLM eval.** CI replays recorded replies (`LLM_EVAL=replay`, offline) once recordings exist. On golden, rules + LLM must keep the 95% accuracy floor and beat rules only on net score (correct − 3 × wrong). [`llm-eval.yml`](.github/workflows/llm-eval.yml) runs the live model on PRs that touch the prompt, resolver or catalogue, nightly, and on demand (`record=true` commits fresh recordings). **Not yet enforced:** no provider secret is set, so the live eval is skipped and no recordings exist yet. To turn it on, add a `GEMINI_API_KEY` repository secret, then run `gh workflow run llm-eval.yml -f record=true`.
 
 ## Detection
 
@@ -147,28 +147,88 @@ a spec fails if a route under `/api` is added without documenting it. The web
 client's types are generated from the same file (`npm --prefix web run api-types`),
 and CI fails if the committed types are stale.
 
+## Screens
+
+- **Findings**: what the household pays each month for subscriptions, with price increases and second subscriptions first. "Mark as OK" hides a finding until something new happens.
+- **Series**: every charge behind a finding, with the price over time.
+- **Review**: the payees the resolvers wouldn't guess, grouped. One answer teaches Leak that payee for good ([ADR 10](docs/adr/0010-review-queue-and-dismissals.md)).
+- **Import**: upload an SBI PDF statement; see past imports and why any were rejected.
+- **Your data**: what Leak keeps, and **Delete my data**, which erases every statement, transaction and finding after a confirmation, and keeps you signed in ([ADR 12](docs/adr/0012-delete-my-data.md)).
+
 ## Running it locally (WSL2 / Linux / macOS)
 
 Keep the repo on the Linux filesystem, not `/mnt/c`.
 
 ```sh
-# Ruby 4.0.10 (see .ruby-version), PostgreSQL 18, and poppler-utils (pdftotext)
-bin/setup              # installs gems, prepares the database, starts the server
+# Ruby 4.0.10 (see .ruby-version), PostgreSQL 18, poppler-utils (pdftotext), Node 22.12+
+bin/setup              # gems, web/node_modules, database; then starts bin/dev
 bin/rails db:seed      # synthetic demo household: demo@leak.test / demo-password-change-me
-bin/ci                 # everything CI runs: rubocop, brakeman, audit, schema drift, rspec, web checks
-
-# Node 22.12+ for the React app in web/
-npm --prefix web ci
-npm --prefix web run dev   # Vite on :5173, proxying everything else to Rails on :3000
+bin/dev                # Rails on :3000 and Vite on :5173 (--rails-only for Rails alone)
+bin/ci                 # everything CI runs: rubocop, brakeman, audit, schema drift, rspec, evals, web checks
 ```
 
 Open <http://localhost:5173> and sign in with the demo account, then import
 `spec/fixtures/synthetic/sbi/sample_statement.pdf`. Rails renders the HTML
 shell (so the CSRF token is in the page) and Vite serves the scripts with hot
-reload. To try the production build instead, run `npm --prefix web run build`
-and open <http://localhost:3000> with `VITE_DEV_SERVER=0 bin/rails server`.
+reload, proxying everything else to Rails. Opening Vite through another
+hostname (a VM, a tunnel) needs `VITE_ALLOWED_HOSTS=that.host`. To try the
+production build, run `npm --prefix web run build` and `bin/dev --rails-only`,
+then open <http://localhost:3000>. `LEAK_DEMO=1 bin/dev` runs it as the public demo.
 
-Frontend checks: `npm --prefix web run lint`, `typecheck`, `test`.
+Frontend checks: `npm --prefix web run lint`, `typecheck`, `test`, and
+`npm --prefix web run e2e` (Playwright; starts Rails in the test environment
+on a seeded database).
+
+## Deploying
+
+Two instances from one image with [Kamal 2](https://kamal-deploy.org), usually on one VPS ([ADR 11](docs/adr/0011-deploy-and-public-demo.md)):
+
+| Destination | What it is |
+|---|---|
+| `demo` | Public. "Try it with made-up data" gives each visitor a household of synthetic data, deleted after 24 hours. **Uploads are off.** |
+| `private` | The household's real statements. No sign-up: you create the accounts. |
+
+Each has its own Postgres 18 (a Kamal accessory), its own secrets and its own domain, with TLS from Let's Encrypt via kamal-proxy.
+
+**1. A server.** Any VPS with Docker-compatible Linux, ports 22, 80 and 443 open, and SSH access (root, or set `LEAK_SSH_USER`). Point the domains' DNS at it.
+
+**2. Settings**, as environment variables where you run Kamal, or as repository secrets for the `Deploy` workflow:
+
+| Variable | |
+|---|---|
+| `LEAK_SERVER` | the VPS's IP address or hostname |
+| `LEAK_DEMO_HOST`, `LEAK_PRIVATE_HOST` | the domains, e.g. `demo.example.com` |
+| `KAMAL_REGISTRY_USERNAME`, `KAMAL_REGISTRY_PASSWORD` | your GitHub user and a token with `write:packages` (the image goes to `ghcr.io/<user>/leak`). The workflow uses its own token. |
+| `LEAK_<DESTINATION>_*` | secrets: `bin/rails 'leak:secrets[demo]'` and `bin/rails 'leak:secrets[private]'` print a fresh set (`SECRET_KEY_BASE`, the three Active Record Encryption keys, `POSTGRES_PASSWORD`) |
+| `LEAK_PRIVATE_LLM_PROVIDER`, `_API_KEY`, `_MODEL`, `_BASE_URL` | optional, [the LLM step](#the-llm-step) on the private instance; leave empty to skip it |
+| `SSH_PRIVATE_KEY` | workflow only: a key the server accepts |
+
+Keep the generated secrets somewhere safe (a password manager). **Losing the Active Record Encryption keys makes the stored narrations unreadable.** [`.kamal/secrets.<destination>`](.kamal) only names the variables, so nothing secret is in git.
+
+Email (optional; Leak only sends password-reset mail): add `SMTP_ADDRESS`, `SMTP_PORT`, `SMTP_USERNAME` and `MAIL_FROM` to a destination's `env.clear`, and `SMTP_PASSWORD` to its `env.secret` and `.kamal/secrets.<destination>`. Without it, reset a password with `leak:users:password`.
+
+**3. Deploy:**
+
+```sh
+bin/kamal setup -d demo        # first time: Docker, kamal-proxy, Postgres, app
+bin/kamal setup -d private
+bin/kamal deploy -d private    # afterwards
+# or from GitHub: gh workflow run deploy.yml -f destination=private [-f setup=true]
+```
+
+The container prepares the database and loads the merchant catalogue on boot, and refuses to boot without its secrets.
+
+**4. Accounts on the private instance:**
+
+```sh
+# The inner quotes reach the server's shell (Kamal joins the command into one string).
+bin/kamal rails -d private "'leak:users:create[mum@example.com,Sharma household]'"  # prints a password once
+bin/kamal rails -d private "'leak:users:password[mum@example.com]'"                 # new password, signs out everywhere
+bin/kamal rails -d private "'leak:users:delete[mum@example.com]'" CONFIRM=yes       # the household and everything in it
+bin/kamal console -d private
+```
+
+CI builds the production image on every PR and boots it as the demo against Postgres (the `image` job, [`script/smoke-test-image`](script/smoke-test-image)).
 
 ## Privacy rules
 
@@ -182,6 +242,10 @@ Frontend checks: `npm --prefix web run lint`, `typecheck`, `test`.
   (`spec/support/synthetic_sbi.rb`).
 - Uploaded PDFs are not stored. Narrations and references are encrypted at
   rest (Active Record Encryption).
+- The public demo can't receive a statement: uploads are refused there, and
+  each visitor's synthetic household is deleted after 24 hours.
+- **Delete my data** on the "Your data" screen erases every statement,
+  transaction and finding for the household, at once.
 - Secrets (`config/*.key`, credentials) are never committed; production
   secrets are supplied at deploy time.
 
@@ -198,10 +262,13 @@ Short ADRs live in [`docs/adr/`](docs/adr):
 7. [Rules-first merchant resolution, measured on a frozen synthetic set](docs/adr/0007-rules-merchant-resolution.md)
 8. [LLM merchant resolution: any provider, grounded answers, replayed in CI](docs/adr/0008-llm-merchant-resolution.md)
 9. [Recurring-charge detection: explainable chains, decoys rejected by rule, measured by false flags](docs/adr/0009-recurring-charge-detection.md)
+10. [Review queue answers teach the resolver; dismissals are anchored on ledger rows](docs/adr/0010-review-queue-and-dismissals.md)
+11. [Two Kamal instances from one image; the public demo can't take real statements](docs/adr/0011-deploy-and-public-demo.md)
+12. ["Delete my data" erases everything in one transaction and keeps the sign-in](docs/adr/0012-delete-my-data.md)
 
-## Roadmap
+## How it was built
 
-One slice per PR, each leaving something demoable.
+Eight slices, each leaving something demoable:
 
 1. **Foundation**: app, auth, ledger + invariants, CI.
 2. **SBI PDF statement import**: `pdftotext -layout` parser,
@@ -214,6 +281,11 @@ One slice per PR, each leaving something demoable.
 5. **LLM resolver behind the router**, validators, replay fixtures, the eval
    gate.
 6. **Detection engine**: cadence fitting, price steps, decoys, false-flag
-   gate ← you are here.
+   gate.
 7. **The four screens** and the Playwright test.
-8. **Deploy** (Kamal 2): public synthetic demo + private instance.
+8. **Deploy** (Kamal 2): public synthetic demo + private instance,
+   "Delete my data".
+
+Not built yet: undoing a review answer, statements from banks other than SBI,
+and the LLM eval gate (it switches on when a provider key is added; see
+[The LLM step](#the-llm-step)).

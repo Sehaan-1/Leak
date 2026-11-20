@@ -1,7 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { listReviewItems, type Me, signOut } from "../api/client";
+import { formatInstant } from "../lib/dates";
 import { href, parseRoute, type Route, useHash } from "../lib/router";
+import { DataScreen } from "./DataScreen";
 import { FindingsScreen } from "./FindingsScreen";
 import { ImportScreen } from "./ImportScreen";
 import { ReviewScreen } from "./ReviewScreen";
@@ -13,6 +15,7 @@ const NAV: { route: Route; label: string }[] = [
   { route: { name: "review" }, label: "Review" },
   { route: { name: "import" }, label: "Import" },
   { route: { name: "transactions" }, label: "Transactions" },
+  { route: { name: "data" }, label: "Your data" },
 ];
 
 /** The signed-in app: top bar, primary navigation and the screen for the current hash. */
@@ -80,6 +83,12 @@ export function Dashboard({ me, focusHeading }: { me: Me; focusHeading: boolean 
             ))}
           </ul>
         </nav>
+        {me.household.demo_expires_at && (
+          <p className="demo-note">
+            You're trying Leak with made-up data. It's all deleted on{" "}
+            {formatInstant(me.household.demo_expires_at)}.
+          </p>
+        )}
       </header>
       <main className="page" key={hash}>
         {route.name === "findings" ? (
@@ -90,6 +99,8 @@ export function Dashboard({ me, focusHeading }: { me: Me; focusHeading: boolean 
           <ReviewScreen focus={focus} />
         ) : route.name === "import" ? (
           <ImportScreen focus={focus} />
+        ) : route.name === "data" ? (
+          <DataScreen focus={focus} />
         ) : (
           <TransactionsScreen focus={focus} />
         )}
