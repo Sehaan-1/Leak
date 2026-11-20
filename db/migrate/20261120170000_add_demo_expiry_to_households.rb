@@ -1,4 +1,4 @@
-# Slice 8: the public demo. Each visitor gets a throwaway household of
+# The public demo. Each visitor gets a throwaway household of
 # synthetic data; demo_expires_at marks it for Demo::CleanupJob. NULL for
 # real households.
 class AddDemoExpiryToHouseholds < ActiveRecord::Migration[8.1]

@@ -1,15 +1,13 @@
-# 2. Double-entry ledger with database-enforced invariants
+# Double-entry ledger with database-enforced invariants
 
-**Status:** accepted
-
-## Context
+## Problem
 
 Imports will be re-run, overlap, and be corrected. Findings must link back to
 the transactions behind them. A single-entry "transactions" table makes it
 easy to double-count or silently lose a row, and retrofitting double-entry
 later is worse than starting with it.
 
-## Decision
+## Approach
 
 - Tables: `households`, `accounts`, `journal_entries`, `postings`. Each
   posting carries `household_id`; composite foreign keys tie it to an account
@@ -27,7 +25,7 @@ later is worse than starting with it.
   database is the backstop.
 - The schema is dumped as `structure.sql` so triggers are versioned.
 
-## Consequences
+## Trade-offs
 
 - No code path, including raw SQL from a console, can commit an unbalanced
   ledger.

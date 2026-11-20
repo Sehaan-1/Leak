@@ -1,14 +1,12 @@
-# 6. The SPA is served by Rails, built by Vite
+# The SPA is served by Rails, built by Vite
 
-**Status:** accepted
-
-## Context
+## Problem
 
 The React app talks to the API with a same-origin session cookie and Rails'
-CSRF token (ADR 3). The token has to reach the page somehow, and the app has
+CSRF token (see [sessions](cookie-session-auth.md)). The token has to reach the page somehow, and the app has
 to be served from the same origin as the API in development and production.
 
-## Decision
+## Approach
 
 - Rails renders the HTML shell (`SpaController#show`) with `csrf_meta_tags`.
   The app reads the token from the page and sends it as `X-CSRF-Token` on
@@ -30,7 +28,7 @@ to be served from the same origin as the API in development and production.
 - Money is formatted from integer paise via a decimal string with
   `Intl.NumberFormat("en-IN")`, never by dividing a float.
 
-## Consequences
+## Trade-offs
 
 - One deployable, one origin. No CORS, no token juggling.
 - `/` always serves the shell; the app decides between sign-in and the

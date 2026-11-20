@@ -1,5 +1,5 @@
 # On GitHub Actions, report each failure as an error annotation so it shows
-# on the PR diff (and in the checks API) without opening the job log.
+# on the diff (and in the checks API) without opening the job log.
 class GithubAnnotationsFormatter
   RSpec::Core::Formatters.register self, :example_failed, :message
 

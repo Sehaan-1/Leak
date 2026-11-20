@@ -1,17 +1,15 @@
-# 8. LLM merchant resolution: any provider, grounded answers, replayed in CI
+# LLM merchant resolution: any provider, grounded answers, replayed in CI
 
-Date: 2026-11-20 · Status: accepted
+## Problem
 
-## Context
-
-The rules resolver (ADR 7) abstains on about a quarter of the business rows in the synthetic sets, and on some person rows. Those rows need an LLM, but:
+The [rules resolver](rules-merchant-resolution.md) abstains on about a quarter of the business rows in the synthetic sets, and on some person rows. Those rows need an LLM, but:
 
 - the household chooses the provider. That can be any OpenAI-compatible API with their own key, a coding agent already installed on the machine (Antigravity's `agy` or `opencode`), or a free tier (Gemini, NVIDIA NIM);
 - a model that guesses is worse than one that abstains. A wrong merchant hides a leak, or invents one;
-- PR CI must stay offline and deterministic, and a model change must still be caught;
+- CI must stay offline and deterministic, and a model change must still be caught;
 - real narrations name people the household pays.
 
-## Decision
+## Approach
 
 **Pipeline.** Rules first. Only rows the rules abstained on go to the LLM, 20 per request. The LLM returns one label per row, chosen from the catalogue slugs plus `person` or `unknown`, with its confidence and the evidence it relied on. Then validators decide. Anything they reject, and every `unknown`, stays in the review queue, with the reason stored as evidence. The LLM never sees amounts or dates, and never touches rows the rules decided.
 
@@ -59,13 +57,13 @@ The HTTP client uses only the standard library (`Net::HTTP`). It asks for a stri
   - keep the 95% accuracy floor;
   - answer at least as many business rows;
   - beat rules only on net score, defined as correct − 3 × wrong over all rows, and not lose on business rows. A wrong merchant costs three right ones.
-- PR CI replays recorded replies from `eval/merchant_resolution/replay/`, keyed by a hash of the request. Changing the prompt, the catalogue or the rows makes a recording stale, and CI fails until it is recorded again. If no recording exists, the LLM gate is skipped with a notice.
+- CI replays recorded replies from `eval/merchant_resolution/replay/`, keyed by a hash of the request. Changing the prompt, the catalogue or the rows makes a recording stale, and CI fails until it is recorded again. If no recording exists, the LLM gate is skipped with a notice.
 - `.github/workflows/llm-eval.yml` runs the live model:
-  - on PRs touching the resolver, prompt, catalogue or eval;
+  - when the resolver, prompt, catalogue or eval changes;
   - nightly;
   - on demand. With `record=true` it commits new recordings.
 
-## Consequences
+## Trade-offs
 
 - No LLM gate is enforced yet. GitHub Models, the planned no-secret CI provider, answered every request with a bare `OK` from this repo's runners, and no provider secret has been added. CI therefore runs the rules gate plus a skipped LLM step. Adding a `GEMINI_API_KEY` (or other) repository secret and running the LLM eval workflow with `record=true` turns the gate on.
 - The headroom on golden-v1 is small by construction:
@@ -73,5 +71,5 @@ The HTTP client uses only the standard library (`Net::HTTP`). It asks for a stri
   - 6 are gateway payments that never name the merchant.
 
   The LLM's measurable gains are a couple of NACH variants and person rows. Its value on real statements, with a long tail of local shops, is larger and unmeasured: the review queue will show it.
-- `unknown` is not stored as an answer. The row stays in review with the LLM's reading (for example "not in the catalogue: CAFE MOCHA BANDRA"), which will seed new merchants or household aliases in slice 7.
+- `unknown` is not stored as an answer. The row stays in review with the LLM's reading (for example "not in the catalogue: CAFE MOCHA BANDRA"), which helps when adding new merchants, and the review queue lets the user answer it.
 - Agent CLIs are convenient locally but slow: each request starts the agent, and their output formats can change. They are a fallback, not the CI path.

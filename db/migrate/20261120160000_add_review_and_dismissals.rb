@@ -1,10 +1,10 @@
-# Slice 7: the review queue and dismissed findings.
+# The review queue and dismissed findings.
 #
 # - resolution "manual": the household picked the counterparty in the review
 #   queue. Picking a merchant also learns a household MerchantAlias, so the
 #   rules resolve that payee from then on.
 # - finding_dismissals: findings the household has marked as fine. Detection
-#   replaces series and findings on every run (ADR 0009), so a dismissal
+#   replaces series and findings on every run (Detection::Run), so a dismissal
 #   can't point at a finding. It points at a ledger row instead, which never
 #   changes: the first charge at the new price for a price increase, or the
 #   first charge of the series otherwise. A finding is dismissed while its

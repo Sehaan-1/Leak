@@ -1,6 +1,7 @@
 # The public demo: anyone can try Leak with a throwaway household of made-up
-# data (Demo, ADR 11). Uploading statements is off, so no real statement
-# can reach this server. No LLM key: the demo's review queue is part of it.
+# data (app/services/demo.rb). Uploading statements is off, so no real
+# statement can reach this server. No LLM key: the demo's review queue is
+# part of it.
 service: leak-demo
 
 proxy:

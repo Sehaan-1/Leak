@@ -1,6 +1,6 @@
 module Merchants
   # Rules first, then the LLM for what the rules abstained on, then the
-  # validators (ADR 0008):
+  # validators:
   #
   #   resolver = Merchants::LlmResolver.new(household: household)  # client: Llm.client
   #   resolver.resolve_many([ narration, ... ])  # => [Resolver::Result, ...] (via "llm" when the LLM decided)
