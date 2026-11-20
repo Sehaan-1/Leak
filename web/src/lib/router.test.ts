@@ -7,12 +7,13 @@ describe("parseRoute", () => {
     expect(parseRoute("#/review")).toEqual({ name: "review" });
     expect(parseRoute("#/import")).toEqual({ name: "import" });
     expect(parseRoute("#/transactions")).toEqual({ name: "transactions" });
+    expect(parseRoute("#/data")).toEqual({ name: "data" });
     expect(parseRoute("")).toEqual({ name: "findings" });
     expect(parseRoute("#/series/abc")).toEqual({ name: "findings" });
   });
 
   it("round-trips through href", () => {
-    for (const hash of ["#/", "#/series/7", "#/review", "#/import", "#/transactions"]) {
+    for (const hash of ["#/", "#/series/7", "#/review", "#/import", "#/transactions", "#/data"]) {
       expect(href(parseRoute(hash))).toBe(hash);
     }
   });

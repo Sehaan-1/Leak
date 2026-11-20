@@ -186,6 +186,10 @@ button.secondary {
 button.secondary[aria-pressed="true"] {
   background: #e8f0fe;
 }
+button.danger {
+  border-color: #b3261e;
+  background: #b3261e;
+}
 button:disabled {
   opacity: 0.6;
   cursor: progress;
@@ -500,4 +504,40 @@ tr.price-step > * {
 .chart {
   block-size: 18rem;
   inline-size: 100%;
+}
+
+/* Public demo notice in the top bar. */
+.demo-note {
+  flex-basis: 100%;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  background: #fef7e0;
+  color: #3c2a00;
+}
+
+/* Confirmation dialogs: native <dialog> opened with showModal(). */
+dialog {
+  max-inline-size: min(36rem, calc(100vw - 2rem));
+  padding: 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 2rem rgb(0 0 0 / 0.3);
+}
+dialog > h2 {
+  margin-block-start: 0;
+}
+/* Without these, scrolling over the backdrop or inside the dialog scrolls the page behind it. */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background: rgb(0 0 0 / 0.5);
+}
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }

@@ -15,3 +15,10 @@ const dateFormat = { day: "numeric", month: "short", year: "numeric" } as const;
 export function formatPlainDate(iso: string, locale = "en-IN"): string {
   return Temporal.PlainDate.from(iso).toLocaleString(locale, dateFormat);
 }
+
+const instantFormat = { dateStyle: "medium", timeStyle: "short" } as const;
+
+/** A moment, in the device's time zone: "20 Nov 2026, 3:45 pm" */
+export function formatInstant(iso: string, locale = "en-IN"): string {
+  return Temporal.Instant.from(iso).toLocaleString(locale, instantFormat);
+}

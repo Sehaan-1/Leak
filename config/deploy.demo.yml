@@ -1,0 +1,13 @@
+# The public demo: anyone can try Leak with a throwaway household of made-up
+# data (Demo, ADR 11). Uploading statements is off, so no real statement
+# can reach this server. No LLM key: the demo's review queue is part of it.
+service: leak-demo
+
+proxy:
+  host: <%= ENV.fetch("LEAK_DEMO_HOST", "set-LEAK_DEMO_HOST") %>
+
+env:
+  clear:
+    LEAK_DEMO: "1"
+    APP_HOST: <%= ENV.fetch("LEAK_DEMO_HOST", "set-LEAK_DEMO_HOST") %>
+    DB_HOST: leak-demo-db

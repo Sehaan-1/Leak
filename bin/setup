@@ -14,6 +14,8 @@ FileUtils.chdir APP_ROOT do
 
   puts "== Installing dependencies =="
   system("bundle check") || system!("bundle install")
+  # The React app (web/); bin/dev runs its Vite dev server.
+  system!("npm --prefix web ci") unless File.directory?("web/node_modules") || ARGV.include?("--skip-web")
 
   # puts "\n== Copying sample files =="
   # unless File.exist?("config/database.yml")

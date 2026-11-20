@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { listStatementImports } from "../api/client";
+import { isDemoInstance, listStatementImports } from "../api/client";
 import { formatPlainDate } from "../lib/dates";
 import { useTitle } from "../lib/title";
 import { PageHeading } from "./Heading";
@@ -67,7 +67,14 @@ export function ImportScreen({ focus }: { focus: boolean }) {
   return (
     <>
       <PageHeading focus={focus}>Statements</PageHeading>
-      <UploadStatement />
+      {isDemoInstance() ? (
+        <p className="result result-info">
+          This public demo only uses made-up data, so uploading statements is turned off. A year of a made-up
+          SBI statement has been imported for you.
+        </p>
+      ) : (
+        <UploadStatement />
+      )}
       <ImportsList />
     </>
   );

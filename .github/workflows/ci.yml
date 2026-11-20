@@ -196,3 +196,60 @@ jobs:
           name: playwright-report
           path: web/playwright-report/
           retention-days: 7
+
+  # The production image, booted as the public demo against PostgreSQL 18
+  # and walked like the SPA would (script/smoke-test-image): Dockerfile,
+  # production config, secrets check, entrypoint, catalogue sync, demo.
+  image:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: leak
+          POSTGRES_PASSWORD: smoke-test-only
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd="pg_isready -U leak" --health-interval=5s
+          --health-timeout=5s --health-retries=10
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: docker/setup-buildx-action@v4
+
+      - name: Build
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          load: true
+          tags: leak:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Boot as the public demo
+        run: |
+          docker run -d --name leak -p 8080:80 --add-host=host.docker.internal:host-gateway \
+            -e DB_HOST=host.docker.internal -e LEAK_DATABASE_PASSWORD=smoke-test-only \
+            -e LEAK_DEMO=1 -e APP_HOST=localhost \
+            -e SECRET_KEY_BASE="$(openssl rand -hex 64)" \
+            -e ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY="$(openssl rand -hex 16)" \
+            -e ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY="$(openssl rand -hex 16)" \
+            -e ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT="$(openssl rand -hex 16)" \
+            leak:ci
+
+      # On failure, the container's log becomes an annotation too, so boot
+      # errors show on the PR.
+      - name: Smoke test
+        run: |
+          script/smoke-test-image || {
+            echo "::error title=Container log::$(docker logs leak 2>&1 | tail -c 6000 | sed 's/%/%25/g' | awk '{printf "%s%%0A", $0}')"
+            exit 1
+          }
+
+      - name: The image refuses to boot without its secrets
+        run: |
+          if docker run --rm -e DB_HOST=host.docker.internal --add-host=host.docker.internal:host-gateway \
+               leak:ci ./bin/rails runner 'puts :booted' > out.log 2>&1; then
+            echo "::error title=Secrets check::booted without secrets"; exit 1
+          fi
+          grep -q "Missing production secrets: SECRET_KEY_BASE, ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY" out.log

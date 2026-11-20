@@ -2,6 +2,7 @@ import { HttpResponse, http } from "msw";
 import { setupServer } from "msw/node";
 import {
   findingsList,
+  householdData,
   importedStatement,
   me,
   merchants,
@@ -29,4 +30,5 @@ export const server = setupServer(
   ),
   http.get("/api/v1/review_items", () => HttpResponse.json(reviewList)),
   http.get("/api/v1/merchants", () => HttpResponse.json({ merchants })),
+  http.get("/api/v1/household_data", () => HttpResponse.json(householdData)),
 );
