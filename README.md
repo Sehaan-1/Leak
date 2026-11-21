@@ -11,9 +11,9 @@
 
 Upload an SBI account statement and Leak shows what you pay every month in subscriptions, which ones got more expensive, and where you're paying for the same thing twice. Every number links back to the statement rows behind it.
 
-https://github.com/Sehaan-1/Leak/raw/main/docs/screenshots/leak-demo.mp4
+![Leak Demo Walkthrough](docs/screenshots/leak-demo.gif)
 
-![Findings: monthly subscription total, a Netflix price rise and a duplicate JioHotstar subscription](docs/screenshots/findings.png)
+<sub>[Watch / Download full resolution MP4](docs/screenshots/leak-demo.mp4)</sub>
 
 ## Features
 
