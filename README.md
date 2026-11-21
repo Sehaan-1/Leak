@@ -2,7 +2,7 @@
 
 **Find the subscriptions quietly draining a bank account, from the statements you already have.**
 
-[![CI](https://github.com/Sehaan-1/Leak/actions/workflows/ci.yml/badge.svg)](https://github.com/Sehaan-1/Leak/actions/workflows/ci.yml)
+[![CI](https://github.com/Sehaan-1/Leak/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Sehaan-1/Leak/actions/workflows/ci.yml)
 ![Ruby 4.0](https://img.shields.io/badge/Ruby-4.0-CC342D?logo=ruby&logoColor=white)
 ![Rails 8.1](https://img.shields.io/badge/Rails-8.1-D30001?logo=rubyonrails&logoColor=white)
 ![PostgreSQL 18](https://img.shields.io/badge/PostgreSQL-18-4169E1?logo=postgresql&logoColor=white)
