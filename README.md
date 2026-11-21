@@ -159,6 +159,19 @@ bin/kamal deploy -d private         # afterwards
 
 See [docs/deployment.md](docs/deployment.md) for server setup, environment variables and account management.
 
+### Deploy for Free
+
+Deploy to [Render](https://render.com) for free with a single click:
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Sehaan-1/Leak)
+
+Or run locally with Docker Compose:
+
+```sh
+docker compose up -d
+```
+Visit `http://localhost:8080`.
+
 ## Privacy
 
 - Real statements never enter git, fixtures, screenshots or LLM logs. Seeds, tests and the demo use synthetic data only.

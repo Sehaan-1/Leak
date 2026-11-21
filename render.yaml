@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: leak
+    env: docker
+    plan: free
+    region: oregon
+    healthCheckPath: /up
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: LEAK_DEMO
+        value: "1"
+      - key: APP_HOST
+        sync: false
+      - key: SOLID_QUEUE_IN_PUMA
+        value: "true"
+      - key: RAILS_LOG_LEVEL
+        value: info
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      - key: ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
+        generateValue: true
+      - key: ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
+        generateValue: true
+      - key: ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: leak-db
+          property: connectionString
+
+databases:
+  - name: leak-db
+    plan: free
+    region: oregon
+    postgresMajorVersion: 16

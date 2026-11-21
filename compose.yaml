@@ -1,0 +1,46 @@
+# Docker Compose for running Leak locally or on any free virtual machine (e.g. Oracle Cloud Always Free, GCP free tier).
+# Run: docker compose up -d
+# Access: http://localhost:8080
+
+services:
+  db:
+    image: postgres:18
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: leak
+      POSTGRES_PASSWORD: leak-local-password
+      POSTGRES_DB: leak_production
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leak -d leak_production"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      RAILS_ENV: production
+      LEAK_DEMO: "1"
+      APP_HOST: localhost
+      DB_HOST: db
+      DB_USER: leak
+      LEAK_DATABASE_PASSWORD: leak-local-password
+      SOLID_QUEUE_IN_PUMA: "true"
+      RAILS_LOG_LEVEL: info
+      SECRET_KEY_BASE: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+      ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY: 0123456789abcdef0123456789abcdef
+      ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY: 0123456789abcdef0123456789abcdef
+      ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT: 0123456789abcdef0123456789abcdef
+
+volumes:
+  postgres_data:

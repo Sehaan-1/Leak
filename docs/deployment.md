@@ -48,3 +48,34 @@ bin/kamal console -d private
 ```
 
 CI builds the production image on every push and boots it as the demo against Postgres (the `image` job, [`script/smoke-test-image`](../script/smoke-test-image)).
+
+---
+
+## Deploy for Free
+
+You can deploy Leak completely free without needing a paid VPS or server:
+
+### Option A: 1-Click Free Cloud Deploy on Render
+
+Leak includes a `render.yaml` blueprint that provisions a free Docker web service and a free PostgreSQL database on [Render](https://render.com).
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Sehaan-1/Leak)
+
+1. Click the button above (or create a new Blueprint on Render and connect your GitHub repository).
+2. Render reads `render.yaml`, spins up the free Postgres database, creates the required encryption keys automatically, and builds the container.
+3. Your Leak instance will be live on a free `*.onrender.com` domain with automated HTTPS.
+
+### Option B: Free Local or Cloud VM with Docker Compose
+
+To run the full production stack for free on any machine (or free-tier cloud VM like Oracle Cloud Always Free, Google Cloud Free Tier, or AWS Free Tier):
+
+```sh
+# Clone repository
+git clone https://github.com/Sehaan-1/Leak.git
+cd Leak
+
+# Start Postgres 18 and Leak in demo mode
+docker compose up -d
+```
+
+Open `http://localhost:8080` in your browser. The database is prepared and seeded automatically on first boot.
