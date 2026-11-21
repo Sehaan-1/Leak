@@ -21,6 +21,14 @@ Upload an SBI account statement and Leak shows what you pay every month in subsc
 - **Privacy first.** PDFs are never stored, narrations are encrypted at rest, and **Delete my data** erases everything in one step.
 - **Public demo mode.** Each visitor gets a throwaway household of synthetic data. Uploads are disabled.
 
+## Demo
+
+A one-minute walkthrough on synthetic data: the findings, the evidence behind a price rise, naming a merchant in the review queue, importing a statement, the transactions list and **Delete my data**.
+
+<a href="docs/demo/leak-demo.mp4"><img src="docs/demo/leak-demo.webp" width="800" alt="Walkthrough of Leak: findings, a Netflix price rise, the review queue, statement import, transactions and Delete my data"></a>
+
+[Watch in full resolution](docs/demo/leak-demo.mp4) (MP4, 1.2 MB)
+
 ## Screenshots
 
 | Price history and evidence | Review queue |
